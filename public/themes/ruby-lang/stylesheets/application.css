@@ -8,3 +8,10 @@
   background-image: url(../images/ruby-logo.png); 
   background-repeat: no-repeat;
 }
+
+/** Ticket BG color **/
+.priority-5 {background: #eaa;}
+.priority-4 {background: #fed;}
+.priority-3 {background: #ffd;}
+.priority-2 {background: #f6f6f6;}
+.priority-1 {background: #dff;}
