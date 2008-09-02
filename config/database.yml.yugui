@@ -1,0 +1,15 @@
+development:
+  adapter: mysql
+  database: redmine_development2
+  socket: /Users/yugui/local/var/run/mysql5/mysqld.sock
+  username: yugui
+  password:
+  encoding: utf8
+
+test:
+  adapter: mysql
+  database: redmine_test
+  socket: /Users/yugui/local/var/run/mysql5/mysqld.sock
+  username: yugui
+  password:
+  encoding: utf8
