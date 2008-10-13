@@ -1,0 +1,10 @@
+@import url(../../../stylesheets/application.css);
+
+#top-menu {background: #602020; color: #fff; height:1.8em; font-size: 0.8em; padding: 2px 2px 0px 6px;}
+#header {height:6.8em;margin:0;background-color:#8A4040;color:#f8f8f8; padding: 4px 8px 0px 6px; position:relative;}
+#header h1 {
+  height: 60px;
+  padding-left: 70px;
+  background-image: url(../images/ruby-logo.png); 
+  background-repeat: no-repeat;
+}
