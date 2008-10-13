@@ -9,7 +9,6 @@ tags
 
 # /config/
 /config/database.yml
-/config/email.yml
 
 # /db/
 /db/schema.rb
