@@ -19,7 +19,8 @@ module RedmineRDFormatter
     end
 
     def heads_for_wiki_formatter
-      stylesheet_link_tag('rd', :plugin => 'redmine_rd_formatter')
+      stylesheet_link_tag('jstoolbar') +
+        stylesheet_link_tag('rd', :plugin => 'redmine_rd_formatter')
     end
   end
 end
