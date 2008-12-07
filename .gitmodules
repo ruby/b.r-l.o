@@ -1,0 +1,3 @@
+[submodule "vendor/plugins/redmine_rd_formatter"]
+	path = vendor/plugins/redmine_rd_formatter
+	url = git://github.com/yugui/redmine_rd_formatter
