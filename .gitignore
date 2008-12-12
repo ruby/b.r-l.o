@@ -1,0 +1,43 @@
+*.patch
+*~
+.*.swp
+*.dump
+tags
+
+# /
+/coverage
+
+# /config/
+/config/database.yml
+/config/email.yml
+
+# /db/
+/db/schema.rb
+/db/demo.db
+/db/test.db
+
+# /files/
+/files/*
+
+# /log/
+/log/mongrel_debug
+/log/*.log*
+
+# /public/
+/public/dispatch.*
+/public/plugin_assets
+
+# /tmp/
+/tmp/*
+
+# /tmp/cache/
+/tmp/cache/*
+
+# /tmp/sessions/
+/tmp/sessions/*
+
+# /tmp/sockets/
+/tmp/sockets/*
+
+# /vendor/
+/vendor/rails
