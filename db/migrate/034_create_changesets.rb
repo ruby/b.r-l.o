@@ -7,7 +7,7 @@ class CreateChangesets < ActiveRecord::Migration
       t.column :committed_on, :datetime, :null => false
       t.column :comments, :text
     end
-    add_index :changesets, [:repository_id, :revision], :unique => true, :name => :changesets_repos_rev
+    add_index :changesets, [:repository_id, :revision], :unique => true, :name => 'changesets_repos_rev'
   end
 
   def self.down

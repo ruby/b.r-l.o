@@ -4,7 +4,7 @@ class CreateChangesetsIssues < ActiveRecord::Migration
       t.column :changeset_id, :integer, :null => false
       t.column :issue_id, :integer, :null => false
     end
-    add_index :changesets_issues, [:changeset_id, :issue_id], :unique => true, :name => :changesets_issues_ids
+    add_index :changesets_issues, [:changeset_id, :issue_id], :unique => true, :name => 'changesets_issues_ids'
   end
 
   def self.down

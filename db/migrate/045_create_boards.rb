@@ -9,7 +9,7 @@ class CreateBoards < ActiveRecord::Migration
       t.column :messages_count, :integer, :default => 0, :null => false
       t.column :last_message_id, :integer
     end
-    add_index :boards, [:project_id], :name => :boards_project_id
+    add_index :boards, [:project_id], :name => 'boards_project_id'
   end
 
   def self.down

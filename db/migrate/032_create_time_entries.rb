@@ -14,8 +14,8 @@ class CreateTimeEntries < ActiveRecord::Migration
       t.column :created_on,  :datetime, :null => false
       t.column :updated_on,  :datetime, :null => false
     end
-    add_index :time_entries, [:project_id], :name => :time_entries_project_id
-    add_index :time_entries, [:issue_id], :name => :time_entries_issue_id
+    add_index :time_entries, [:project_id], :name => 'time_entries_project_id'
+    add_index :time_entries, [:issue_id], :name => 'time_entries_issue_id'
   end
 
   def self.down

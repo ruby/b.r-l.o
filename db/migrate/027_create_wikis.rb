@@ -5,7 +5,7 @@ class CreateWikis < ActiveRecord::Migration
       t.column :start_page, :string,  :limit => 255, :null => false
       t.column :status, :integer, :default => 1, :null => false
     end    
-    add_index :wikis, :project_id, :name => :wikis_project_id
+    add_index :wikis, :project_id, :name => 'wikis_project_id'
   end
 
   def self.down

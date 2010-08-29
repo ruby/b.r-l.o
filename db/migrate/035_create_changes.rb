@@ -7,7 +7,7 @@ class CreateChanges < ActiveRecord::Migration
       t.column :from_path, :string
       t.column :from_revision, :integer
     end
-    add_index :changes, [:changeset_id], :name => :changesets_changeset_id
+    add_index :changes, [:changeset_id], :name => 'changesets_changeset_id'
   end
 
   def self.down

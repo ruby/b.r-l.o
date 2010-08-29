@@ -4,7 +4,7 @@ class CreateEnabledModules < ActiveRecord::Migration
       t.column :project_id, :integer
       t.column :name, :string, :null => false
     end
-    add_index :enabled_modules, [:project_id], :name => :enabled_modules_project_id
+    add_index :enabled_modules, [:project_id], :name => 'enabled_modules_project_id'
     
     # Enable all modules for existing projects
     Project.find(:all).each do |project|

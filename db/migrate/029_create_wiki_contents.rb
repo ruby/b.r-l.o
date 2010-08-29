@@ -8,7 +8,7 @@ class CreateWikiContents < ActiveRecord::Migration
       t.column :updated_on, :datetime, :null => false
       t.column :version, :integer, :null => false
     end
-    add_index :wiki_contents, :page_id, :name => :wiki_contents_page_id
+    add_index :wiki_contents, :page_id, :name => 'wiki_contents_page_id'
     
     create_table :wiki_content_versions do |t|
       t.column :wiki_content_id, :integer, :null => false
@@ -20,7 +20,7 @@ class CreateWikiContents < ActiveRecord::Migration
       t.column :updated_on, :datetime, :null => false
       t.column :version, :integer, :null => false
     end
-    add_index :wiki_content_versions, :wiki_content_id, :name => :wiki_content_versions_wcid
+    add_index :wiki_content_versions, :wiki_content_id, :name => 'wiki_content_versions_wcid'
   end
 
   def self.down
