@@ -1,4 +1,5 @@
 require 'redmine'
+require File.join(RAILS_ROOT, 'app', 'helpers', 'application_helper')
 require 'redmine_link_to_root/extension'
 
 Redmine::Plugin.register :redmine_link_to_root do
@@ -13,6 +14,6 @@ Redmine::Plugin.register :redmine_link_to_root do
   author_url 'http://yugui.jp'
 end
 
-ApplicationController.class_eval do
+ApplicationHelper.module_eval do
   include RedmineLinkToRoot::Extension
 end
