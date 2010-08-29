@@ -14,6 +14,7 @@ Redmine::Plugin.register :redmine_link_to_root do
   author_url 'http://yugui.jp'
 end
 
-ApplicationHelper.module_eval do
+ActionView::Base.class_eval do
+  include ApplicationHelper
   include RedmineLinkToRoot::Extension
 end
