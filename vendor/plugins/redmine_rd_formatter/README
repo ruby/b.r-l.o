@@ -1,0 +1,31 @@
+= Redmine RD formatter
+
+This is a redmine plugin for supporting RD as a wiki format.
+
+== What is redmine?
+Redmine is a flexible project management web application.
+See ((<the official site|URL:http://www.redmine.org>)) for more details.
+
+== What is RD?
+RD -- Ruby Document Format -- is Ruby's POD.
+
+It is a lightweight markup language, which was commonly used in Ruby-related
+documents. Some of experienced Ruby programmers still love it.
+
+See ((<the article on Wikipedia|URL:http://en.wikipedia.org/wiki/Ruby_Document_format>))
+for more details.
+
+== Plugin installation
+=== Prerequisites
+* Redmine and its prerequisites
+* RDTool - http://raa.ruby-lang.org/list.rhtml?name=RDtool
+
+=== Installation
+(1) Copy the plugin directory into the vendor/plugins directory
+(2) Start Redmine
+
+Installed plugins are listed on 'Admin -> Information' screen.
+
+
+== Future Plans
+* supporting RT.
