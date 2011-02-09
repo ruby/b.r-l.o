@@ -13,5 +13,11 @@ if File.file?(filename)
       v.symbolize_keys! if v.respond_to?(:symbolize_keys!)
       ActionMailer::Base.send("#{k}=", v)
     end
+
+    def TMail.new_message_id(fqdn = nil)
+      fqdn ||= ActionMailer::Base.smtp_settings[:host]
+      fqdn ||= "#{::Socket.gethostname}.tmail"
+      "<#{random_tag()}@#{fqdn}>"
+    end
   end
 end
