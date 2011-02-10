@@ -882,7 +882,7 @@ en:
   text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
-  text_status_changed_by_changeset: "Applied in changeset %{value}."
+  text_status_changed_by_changeset: "This issue was solved with changeset %{value}.\n%{author}, thank you for reporting this issue.\nYour contribution to Ruby is greatly appreciated.\nMay Ruby be with you.\n"
   text_time_logged_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s) ?'
   text_select_project_modules: 'Select modules to enable for this project:'
