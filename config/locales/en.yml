@@ -1,0 +1,7 @@
+# English strings go here for Rails i18n
+en:
+  label_mailing_list_plural: Mailing lists
+  label_mailing_list: Mailing list
+  label_mailing_list_new: New mailing list
+  field_driver_name: Driver name
+  field_driver_data: Driver options
