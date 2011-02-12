@@ -1,0 +1,26 @@
+<div class="contextual">
+  <%= link_to l(:label_mailing_list_new), new_mailing_list_path, :class => 'icon icon-add' %>
+</div>
+
+<h2><%=l(:label_mailing_list)%></h2>
+
+<table class="list">        
+  <thead><tr>
+    <%= sort_header_tag('identifier', :caption => l(:field_identifier)) %>
+    <%= sort_header_tag('address', :caption => l(:field_mail)) %>
+    <%= sort_header_tag('created_at', :caption => l(:field_created_on), :default_order => 'desc') %>
+  </tr></thead>
+  <tbody>
+<% for mailing_list in @mailing_lists -%>
+  <tr class="mailing_list <%= cycle("odd", "even") %>">
+    <td class="identifier"><%= link_to mailing_list.identifier, :action => 'edit', :id => mailing_list %></td>
+    <td class="address"><%= mailing_list.address %></td>
+    <td class="created_at" align="center"><%= format_time(mailing_list.created_at) %></td>
+  </tr>
+<% end -%>
+  </tbody>
+</table>
+
+<p class="pagination"><%= pagination_links_full @mailing_list_pages, @mailing_list_count %></p>
+
+<% html_title(l(:label_mailing_list_plural)) -%>
