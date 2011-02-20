@@ -1,11 +1,11 @@
 module RedmineMailingListIntegration
   module Drivers
-    class FmlDriver
+    class QuickMLDriver
       include TypicalDriver
 
       def likelihood
-        if /\Afml / =~ @email.header_string("List-Software") and
-          @email.header_string("X-ML-Name") == @mailing_list.identifier then
+        if @email.header_string("X-QuickML") == 'true' and
+          @email.header_string("X-ML-Address") == @mailing_list.address then
           EXACTLY_MATCHED
         else
           NOT_MATCHED
@@ -14,3 +14,4 @@ module RedmineMailingListIntegration
     end
   end
 end
+
