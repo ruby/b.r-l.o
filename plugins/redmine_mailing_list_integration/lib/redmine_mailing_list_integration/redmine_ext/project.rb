@@ -14,8 +14,8 @@ module RedmineMailingListIntegration
           uses_of_mailing_list.select {|use| 
             use.send("#{type}_receive?", obj)
           }.map{|use|
-            use.mailing_list.address
-          }
+            use.mailing_list
+          }.uniq
         end
       end
     end

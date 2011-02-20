@@ -62,9 +62,19 @@ MailHandler.class_eval do
 
   def receive_cycled
     issue_id = email.header_string("X-Redmine-Issue-Id")
-    journal_id = email.message_id[/<redmine.journal-(\d+)\./, 1]
-    if issue_id
-      record_message(issue_id, journal_id)
+    ids = email.header_string("X-Redmine-MailingListIntegration-Message-Ids")
+    if ids
+      ids.split(',').each do |id|
+        msg = MailingListMessage.find(id)
+        if msg.mailing_list != driver.mailing_list or msg.issue_id.to_s != issue_id.to_s
+          raise ArgumentError, "header mismatch"
+        end
+        msg.in_reply_to = email.in_reply_to.try(:join, ',')
+        msg.references = email.references.try(:join, ',')
+        msg.mail_number = driver.mail_number
+        msg.archive_url = driver.archive_url
+        msg.save!
+      end
     end
   end
 
