@@ -23,7 +23,7 @@ module RedmineMailingListIntegration
     end
 
     def self.receptor_for(name)
-      @map[name] or raise ArgumentError, "Unrecognized receptor name #{name.inspect}"
+      @map[name.to_s] or raise ArgumentError, "Unrecognized receptor name #{name.inspect}"
     end
   end
 end
