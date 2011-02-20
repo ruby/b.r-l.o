@@ -1,0 +1,4 @@
+# English strings go here for Rails i18n
+ja:
+  field_mailing_list: "報告先 (言語)"
+
