@@ -1,3 +1,4 @@
+require 'mail_handler'
 MailHandler.class_eval do
   private
   def receive_with_mailing_list_integration(email)
@@ -5,7 +6,7 @@ MailHandler.class_eval do
       @email = email
       receive_cycled
     else
-      receive_without_mailing_list_integration
+      receive_without_mailing_list_integration(email)
     end
   end
 
@@ -101,14 +102,9 @@ MailHandler.class_eval do
 
   def driver
     @driver ||= begin
-      proj = (target_project rescue nil)
-      if proj
-        candidates = proj.mailing_lists.map {|ml| ml.driver_for(email) }
-      else
-        candidates = MailingList.all.map{|ml| ml.driver_for(email) }
-      end
-
-      chosen = candidates.reject{|c| 
+      chosen = MailingList.all.map{|ml| 
+        ml.driver_for(email)
+      }.reject{|c| 
         c.likelihood <= RedmineMailingListIntegration::Drivers::NOT_MATCHED 
       }.sort_by(&:likelihood).last
       raise MailHandler::MissingInformation, "Unable to determine driver" unless chosen
