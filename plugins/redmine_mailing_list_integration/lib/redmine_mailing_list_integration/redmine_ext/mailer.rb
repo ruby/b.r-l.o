@@ -1,4 +1,20 @@
 Mailer.class_eval do
+  class << self
+    def deliver_issue_add(issue)
+      unless issue.originates_from_mail?
+        super(issue)
+      end
+    end
+    def deliver_issue_edit(issue)
+      unless issue.originates_from_mail?
+        super(issue)
+      end
+    end
+
+#    alias_method_chain :deliver_issue_add, :mailing_list_integration
+#    alias_method_chain :deliver_issue_edit, :mailing_list_integration
+  end
+
   def issue_add_with_mailing_list_integration(issue)
     issue_add_without_mailing_list_integration(issue)
 
