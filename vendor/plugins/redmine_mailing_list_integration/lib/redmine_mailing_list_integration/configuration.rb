@@ -7,7 +7,7 @@ module RedmineMailingListIntegration
         RedmineMailingListIntegration::Drivers.register(name, klass)
       end
 
-      def receptor(name, klass = nil)
+      def receptor(name, klass)
         RedmineMailingListIntegration::Receptors.register(name, klass)
       end
     end
