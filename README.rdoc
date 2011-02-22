@@ -1,0 +1,8 @@
+= mailing_list_integration_imap_supplement
+
+This plugin adds a IMAP support for Redmine Mailing List Integration plugin
+
+= Copyright
+(c) 2011 Yuki Sonoda (Yugui)
+
+This plugin is distributed under GPL 2 or later.
