@@ -1,10 +1,15 @@
-require 'mail_handler'
 MailHandler.class_eval do
   def dispatch_with_ruby_lang_mailing_list_customization
-    email.subject.sub(/\[#{Regexp.escape driver.mailing_list.identifier}:\d+\]/, '')
-    if email.subject[subject_tag_re] &&= ''
+    if charset = email.type_param('charset') and charset.downcase != 'utf-8'
+      email.body = Iconv.conv("UTF-8", charset, email.body) rescue nil
+      email.subject = Iconv.conv("UTF-8", charset, email.subject) rescue nil
+    end
+    email.subject = email.subject.sub(/\[#{Regexp.escape driver.mailing_list.identifier}:\d+\]/, '')
+    if subject_tag_re =~ email.subject
+      email.subject = email.subject.sub(subject_tag_re, '')
       if %w[ ruby-core ruby-dev ].include? driver.mailing_list.identifier
-        @ruby_lang_tracker_name, proj_name = $1, $2
+        tracker_name, proj_name = $1, $2
+        @ruby_lang_tracker_name = Tracker.find(:first, :conditions => ['LOWER(trackers.name) = LOWER(?)', tracker_name]).try(:name)
         @ruby_lang_project_name = 
           case proj_name
           when 'trunk' then 'ruby-19'
@@ -18,6 +23,14 @@ MailHandler.class_eval do
     dispatch_without_ruby_lang_mailing_list_customization
   end
   alias_method_chain :dispatch, :ruby_lang_mailing_list_customization
+
+  unless instance_methods.grep('dispatch_to_chicken_and_egg')
+    raise "mailing_list_integration plugin must have defined MailHandler#dispatch_to_chicken_and_egg"
+  end
+  def dispatch_to_chicken_and_egg
+    # TODO queue
+    false
+  end
 
   def cleaned_up_text_body_with_ruby_lang_mailing_list_customization
     text = cleaned_up_text_body_without_ruby_lang_mailing_list_customization
