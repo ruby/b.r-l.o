@@ -1,4 +1,3 @@
-require 'mail_handler'
 MailHandler.class_eval do
   def dispatch_with_ruby_lang_mailing_list_customization
     email.subject.sub(/\[#{Regexp.escape driver.mailing_list.identifier}:\d+\]/, '')
