@@ -17,7 +17,7 @@ module RedmineMailingListIntegration
 
     def controller_issues_new_before_save(context = {})
       issue = context[:issue]
-      issue.originates_from_mail = true
+      issue.originates_from_mail = false
     end
   end
 end

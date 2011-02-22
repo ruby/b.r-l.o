@@ -1,4 +1,3 @@
-require 'mail_handler'
 MailHandler.class_eval do
   private
   def receive_with_mailing_list_integration(email)
@@ -15,11 +14,15 @@ MailHandler.class_eval do
     when parent_message
       receive_issue_reply(parent_message.issue_id)
     when email.in_reply_to
-      # TODO: should check it later
-      # pending queue
+      dispatch_to_chiken_and_egg
     else
       dispatch_to_default_without_mailing_list_integration
     end
+  end
+
+  # override this method to do what you want for mails which has an unknown parent
+  def dispatch_to_chiken_and_egg
+    dispatch_to_default_without_mailing_list_integration
   end
 
   def receive_issue_with_mailing_list_integration
