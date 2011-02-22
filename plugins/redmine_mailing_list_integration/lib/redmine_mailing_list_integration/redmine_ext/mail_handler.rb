@@ -1,4 +1,3 @@
-require 'mail_handler'
 MailHandler.class_eval do
   private
   def receive_with_mailing_list_integration(email)

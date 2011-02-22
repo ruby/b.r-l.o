@@ -5,9 +5,9 @@ Mailer.class_eval do
         super(issue)
       end
     end
-    def deliver_issue_edit(issue)
-      unless issue.originates_from_mail?
-        super(issue)
+    def deliver_issue_edit(journal)
+      unless journal.originates_from_mail?
+        super(journal)
       end
     end
 
