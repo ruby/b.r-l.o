@@ -1,0 +1,16 @@
+<h2><%=l(:label_mail_to_issue)%></h2> 
+
+<% labelled_tabular_form_for :mail_to_issue, @mail_to_issue, :url => {:controller => 'mail_to_issue', :action => 'create', :id => @project}, :html => {:id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
+  <%= error_messages_for 'mail_to_issue' %>
+  <div class="box">
+    <div id="issue_descr_fields">
+      <p><%= f.select :mailing_list_id, @project.mailing_lists.map{|ml| [ml.identifier, ml.id]}, :required => true %></p>
+      <p><%= f.text_field :mail_number, :required => true %></p>
+      <p><%= f.select :tracker_id, @project.trackers.collect {|t| [t.name, t.id]}, :required => true %></p>
+      <p><%= submit_tag l(:button_create) %></p>
+    </div>
+  </div>
+<% end %>
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag 'scm' %>
+<% end %>
