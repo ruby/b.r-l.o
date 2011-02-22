@@ -23,6 +23,14 @@ MailHandler.class_eval do
   end
   alias_method_chain :dispatch, :ruby_lang_mailing_list_customization
 
+  unless instance_methods.grep('dispatch_to_chicken_and_egg')
+    raise "mailing_list_integration plugin must have defined MailHandler#dispatch_to_chicken_and_egg"
+  end
+  def dispatch_to_chicken_and_egg
+    # TODO queue
+    false
+  end
+
   def cleaned_up_text_body_with_ruby_lang_mailing_list_customization
     text = cleaned_up_text_body_without_ruby_lang_mailing_list_customization
     text.gsub(/^/, ' ')
