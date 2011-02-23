@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+env = ARGV[0] || ENV['RAILS_ENV'] || 'production'
+database_yml = File.expand_path("../config/database.yml", File.dirname(__FILE__))
+config = YAML.load_file(database_yml)[env]
+if config.nil?
+  $stderr.puts "unknown environment: #{env}"
+  exit(false) 
+end
+
+now = Time.now 
+out = now.strftime("%Y%m%d%H%M%S.dump.bz2")
+path = File.expand_path("../backup/#{out}", File.dirname(__FILE__))
+exec(%! mysqldump -u #{config['username']} -p'#{config['password']}' #{config['database']} --default-character-set="#{config['encoding']}" | bzip2 -c > #{path} !)
