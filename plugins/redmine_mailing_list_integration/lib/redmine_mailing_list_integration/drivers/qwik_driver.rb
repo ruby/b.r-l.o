@@ -4,7 +4,7 @@ module RedmineMailingListIntegration
       include TypicalDriver
 
       def archive_url
-        @email.body.scan(%[^archive-> (http://.*)]).last
+        @email.body.scan(%r[^archive-> (http://\S*)]).last.try(:first)
       end
     end
   end
