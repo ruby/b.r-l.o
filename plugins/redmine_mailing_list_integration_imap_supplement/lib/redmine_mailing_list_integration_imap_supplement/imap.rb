@@ -41,16 +41,16 @@ module RedmineMailingListIntegrationIMAPSupplement
     end
 
     def receive(storage_name, query)
-      with_connection{|session,config|
+      with_connection(storage_name){|session,config|
         fetch(storage_name, query, session).each do |data|
           msg = data.attr['RFC822']
           seqno = data.seqno
           if MailHandler.receive(msg)
             logger.debug "Message #{seqno} successfully received" if logger && logger.debug?
-            session.store(message_id, "+FLAGS", [:Seen])
+            session.store(seqno, "+FLAGS", [:Seen])
           else
             logger.debug "Message #{seqno} can not be processed" if logger && logger.debug?
-            session.store(message_id, "+FLAGS", [:Seen, :Flagged])
+            session.store(seqno, "+FLAGS", [:Seen, :Flagged])
           end
         end
       }
