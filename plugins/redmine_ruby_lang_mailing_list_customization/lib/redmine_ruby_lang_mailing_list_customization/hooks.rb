@@ -2,8 +2,9 @@
 module RedmineRubyLangMailingListCustomization
   class Hooks < Redmine::Hook::ViewListener
     def view_issues_form_details_top(context = {})
-      issue, form = context[:issue], context[:form]
+      issue, form, project = context[:issue], context[:form], context[:project]
       return unless issue.new_record?
+      return unless project and project.mailing_lists.any?{|ml| %w[ ruby-core ruby-dev ].include?(ml.identifier) }
 
       options = [
         ["ruby-core in English", 'en'],
