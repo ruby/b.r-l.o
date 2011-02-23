@@ -59,9 +59,7 @@ MailHandler.class_eval do
 
   private
   def cycled?(email)
-    sender_email = email.from.to_a.first.to_s.strip
-    email.header_string("X-Mailer") == "Redmine" and
-      sender_email.downcase == Setting.mail_from.to_s.strip.downcase
+    email.header_string("X-Mailer") == "Redmine" and email.header_string("X-Redmine-Host") == Setting.host_name
   end
 
   def receive_cycled
