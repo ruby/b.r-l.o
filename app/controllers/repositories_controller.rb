@@ -123,7 +123,7 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @content
     if 'raw' == params[:format] || @content.is_binary_data? || (@entry.size && @entry.size > Setting.file_max_size_displayed.to_i.kilobyte)
       # Force the download
-      send_data @content, :filename => @path.split('/').last
+      send_data @content, :filename => filename_for_content_disposition(@path.split('/').last)
     else
       # Prevent empty lines when displaying a file with Windows style eol
       @content.gsub!("\r\n", "\n")
@@ -213,7 +213,7 @@ class RepositoriesController < ApplicationController
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
     @rev_to = params[:rev_to]
     
-    unless @rev.to_s.match(REV_PARAM_RE) && @rev.to_s.match(REV_PARAM_RE)
+    unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)
       if @repository.branches.blank?
         raise InvalidRevisionParam
       end
