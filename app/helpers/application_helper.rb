@@ -420,8 +420,8 @@ module ApplicationHelper
       css << 'theme-' + theme.name
     end
 
-    css << 'controller-' + params[:controller]
-    css << 'action-' + params[:action]
+    css << 'controller-' + params[:controller].to_s
+    css << 'action-' + params[:action].to_s
     css.join(' ')
   end
 
