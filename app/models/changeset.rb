@@ -204,7 +204,9 @@ class Changeset < ActiveRecord::Base
     # don't change the status is the issue is closed
     return if issue.status && issue.status.is_closed?
     
-    journal = issue.init_journal(user || User.anonymous, l(Setting.default_language, :text_status_changed_by_changeset, :value => text_tag, :author => issue.author.firstname))
+    message = l(:text_status_changed_by_changeset, :value => text_tag, :locale => Setting.default_language, :author => issue.author.firstname)
+    message << "\n\n----------\n#{comments}"
+    journal = issue.init_journal(user || User.anonymous, message)
     issue.status = status
     unless Setting.commit_fix_done_ratio.blank?
       issue.done_ratio = Setting.commit_fix_done_ratio.to_i
