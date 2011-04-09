@@ -2,6 +2,8 @@ class MailingList < ActiveRecord::Base
   has_many :uses_of_mailing_list, :class_name => 'UseOfMailingList'
   has_many :projects, :through => :uses_of_mailing_list
 
+  has_many :messages, :class_name => 'MailingListMessage'
+
   validates_presence_of :identifier, :address, :driver_name
   validates_uniqueness_of :identifier
 

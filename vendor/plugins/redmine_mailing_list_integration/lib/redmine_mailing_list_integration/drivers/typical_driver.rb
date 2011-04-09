@@ -24,10 +24,21 @@ module RedmineMailingListIntegration
       end
 
       def archive_url
-        hint = @mailing_list.driver_data
-        hint % [ mail_number ] if hint.present?
+        archive_url_for(@mailing_list, mail_number)
+      end
+
+      module ClassMethods
+        def archive_url_for(ml, number)
+          hint = ml.driver_data
+          hint % [ number ] if hint.present?
+        end
+      end
+
+      def self.included(mod)
+        mod.module_eval do
+          extend ClassMethods
+        end
       end
     end
   end
 end
-
