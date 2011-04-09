@@ -19,5 +19,13 @@ module RedmineRubyLangMailingListCustomization
       params, issue = context[:params], context[:issue]
       issue.lang = params[:issue][:lang] if params[:issue]
     end
+
+    def model_changeset_scan_commit_for_issue_ids_pre_issue_update(context = {})
+      issue = context[:issue]
+      journal = issue.current_journal
+      changeset = context[:changeset]
+
+      journal.notes += "\n\n----------\n#{changeset.comments}"
+    end
   end
 end
