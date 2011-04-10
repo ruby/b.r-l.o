@@ -34,6 +34,12 @@ module RedmineRDFormatter
       tree.parse
       visitor.charcode = "utf8"
       visitor.visit(tree)
+    rescue RuntimeError => e
+      if e.message == "[BUG]: probably Parser Error while cutting off.\n"
+        return "<pre>#{e.message}</pre>"
+      else
+        raise e
+      end
     rescue Racc::ParseError => e
       return "<pre>#{e.message}</pre>"
     end
