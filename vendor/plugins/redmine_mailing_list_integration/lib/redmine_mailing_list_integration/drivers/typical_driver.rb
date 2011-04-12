@@ -24,7 +24,7 @@ module RedmineMailingListIntegration
       end
 
       def archive_url
-        archive_url_for(@mailing_list, mail_number)
+        self.class.archive_url_for(@mailing_list, mail_number)
       end
 
       module ClassMethods
