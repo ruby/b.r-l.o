@@ -149,6 +149,7 @@ class MailHandler < ActionMailer::Base
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
+      logger.info "MailHandler: issue ##{issue.id} can't updated by#{user}" if logger && logger.info
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
     end
     
