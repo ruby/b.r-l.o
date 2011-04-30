@@ -18,10 +18,15 @@ module RedmineRDFormatter
       @text = text
     end
     def to_html(&block)
-      visitor = RestrictedHTMLVisitor.new
+      return "" unless /\S/m =~ @text
+
       src = @text.split(/^/)
-      if src.find{|i| /\S/ === i } and !src.find{|i| /^=begin\b/ === i }
-        src.unshift("=begin\n").push("=end\n")
+      unless /\A\s*^=begin/m =~ @text
+        if Setting.plugin_redmine_rd_formatter[:rd_formatter_require_block]
+          return "<pre>#{@text}</pre>"
+        else
+          src.unshift("=begin\n").push("=end\n")
+        end
       end
 
       include_path = [RD::RDTree.tmp_dir]
@@ -32,6 +37,7 @@ module RedmineRDFormatter
   
       # parse
       tree.parse
+      visitor = RestrictedHTMLVisitor.new
       visitor.charcode = "utf8"
       visitor.visit(tree)
     rescue RuntimeError => e

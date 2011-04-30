@@ -39,3 +39,26 @@
 .jstb_img {
 	background-image: url(../images/jstoolbar/bt_img.png);
 }
+
+.jsToggler {
+  display: inline;
+}
+.jsToggleButton {
+	margin-right : 6px;
+	width : 24px;
+	height: 24px;
+	padding: 4px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #ddd;
+	background-color : #f7f7f7;
+	background-position : 50% 50%;
+	background-repeat: no-repeat;
+}
+.jsToggleButton.jst_enabled {
+	border-style: groove;
+	background-color : #cccccc;
+}
+.jsToggleButton.jst_disabled {
+	border-style: solid;
+}
