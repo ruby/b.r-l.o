@@ -45,7 +45,7 @@ module RedmineMailingListIntegrationIMAPSupplement
         fetch(storage_name, query, session).each do |data|
           msg = data.attr['RFC822']
           seqno = data.seqno
-          if MailHandler.receive(msg)
+          if MailHandler.receive(msg, :unknown_user => "accept", :no_permission_check => true)
             logger.debug "Message #{seqno} successfully received" if logger && logger.debug?
             session.store(seqno, "+FLAGS", [:Seen])
           else
