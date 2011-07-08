@@ -27,7 +27,7 @@ class MailToIssueController < ApplicationController
       else
         msg = msgs.first.attr['RFC822']
         tracker = @mail_to_issue.tracker
-        if issue = MailHandler.receive(msg, :issue => {:project => @project.identifier, :tracker => tracker.name}) and issue.kind_of?(Issue)
+        if issue = MailHandler.receive(msg, :issue => {:project => @project.identifier, :tracker => tracker.name}, :unknown_user=>"accept",:no_permission_check=>'1') and issue.kind_of?(Issue)
           redirect_to :controller => 'issues', :action => 'show', :id => issue.id
         else
           @mail_to_issue.errors.add_to_base("failed to process #{number}")
