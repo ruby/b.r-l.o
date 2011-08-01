@@ -22,8 +22,10 @@ module RedmineRDFormatter
 
       src = @text.split(/^/)
       unless /\A\s*^=begin/m =~ @text
+        rh = {'<'=>'&lt;','>'=>'&gt;','&'=>'&amp;','"'=>'&quot;','['=>'&#91;'}
         if Setting.plugin_redmine_rd_formatter[:rd_formatter_require_block]
-          return "<pre>#{@text}</pre>"
+          text = @text.gsub(/(?:https?|ftp):\/\/[!#-;=?-~]+|[<>&"\[]/){$&.size==1 ? rh[$&] : "<a href=\"#$&\">#$&</a>"}
+          return "<div style=\"padding:1%;border:solid 2px #eee;white-space:pre-wrap;margin-left:5%;background-color:#eef\">#{text}</div>"
         else
           src.unshift("=begin\n").push("=end\n")
         end
