@@ -23,7 +23,10 @@ module RedmineRDFormatter
       src = @text.split(/^/)
       unless /\A\s*^=begin/m =~ @text
         if Setting.plugin_redmine_rd_formatter[:rd_formatter_require_block]
-          return "<pre>#{@text}</pre>"
+          text = @text.gsub(/&/, '&amp;')
+          text.gsub!(/</, '&lt;')
+          #text.gsub!(/\[ruby-(?:dev|core|list|talk):\d+\]/, '<a href="http://www.rubyist.net/~eban/goto/\&')
+          return "<div style=\"padding:1%;border:solid 1px #eee;white-space:pre-wrap;margin-left:5%;background-color:#eef\">#{text}</div>"
         else
           src.unshift("=begin\n").push("=end\n")
         end
