@@ -51,7 +51,7 @@ class MailHandler < ActionMailer::Base
       return false
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
-    if @user && !@user.active?
+    if !@@handler_options[:unknown_user] && @user && !@user.active?
       logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]" if logger && logger.info
       return false
     end
