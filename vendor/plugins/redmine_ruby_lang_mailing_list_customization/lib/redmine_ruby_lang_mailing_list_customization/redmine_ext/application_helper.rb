@@ -16,17 +16,17 @@ ApplicationHelper.class_eval do
     options[:force_simple] = force_simple
     text = textilizable_without_ruby_lang_mailing_list_customization(*args)
 
-    text.gsub(/\[([\w-]+):(\d+)\]/) do
-      orig, name, number = $&, $1, $2.to_i
+    text.gsub(/\G([^<]*(?:<[^>]*>[^<]*)*)(\[([\w\-]+):(\d+)\])/) do
+      orig, pre, ref, name, number = $&, $1, $2, $3, $4.to_i
       ml = MailingList.find_by_identifier(name)
       if ml
         message = ml.messages.find_by_mail_number(number)
         if message
-          link_to(orig, message.issue)
+          pre + link_to(ref, message.issue)
         else
           klass = ml.driver_class
           url = klass.archive_url_for(ml, number)
-          url ? link_to(orig, url) : orig
+          pre + (url ? link_to(ref, url) : orig)
         end
       else
         orig
