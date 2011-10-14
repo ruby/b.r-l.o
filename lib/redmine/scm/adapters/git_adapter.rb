@@ -241,7 +241,7 @@ module Redmine
           shellout(cmd) { |io| io.binmode; content = io.read }
           return nil if $? && $?.exitstatus != 0
           # git annotates binary files
-          return nil if content.is_binary_data?
+          return nil if content.include?("\x00")
           content.split("\n").each do |line|
             next unless line =~ /([0-9a-f]{39,40})\s\((\w*)[^\)]*\)(.*)/
             blame.add_line($3.rstrip, Revision.new(:identifier => $1, :author => $2.strip))

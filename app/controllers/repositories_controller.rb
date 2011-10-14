@@ -116,7 +116,7 @@ class RepositoriesController < ApplicationController
     
     @content = @repository.cat(@path, @rev)
     show_error_not_found and return unless @content
-    if 'raw' == params[:format] || @content.is_binary_data?
+    if 'raw' == params[:format] || @content.include?("\x00")
       # Force the download if it's a binary file
       send_data @content, :filename => @path.split('/').last
     else
