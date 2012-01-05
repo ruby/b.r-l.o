@@ -48,7 +48,7 @@ MailHandler.class_eval do
     when :project
       @ruby_lang_project_name
     when 'ruby -v'
-      text[/ruby 1\.\d\.\d(?:p\d+) (\d{4}-\d{1,2}-\d{1,2} (?:revision|patchlevel|trunk) \d+) \[/] || '-'
+      text[/ruby \d\.\d\.\d(?:p\d+) (\d{4}-\d{1,2}-\d{1,2} (?:revision|patchlevel|trunk) \d+) \[/] || nil
     end
   end
   alias_method_chain :extract_keyword!, :ruby_lang_mailing_list_customization
