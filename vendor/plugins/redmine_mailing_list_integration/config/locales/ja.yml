@@ -1,0 +1,8 @@
+# English strings go here for Rails i18n
+ja:
+  label_mailing_list_plural: メーリングリスト
+  label_mailing_list: メーリングリスト
+  label_mailing_list_new: 新しいメーリングリスト
+  field_driver_name: ドライバ名
+  field_driver_data: ドライバオプション
+

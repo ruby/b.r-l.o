@@ -51,7 +51,7 @@ class MailHandler < ActionMailer::Base
       return false
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
-    if @user && !@user.active?
+    if !@@handler_options[:unknown_user] && @user && !@user.active?
       logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]" if logger && logger.info
       return false
     end
@@ -137,7 +137,7 @@ class MailHandler < ActionMailer::Base
 
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)
-    issue.save!
+    issue.save(false)
     add_attachments(issue)
     logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
     issue
@@ -149,6 +149,7 @@ class MailHandler < ActionMailer::Base
     return unless issue
     # check permission
     unless @@handler_options[:no_permission_check]
+      logger.info "MailHandler: issue ##{issue.id} can't updated by#{user}" if logger && logger.info
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
     end
 
@@ -352,6 +353,10 @@ class MailHandler < ActionMailer::Base
     end
 
     user
+  end
+
+  def logger
+    Rails.logger
   end
 
   # Creates a User for the +email+ sender

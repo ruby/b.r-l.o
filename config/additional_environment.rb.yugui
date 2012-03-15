@@ -1,0 +1,4 @@
+config.action_controller.session = { 
+  :key => "_redmine_for_ruby_lang", 
+  :secret => "467fddc53f04d9bfbfe3a878eb7d9681cdb28c071de32b1a1ea2421a0118b7" 
+}

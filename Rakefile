@@ -7,7 +7,13 @@ require 'rake'
 require 'rake/testtask'
 
 begin
-  require 'rdoc/task'
+require 'tasks/rails'
+
+begin
+  require 'vlad'
+  Vlad.load :scm => :git
+rescue LoadError
+end
 rescue LoadError
   # RDoc is not available
 end

@@ -1,0 +1,8 @@
+ruby-dev:
+  host: mail.mac.com
+  port: 993
+  ssl: true
+  username: yugui@mac.com
+  password: "KEAdSkU8qKsut7TYlFDh5t94M7qWric8"
+  folder: ML/ruby/ruby-dev
+ruby-core:

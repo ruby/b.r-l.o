@@ -1,0 +1,5 @@
+<% labelled_tabular_form_for :mailing_list, @mailing_list, :url => { :controller => 'mailing_lists', :action => "update", :id => @mailing_list, :tab => nil }, :html => { :method => :put, :class => nil } do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <p><%= submit_tag l(:button_save) %></p>
+<% end -%>
+
