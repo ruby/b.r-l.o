@@ -33,6 +33,7 @@ class User < Principal
     :lastname_firstname => {:string => '#{lastname} #{firstname}', :order => %w(lastname firstname id)},
     :lastname_coma_firstname => {:string => '#{lastname}, #{firstname}', :order => %w(lastname firstname id)},
     :username => {:string => '#{login}', :order => %w(login id)},
+    :login_with_fl => {:string => '#{login} (#{firstname} #{lastname})', :order => %w(login id)},
   }
 
   MAIL_NOTIFICATION_OPTIONS = [
