@@ -1,7 +1,7 @@
 ApplicationHelper.class_eval do
   def textilizable_with_mailing_list_integration(*args)
     text = textilizable_without_mailing_list_integration(*args)
-    text.gsub(/\[([\w-]+):(\d+)\]/) do
+    text.gsub(/\G([^<]*(?:<[^>]*>[^<]*)*)(\[([\w\-]+):(\d+)\])/) do
       orig, name, number = $&, $1, $2.to_i
       ml = MailingList.find_by_identifier(name)
       if ml
