@@ -1,4 +1,7 @@
 require 'aws-sdk'
+
+AWS.config(:ssl_verify_peer => false)
+
 module RedmineS3
   class Connection
     @@conn = nil
@@ -11,7 +14,7 @@ module RedmineS3
       :expires           => nil,
       :secure            => false
     }
-    
+
     class << self
       def load_options
         file = ERB.new( File.read(File.join(Rails.root, 'config', 's3.yml')) ).result
@@ -51,7 +54,7 @@ module RedmineS3
       def expires
         @@s3_options[:expires]
       end
-      
+
       def private?
         @@s3_options[:private]
       end
