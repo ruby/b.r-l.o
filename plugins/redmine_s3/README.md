@@ -29,6 +29,3 @@ This Redmine[http://www.redmine.org] plugin makes file attachments be stored on 
 * private: boolean true/false
 * expires: integer number of seconds for private links to expire after being generated
 * Defaults to private: false, secure: false, default endpoint, and default expires
-
-## Reporting Bugs and Getting Help
-Bugs and feature requests may be filed at https://github.com/ka8725/redmine_s3/issues
