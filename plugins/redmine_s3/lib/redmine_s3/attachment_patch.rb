@@ -3,8 +3,8 @@ module RedmineS3
     def self.included(base) # :nodoc:
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
- 
-      # Same as typing in the class 
+
+      # Same as typing in the class
       base.class_eval do
         unloadable # Send unloadable so it will not be unloaded in development
         attr_accessor :s3_access_key_id, :s3_secret_acces_key, :s3_bucket, :s3_bucket
@@ -12,15 +12,15 @@ module RedmineS3
         before_destroy   :delete_from_s3
       end
     end
-    
+
     module ClassMethods
     end
-    
+
     module InstanceMethods
       def put_to_s3
         if @temp_file && (@temp_file.size > 0)
-          logger.debug("Uploading to #{path_to_file}")
-          RedmineS3::Connection.put(path_to_file, @temp_file.read)
+          logger.debug("Uploading to #{disk_filename}")
+          RedmineS3::Connection.put(disk_filename, @temp_file.read)
           md5 = Digest::MD5.new
           self.digest = md5.hexdigest
         end
@@ -28,13 +28,8 @@ module RedmineS3
       end
 
       def delete_from_s3
-        logger.debug("Deleting #{path_to_file}")
-        RedmineS3::Connection.delete(path_to_file)
-      end
-
-      def path_to_file
-        # obscure the filename by using the timestamp for the 'directory'
-        disk_filename.split('_').first + '/' + disk_filename
+        logger.debug("Deleting #{disk_filename}")
+        RedmineS3::Connection.delete(disk_filename)
       end
     end
   end
