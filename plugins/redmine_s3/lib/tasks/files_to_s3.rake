@@ -30,7 +30,7 @@ namespace :redmine_s3 do
 
     # enqueue all of the files to be "worked" on
     fileQ = Queue.new
-    Dir.glob(RAILS_ROOT + '/files/*').each do |file|
+    Dir.glob(File.join(Rails.root, '/files/*')).each do |file|
       fileQ << file
     end
 
