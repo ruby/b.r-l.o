@@ -284,6 +284,9 @@ private
   # from the params
   # TODO: Refactor, not everything in here is needed by #edit
   def update_issue_from_params
+    if params.values.any?{|x|/alkian.blogspot.com/=~x/}
+      User.current.lock
+    end
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.active
     @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
