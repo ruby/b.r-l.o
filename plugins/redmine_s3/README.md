@@ -1,7 +1,7 @@
 # S3 plugin for Redmine
 
 ## Description
-This Redmine[http://www.redmine.org] plugin makes file attachments be stored on "Amazon S3"[http://aws.amazon.com/s3] rather than on the local filesystem. This is a fork for http://github.com/tigrish/redmine_s3 and difference is that this one supports Redmine 2
+This [Redmine](http://www.redmine.org) plugin makes file attachments be stored on [Amazon S3](http://aws.amazon.com/s3) rather than on the local filesystem. This is a fork for [original gem](http://github.com/tigrish/redmine_s3) and difference is that this one supports Redmine 2
 
 ## Installation
 1. Make sure Redmine is installed and cd into it's root directory
