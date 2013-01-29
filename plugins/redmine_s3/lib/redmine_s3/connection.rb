@@ -68,7 +68,7 @@ module RedmineS3
         options = {}
         options[:acl] = :public_read unless self.private?
         options[:content_type] = content_type if content_type
-        options[:content_disposition] = "inline; filename='#{ERB::Util.url_encode(filename)}'"
+        options[:content_disposition] = "inline; filename=#{ERB::Util.url_encode(filename)}"
         object.write(data, options)
       end
 
