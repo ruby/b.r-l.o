@@ -1,1 +1,0 @@
-module RedmineMailingListIntegration; end
