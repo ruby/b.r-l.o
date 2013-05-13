@@ -1,5 +1,5 @@
 require 'redmine'
-require File.join(RAILS_ROOT, 'app', 'helpers', 'application_helper')
+require Rails.root.join('app', 'helpers', 'application_helper')
 require 'redmine_link_to_root/extension'
 
 Redmine::Plugin.register :redmine_link_to_root do
