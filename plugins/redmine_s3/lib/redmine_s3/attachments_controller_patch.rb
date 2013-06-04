@@ -25,7 +25,6 @@ module RedmineS3
                                           :filename => filename_for_content_disposition(@attachment.filename),
                                           :type => detect_content_type(@attachment),
                                           :disposition => (@attachment.image? ? 'inline' : 'attachment')
-
         else
           redirect_to(RedmineS3::Connection.object_url(@attachment.disk_filename))
         end
