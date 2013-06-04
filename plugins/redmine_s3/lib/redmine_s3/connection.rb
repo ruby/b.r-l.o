@@ -12,7 +12,8 @@ module RedmineS3
       :endpoint          => nil,
       :private           => false,
       :expires           => nil,
-      :secure            => false
+      :secure            => false,
+      :proxy            => false
     }
 
     class << self
@@ -63,6 +64,10 @@ module RedmineS3
         @@s3_options[:secure]
       end
 
+      def proxy?
+        @@s3_options[:proxy]
+      end
+
       def put(filename, data, content_type='application/octet-stream')
         object = self.conn.buckets[self.bucket].objects[filename]
         options = {}
@@ -86,6 +91,11 @@ module RedmineS3
         else
           object.public_url(:secure => self.secure?).to_s
         end
+      end
+
+      def get(filename)
+        object = self.conn.buckets[self.bucket].objects[filename]
+        object.read
       end
     end
   end
