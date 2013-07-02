@@ -1,6 +1,7 @@
 require 'redmine'
 require 'redmine_ruby_lang_mailing_list_customization/ruby_core_or_ruby_dev_receptor'
 require "redmine_ruby_lang_mailing_list_customization/hooks"
+require 'redmine_ruby_lang_mailing_list_customization/redmine_ext'
 
 Redmine::Plugin.register :redmine_ruby_lang_mailing_list_customization do
   name 'Redmine Ruby Lang Mailing List Customization plugin'
@@ -16,9 +17,4 @@ Redmine::Plugin.register :redmine_ruby_lang_mailing_list_customization do
   mailing_list_integration do
     receptor :ruby_core_or_ruby_dev, RedmineRubyLangMailingListCustomization::RubyCoreOrRubyDevReceptor
   end
-end
-
-dir = File.expand_path("lib/redmine_ruby_lang_mailing_list_customization/redmine_ext", File.dirname(__FILE__))
-Dir.glob( File.join(dir, '*.rb') ) do |path|
-  require path
 end
