@@ -17,5 +17,5 @@ end
 
 dir = File.expand_path("lib/redmine_mailing_list_integration_imap_supplement/redmine_ext", File.dirname(__FILE__))
 Dir.glob( File.join(dir, '*.rb') ) do |path|
-  require_dependency path
+  require path
 end
