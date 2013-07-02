@@ -1,13 +1,13 @@
 module RedmineMailingListIntegration; end
 
 require 'redmine'
-require 'redmine/plugin'
-require_dependency "redmine_mailing_list_integration/configuration"
+require "redmine_mailing_list_integration/configuration"
+require "redmine_mailing_list_integration/hooks"
+
 class Redmine::Plugin
   include RedmineMailingListIntegration::Configuration
 end
 
-require_dependency "redmine_mailing_list_integration/hooks"
 Redmine::Plugin.register :redmine_mailing_list_integration do
   name 'Redmine Mailing List Integration plugin'
   author 'Yuki Sonoda (Yugui)'
@@ -33,7 +33,7 @@ end
 
 dir = File.expand_path("lib/redmine_mailing_list_integration/redmine_ext", File.dirname(__FILE__))
 Dir.glob( File.join(dir, '*.rb') ) do |path|
-  require_dependency path
+  require path
 end
 
 ActiveSupport::Inflector.inflections do |inflect|
