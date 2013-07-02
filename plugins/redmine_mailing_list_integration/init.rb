@@ -3,6 +3,7 @@ module RedmineMailingListIntegration; end
 require 'redmine'
 require "redmine_mailing_list_integration/configuration"
 require "redmine_mailing_list_integration/hooks"
+require 'redmine_mailing_list_integration/redmine_ext'
 
 class Redmine::Plugin
   include RedmineMailingListIntegration::Configuration
@@ -29,11 +30,6 @@ end
 
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :mailing_lists, {:controller => 'mailing_lists'}, :caption => :label_mailing_list_plural
-end
-
-dir = File.expand_path("lib/redmine_mailing_list_integration/redmine_ext", File.dirname(__FILE__))
-Dir.glob( File.join(dir, '*.rb') ) do |path|
-  require path
 end
 
 ActiveSupport::Inflector.inflections do |inflect|
