@@ -1,4 +1,5 @@
 require 'redmine'
+require 'redmine_mailing_list_integration_imap_supplement/imap'
 
 Redmine::Plugin.register :redmine_mailing_list_integration_imap_supplement do
   name 'Redmine Mailing List Integration IMAP Supplement plugin'
@@ -13,9 +14,4 @@ Redmine::Plugin.register :redmine_mailing_list_integration_imap_supplement do
   project_module :mail_to_issue do
     permission :mail_to_issue, :mail_to_issue => %w[ new create ]
   end
-end
-
-dir = File.expand_path("lib/redmine_mailing_list_integration_imap_supplement/redmine_ext", File.dirname(__FILE__))
-Dir.glob( File.join(dir, '*.rb') ) do |path|
-  require path
 end
