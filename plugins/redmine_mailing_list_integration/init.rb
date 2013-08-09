@@ -21,6 +21,7 @@ Redmine::Plugin.register :redmine_mailing_list_integration do
 
   mailing_list_integration do
     driver :fml, RedmineMailingListIntegration::Drivers::FmlDriver
+    driver :mailman, RedmineMailingListIntegration::Drivers::MailmanDriver
     driver :quickml, RedmineMailingListIntegration::Drivers::QuickMLDriver
     driver :qwik, RedmineMailingListIntegration::Drivers::QwikDriver
     receptor :dumb, RedmineMailingListIntegration::Receptors::DumbReceptor
