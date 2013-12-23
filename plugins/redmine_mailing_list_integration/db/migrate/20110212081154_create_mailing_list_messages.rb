@@ -1,15 +1,16 @@
 class CreateMailingListMessages < ActiveRecord::Migration
   def self.up
     create_table :mailing_list_messages do |t|
-      t.string  :message_id
+      t.string :message_id
       t.string :in_reply_to
+      t.string :archive_url
       t.text :references
-      t.references :mailing_list, :null => false
       t.integer :mail_number
-      t.string  :archive_url
 
       t.references :issue
       t.references :journal
+      t.references :mailing_list, :null => false
+      t.timestamps
     end
 
     add_index :mailing_list_messages, :message_id

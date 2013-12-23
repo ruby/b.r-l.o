@@ -1,9 +1,9 @@
 class CreateUseOfMailingLists < ActiveRecord::Migration
   def self.up
     create_table :uses_of_mailing_list do |t|
+      t.string :receptor_name, :null => false
       t.references :mailing_list, :null => false
       t.references :project, :null => false
-      t.string :receptor_name, :null => false
     end
 
     add_index :uses_of_mailing_list, [:mailing_list_id, :project_id]
