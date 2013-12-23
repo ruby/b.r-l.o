@@ -10,7 +10,6 @@ class CreateMailingListMessages < ActiveRecord::Migration
       t.references :issue
       t.references :journal
       t.references :mailing_list, :null => false
-      t.timestamps
     end
 
     add_index :mailing_list_messages, :message_id
