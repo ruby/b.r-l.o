@@ -1,0 +1,4 @@
+gem 'redmine_link_to_root', github: 'asakusarb/redmine_link_to_root'
+gem 'redmine_mailing_list_integration', github: 'asakusarb/redmine_mailing_list_integration'
+gem 'redmine_mailing_list_integration_imap_supplement', github: 'asakusarb/redmine_mailing_list_integration_imap_supplement'
+gem 'redmine_ruby_lang_mailing_list_customization', github: 'asakusarb/redmine_ruby_lang_mailing_list_customization'
