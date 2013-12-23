@@ -10,14 +10,14 @@ class CreateMailingListMessages < ActiveRecord::Migration
 
       t.references :issue
       t.references :journal
-
-      t.index :message_id
-      t.index :issue_id
-      t.index :journal_id
-      t.index [:issue_id, :journal_id], :unique => true
-      t.index [:mailing_list_id, :message_id], :unique => true
-      t.index [:mailing_list_id, :mail_number], :unique => true
     end
+
+    add_index :mailing_list_messages, :message_id
+    add_index :mailing_list_messages, :issue_id
+    add_index :mailing_list_messages, :journal_id
+    add_index :mailing_list_messages, [:issue_id, :journal_id], :unique => true
+    add_index :mailing_list_messages, [:mailing_list_id, :message_id], :unique => true
+    add_index :mailing_list_messages, [:mailing_list_id, :mail_number], :unique => true
   end
 
   def self.down
