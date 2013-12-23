@@ -4,6 +4,7 @@ class CreateUseOfMailingLists < ActiveRecord::Migration
       t.string :receptor_name, :null => false
       t.references :mailing_list, :null => false
       t.references :project, :null => false
+      t.timestamps
     end
 
     add_index :uses_of_mailing_list, [:mailing_list_id, :project_id]
