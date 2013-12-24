@@ -17,6 +17,7 @@
 
 require 'redmine/scm/adapters'
 require 'cgi'
+require 'redmine/scm/adapters'
 
 if RUBY_VERSION < '1.9'
   require 'iconv'
