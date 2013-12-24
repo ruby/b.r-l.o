@@ -1,9 +1,9 @@
 production:
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  bucket: bugs.ruby-lang.org
+  bucket: bugs.ruby-lang.org.files
 
 development:
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  bucket: bugs.ruby-lang.org
+  bucket: bugs.ruby-lang.org.files
