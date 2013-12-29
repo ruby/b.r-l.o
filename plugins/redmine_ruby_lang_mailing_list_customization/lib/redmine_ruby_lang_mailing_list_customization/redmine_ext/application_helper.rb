@@ -31,8 +31,7 @@ ApplicationHelper.class_eval do
       else
         orig
       end
-    end
+    end.html_safe
   end
   alias_method_chain :textilizable, :ruby_lang_mailing_list_customization
 end
-
