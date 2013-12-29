@@ -2,8 +2,6 @@ module RedmineMailingListIntegration; end
 
 require 'redmine'
 require "redmine_mailing_list_integration/configuration"
-require "redmine_mailing_list_integration/hooks"
-require 'redmine_mailing_list_integration/redmine_ext'
 
 class Redmine::Plugin
   include RedmineMailingListIntegration::Configuration
@@ -28,6 +26,9 @@ Redmine::Plugin.register :redmine_mailing_list_integration do
     receptor :default, RedmineMailingListIntegration::Receptors::DefaultReceptor
   end
 end
+
+require "redmine_mailing_list_integration/hooks"
+require 'redmine_mailing_list_integration/redmine_ext'
 
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :mailing_lists, {:controller => 'mailing_lists'}, :caption => :label_mailing_list_plural

@@ -1,5 +1,6 @@
 require 'redmine_mailing_list_integration/drivers'
 require 'redmine_mailing_list_integration/receptors'
+
 module RedmineMailingListIntegration
   module Configuration
     class << (MAILING_LIST_CONFIGURATOR = Object.new)
