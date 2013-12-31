@@ -1,3 +1,5 @@
+require 'redmine'
+
 Redmine::Plugin.register :redmine_mailing_list_integration_imap_supplement do
   name 'Redmine Mailing List Integration IMAP Supplement plugin'
   author 'Yuki Sonoda'
@@ -13,5 +15,4 @@ Redmine::Plugin.register :redmine_mailing_list_integration_imap_supplement do
   end
 end
 
-require 'redmine'
 require 'redmine_mailing_list_integration_imap_supplement/imap'
