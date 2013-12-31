@@ -8,4 +8,4 @@
 #   ...
 #
 
-config.force_ssl = true
+config.force_ssl = true if Rails.env.production?
