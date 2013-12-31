@@ -1,6 +1,6 @@
 # RedmineMailingListIntegrationImapSupplement
 
-TODO: Write a gem description
+This plugin adds a IMAP support for Redmine Mailing List Integration plugin.
 
 ## Installation
 
@@ -27,3 +27,9 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Copyright
+
+(c) 2011 Yuki Sonoda (Yugui)
+
+This plugin is distributed under GPL 2 or later.
