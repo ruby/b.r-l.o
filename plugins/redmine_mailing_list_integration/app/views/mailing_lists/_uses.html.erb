@@ -2,7 +2,7 @@
   <h3><%= l(:label_project_plural) %></h3>
 
   <% @mailing_list.uses_of_mailing_list.each do |use| %>
-    <% form_for(use, :url => mailing_list_use_path(use.mailing_list, use), :html => {:class => 'tabular'}) do |f| -%>
+    <%= form_for(use, :url => mailing_list_use_path(use.mailing_list, use), :html => {:class => 'tabular'}) do |f| -%>
       <p style="margin:0;padding-top:0;">
         <label><%= use.project.name %></label>
         <%= f.select('receptor_name', RedmineMailingListIntegration::Receptors.registered_receptor_names) %>
@@ -14,7 +14,7 @@
   <hr />
   <p>
   <label><%= l(:label_project_new) %></label><br />
-  <% form_for(@use, :url => mailing_list_uses_path(:mailing_list_id => @mailing_list), :html => {:class => 'tabular'}) do |f| -%>
+  <%= form_for(@use, :url => mailing_list_uses_path(:mailing_list_id => @mailing_list), :html => {:class => 'tabular'}) do |f| -%>
     <select name="use_of_mailing_list[project_id]">
       <%= options_from_collection_for_select @projects, "id", "name", @use.project_id %>
     </select>
