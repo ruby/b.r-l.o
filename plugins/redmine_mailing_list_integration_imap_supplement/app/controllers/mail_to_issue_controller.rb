@@ -1,8 +1,7 @@
-require 'mail_to_issue'
 class MailToIssueController < ApplicationController
   menu_item :mail_to_issue
   before_filter :authorize_global
-  accept_key_auth :create
+  accept_rss_auth :create
 
   def new
     @project = Project.find_by_identifier(params[:id])

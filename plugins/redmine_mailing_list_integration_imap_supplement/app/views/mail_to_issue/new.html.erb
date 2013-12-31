@@ -1,6 +1,6 @@
 <h2><%=l(:label_mail_to_issue)%></h2> 
 
-<% labelled_tabular_form_for :mail_to_issue, @mail_to_issue, :url => {:controller => 'mail_to_issue', :action => 'create', :id => @project}, :html => {:id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
+<%= labelled_form_for :mail_to_issue, @mail_to_issue, :url => {:controller => 'mail_to_issue', :action => 'create', :id => @project}, :html => {:id => 'issue-form', :class => 'tabular new-issue-form'} do |f| %>
   <%= error_messages_for 'mail_to_issue' %>
   <div class="box">
     <div id="issue_descr_fields">
@@ -11,6 +11,7 @@
     </div>
   </div>
 <% end %>
-<% content_for :header_tags do %>
+
+<%= content_for :header_tags do %>
     <%= stylesheet_link_tag 'scm' %>
 <% end %>
