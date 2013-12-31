@@ -1,6 +1,6 @@
-module RedmineMailingListIntegration; end
-
 require 'redmine'
+
+require "redmine_mailing_list_integration"
 require "redmine_mailing_list_integration/configuration"
 
 class Redmine::Plugin
