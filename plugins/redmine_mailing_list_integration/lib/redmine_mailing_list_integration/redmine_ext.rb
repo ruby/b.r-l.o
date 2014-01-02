@@ -1,4 +1,3 @@
-require 'redmine_mailing_list_integration/redmine_ext/application_helper'
 require 'redmine_mailing_list_integration/redmine_ext/issue'
 require 'redmine_mailing_list_integration/redmine_ext/issues_controller'
 require 'redmine_mailing_list_integration/redmine_ext/journal'
