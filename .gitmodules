@@ -16,6 +16,3 @@
 [submodule "plugins/redmine_redcarpet_formatter"]
 	path = plugins/redmine_redcarpet_formatter
 	url = https://github.com/asakusarb/redmine_redcarpet_formatter
-[submodule "plugins/redmine_rd_formatter"]
-	path = plugins/redmine_rd_formatter
-	url = https://github.com/asakusarb/redmine_rd_formatter
