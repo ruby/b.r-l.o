@@ -2,7 +2,6 @@ GEM
   remote: https://rubygems.org/
   remote: https://rubygems.org/
   remote: https://rubygems.org/
-  remote: https://rubygems.org/
   specs:
     actionmailer (3.2.16)
       actionpack (= 3.2.16)
@@ -48,6 +47,9 @@ GEM
     coderay (1.1.0)
     daemons (1.1.9)
     database_cleaner (1.2.0)
+    dotenv (0.9.0)
+    dotenv-rails (0.9.0)
+      dotenv (= 0.9.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
     fastercsv (1.5.5)
@@ -69,7 +71,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.8.2)
     net-ldap (0.3.1)
-    newrelic_rpm (3.7.1.180)
+    newrelic_rpm (3.7.1.182)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     pg (0.17.1)
@@ -108,7 +110,6 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    rdtool (0.6.38)
     redcarpet (3.0.0)
     rmagick (2.13.2)
     ruby-openid (2.3.0)
@@ -156,6 +157,7 @@ DEPENDENCIES
   capybara (~> 2.1.0)
   coderay (~> 1.1.0)
   database_cleaner
+  dotenv-rails
   fastercsv (~> 1.5.0)
   jquery-rails (~> 2.0.2)
   mocha (>= 0.14)
@@ -167,7 +169,6 @@ DEPENDENCIES
   rails (= 3.2.16)
   rails_12factor
   rdoc (>= 2.4.2)
-  rdtool
   redcarpet
   rmagick (>= 2.0.0)
   ruby-openid (~> 2.3.0)

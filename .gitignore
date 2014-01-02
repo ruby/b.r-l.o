@@ -32,3 +32,4 @@
 *.rbc
 
 /.bundle
+/.env
