@@ -5,7 +5,7 @@ module RedmineMailingListIntegrationIMAPSupplement
   module IMAP
     module_function
     def config
-      @@config ||= YAML.load_file(File.join(RAILS_ROOT, "config/imap.yaml"))
+      @@config ||= YAML.load(ERB.new(File.read(Rails.root.join("config/imap.yml"))).result)
     end
 
     def with_connection(name)
@@ -64,7 +64,7 @@ module RedmineMailingListIntegrationIMAPSupplement
     end
 
     def logger
-      RAILS_DEFAULT_LOGGER
+      Rails.logger
     end
   end
 end
