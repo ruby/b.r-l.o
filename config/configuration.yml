@@ -204,12 +204,13 @@ production:
   email_delivery:
     delivery_method: :smtp
     smtp_settings:
+      user_name: <%= ENV['SENDGRID_USERNAME'] %>
+      password: <%= ENV['SENDGRID_PASSWORD'] %>
+      domain: 'herokuapp.com'
       address: 'smtp.sendgrid.net'
-      port: '587'
-      domain: 'heroku.com'
+      port: 587
       authentication: :plain
-      user_name: ENV['SENDGRID_USERNAME']
-      password: ENV['SENDGRID_PASSWORD']
+      tls: true
       enable_starttls_auto: true
 
 # specific configuration options for development environment
