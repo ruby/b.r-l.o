@@ -1,13 +1,15 @@
 Mailer.class_eval do
   def issue_add_with_ruby_lang_mailing_list_customization(*args)
-    issue_add_without_ruby_lang_mailing_list_customization(*args)
-    update_from(args[0].author) # args[0] == issue
+    m = issue_add_without_ruby_lang_mailing_list_customization(*args)
+    m.header[:from] = update_from(args[0].author) # args[0] == issue
+    m
   end
   alias_method_chain :issue_add, :ruby_lang_mailing_list_customization
 
   def issue_edit_with_ruby_lang_mailing_list_customization(*args)
-    issue_edit_without_ruby_lang_mailing_list_customization(*args)
-    update_from(args[0].user) # args[0] == journal
+    m = issue_edit_without_ruby_lang_mailing_list_customization(*args)
+    m.header[:from] = update_from(args[0].user) # args[0] == journal
+    m
   end
   alias_method_chain :issue_edit, :ruby_lang_mailing_list_customization
 
@@ -22,9 +24,9 @@ Mailer.class_eval do
 
   def update_from(user)
     if user.anonymous? or user.preference.try(:hide_mail?)
-      from name_addr(user.name, Setting.mail_from)
+      name_addr(user.name, Setting.mail_from)
     else
-      from name_addr(user.name, user.mail)
+      name_addr(user.name, user.mail)
     end
   end
 
