@@ -16,7 +16,7 @@ Mailer.class_eval do
   def mail_with_ruby_lang_mailing_list_customization(headers)
     headers[:bcc] = headers[:cc]
     headers[:cc] = []
-    create_mail_without_ruby_lang_mailing_list_customization(headers)
+    mail_without_ruby_lang_mailing_list_customization(headers)
   end
   alias_method_chain :mail, :ruby_lang_mailing_list_customization
 
