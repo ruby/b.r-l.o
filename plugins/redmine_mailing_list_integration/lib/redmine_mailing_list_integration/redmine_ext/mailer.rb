@@ -2,12 +2,24 @@ Mailer.class_eval do
   class << self
     def deliver_issue_add(issue)
       unless issue.originates_from_mail?
-        super(issue)
+        to = issue.notified_users
+        cc = issue.notified_watchers - to
+        issue.each_notification(to + cc) do |users|
+          Mailer.issue_add(issue, to & users, cc & users).deliver
+        end
       end
     end
+
     def deliver_issue_edit(journal)
       unless journal.originates_from_mail?
-        super(journal)
+        issue = journal.journalized.reload
+        to = journal.notified_users
+        cc = journal.notified_watchers
+        journal.each_notification(to + cc) do |users|
+          issue.each_notification(users) do |users2|
+            Mailer.issue_edit(journal, to & users2, cc & users2).deliver
+          end
+        end
       end
     end
   end
