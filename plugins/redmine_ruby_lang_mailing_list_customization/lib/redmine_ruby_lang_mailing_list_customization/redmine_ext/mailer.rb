@@ -29,8 +29,6 @@ Mailer.class_eval do
   end
 
   def name_addr(name, addr_spec)
-    addr = Mail::Address.new(addr_spec)
-    addr.local = name.to_s
-    return addr.to_s
+    "#{name.to_s}@#{Mail::Address.new(addr_spec).domain}"
   end
 end
