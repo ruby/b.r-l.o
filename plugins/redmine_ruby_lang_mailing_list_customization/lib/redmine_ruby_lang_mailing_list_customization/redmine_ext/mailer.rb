@@ -29,8 +29,8 @@ Mailer.class_eval do
   end
 
   def name_addr(name, addr_spec)
-    addr = TMail::Address.parse(addr_spec)
-    addr.name = name.to_s
+    addr = Mail::Address.new(addr_spec)
+    addr.local = name.to_s
     return addr.to_s
   end
 end
