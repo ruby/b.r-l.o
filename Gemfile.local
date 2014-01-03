@@ -1,8 +1,15 @@
 ruby '2.0.0'
 
-gem 'dotenv-rails'
-gem 'newrelic_rpm'
-gem 'rails_12factor'
-gem 'airbrake'
 gem 'thin'
 gem 'psych'
+gem 'dotenv-rails'
+
+group :development do
+  gem 'pry-rails'
+end
+
+group :production do
+  gem 'newrelic_rpm'
+  gem 'rails_12factor'
+  gem 'airbrake'
+end
