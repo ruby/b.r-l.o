@@ -1,13 +1,13 @@
 Mailer.class_eval do
-  def issue_add_with_ruby_lang_mailing_list_customization(issue)
-    issue_add_without_ruby_lang_mailing_list_customization(issue)
-    update_from(issue.author)
+  def issue_add_with_ruby_lang_mailing_list_customization(*args)
+    issue_add_without_ruby_lang_mailing_list_customization(*args)
+    update_from(args[0].author) # args[0] == issue
   end
   alias_method_chain :issue_add, :ruby_lang_mailing_list_customization
 
-  def issue_edit_with_ruby_lang_mailing_list_customization(journal)
-    issue_edit_without_ruby_lang_mailing_list_customization(journal)
-    update_from(journal.user)
+  def issue_edit_with_ruby_lang_mailing_list_customization(*args)
+    issue_edit_without_ruby_lang_mailing_list_customization(*args)
+    update_from(args[0].user) # args[0] == journal
   end
   alias_method_chain :issue_edit, :ruby_lang_mailing_list_customization
 
