@@ -59,6 +59,7 @@ GEM
     ffi (1.9.3)
     hike (1.2.3)
     i18n (0.6.9)
+    iconv (1.0.4)
     journey (1.0.4)
     jquery-rails (2.0.3)
       railties (>= 3.1.0, < 5.0)
@@ -67,11 +68,11 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    metaclass (0.0.1)
+    metaclass (0.0.2)
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.5.2)
-    mocha (0.14.0)
+    mocha (1.0.0)
       metaclass (~> 0.0.1)
     multi_json (1.8.4)
     net-ldap (0.3.1)
@@ -171,6 +172,7 @@ DEPENDENCIES
   database_cleaner
   dotenv-rails
   fastercsv (~> 1.5.0)
+  iconv
   jquery-rails (~> 2.0.2)
   mocha (>= 0.14)
   net-ldap (~> 0.3.1)
