@@ -3,11 +3,9 @@ ruby-dev:
   port: <%= ENV['IMAP_PORT'] %>
   username: <%= ENV['IMAP_USERNAME'] %>
   password: "<%= ENV['IMAP_PASSWORD'] %>"
-  ssl: true
 
 ruby-core:
   host: <%= ENV['IMAP_HOST'] %>
   port: <%= ENV['IMAP_PORT'] %>
   username: <%= ENV['IMAP_USERNAME'] %>
   password: "<%= ENV['IMAP_PASSWORD'] %>"
-  ssl: true
