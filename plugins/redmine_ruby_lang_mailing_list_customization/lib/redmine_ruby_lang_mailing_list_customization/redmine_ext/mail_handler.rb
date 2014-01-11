@@ -1,6 +1,7 @@
+require 'iconv'
 MailHandler.class_eval do
   def dispatch_with_ruby_lang_mailing_list_customization
-    if charset = email.type_param('charset') and charset.downcase != 'utf-8'
+    if charset = email.header.charset and charset.downcase != 'utf-8'
       email.body = Iconv.conv("UTF-8", charset, email.body) rescue nil
       email.subject = Iconv.conv("UTF-8", charset, email.subject) rescue nil
     end
