@@ -31,7 +31,7 @@ Mailer.class_eval do
     record_message(issue, nil, mailing_lists)
 
     mail :to => mailing_lists.map(&:address),
-      :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
+      :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.subject}"
   end
   alias_method_chain :issue_add, :mailing_list_integration
 
@@ -42,12 +42,8 @@ Mailer.class_eval do
     mailing_lists = issue.project.mail_routes_for_issue(issue)
     record_message(issue, journal, mailing_lists)
 
-    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
-    s << issue.subject
-
     mail :to => mailing_lists.map(&:address),
-      :subject => s
+      :subject => "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] #{issue.subject}"
   end
   alias_method_chain :issue_edit, :mailing_list_integration
 
