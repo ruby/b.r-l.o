@@ -4,8 +4,8 @@ module RedmineMailingListIntegration
       include TypicalDriver
 
       def likelihood
-        if /\Afml / =~ @email.header["List-Software"] and
-          @email.header["X-ML-Name"] == @mailing_list.identifier then
+        if /\Afml / =~ @email.header["List-Software"].to_s and
+          @email.header["X-ML-Name"].to_s == @mailing_list.identifier then
           EXACTLY_MATCHED
         else
           NOT_MATCHED
