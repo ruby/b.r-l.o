@@ -31,8 +31,8 @@ MailHandler.class_eval do
     issue
   end
 
-  def receive_issue_reply_with_mailing_list_integration(issue_id)
-    journal = receive_issue_reply_without_mailing_list_integration(issue_id)
+  def receive_issue_reply_with_mailing_list_integration(issue_id, from_journal=nil)
+    journal = receive_issue_reply_without_mailing_list_integration(issue_id, from_journal)
     record_message(issue_id, journal.id)
     journal
   end
