@@ -71,8 +71,8 @@ MailHandler.class_eval do
         if msg.mailing_list != driver.mailing_list or msg.issue_id.to_s != issue_id.to_s
           raise ArgumentError, "header mismatch"
         end
-        msg.in_reply_to = email.in_reply_to.try(:join, ',')
-        msg.references = email.references.try(:join, ',')
+        msg.in_reply_to = email[:in_reply_to].message_ids.join(',')
+        msg.references = email[:references].message_ids.join(',')
         msg.mail_number = driver.mail_number
         msg.archive_url = driver.archive_url
         msg.save!
@@ -82,8 +82,8 @@ MailHandler.class_eval do
 
   def record_message(issue_id, journal_id = nil)
     MailingListMessage.create! :message_id => email.message_id,
-      :in_reply_to => (email.in_reply_to && email.in_reply_to.join(",")),
-      :references => (email.references && email.references.join(",")),
+      :in_reply_to => (email[:in_reply_to] && email[:in_reply_to].message_ids.join(",")),
+      :references => (email[:references] && email[:references].message_ids.join(",")),
       :mailing_list => driver.mailing_list,
       :issue => (issue_id && Issue.find(issue_id)),
       :journal => (journal_id && Journal.find(journal_id)),
