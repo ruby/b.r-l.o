@@ -5,10 +5,10 @@ defaults: &defaults
   proxy: true
 
 development:
-  &defaults
+  <<: *defaults
 
 test:
-  &defaults
+  <<: *defaults
 
 production:
-  &defaults
+  <<: *defaults
