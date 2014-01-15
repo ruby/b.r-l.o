@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 module RedmineRubyLangMailingListCustomization
   class Hooks < Redmine::Hook::ViewListener
     def view_issues_form_details_top(context = {})

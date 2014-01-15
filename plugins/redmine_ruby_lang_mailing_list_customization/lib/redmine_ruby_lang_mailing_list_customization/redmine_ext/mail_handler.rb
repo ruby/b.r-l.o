@@ -13,10 +13,12 @@ MailHandler.class_eval do
         @ruby_lang_tracker_name = Tracker.find(:first, :conditions => ['LOWER(trackers.name) = LOWER(?)', tracker_name]).try(:name)
         @ruby_lang_project_name = 
           case proj_name
-          when 'trunk' then 'ruby-19'
+          when 'trunk' then 'ruby-trunk'
           when /\A1\.([89])\z/     then "ruby-1#{$1}"
           when /\A1\.8\.([6-9])\z/ then "ruby-18#{$1}"
           when /\A1\.9\.([1-9])\z/ then "ruby-19#{$1}"
+          when /\A2\.0\.([0-9])\z/ then "ruby-20#{$1}"
+          when /\A2\.1\.([0-9])\z/ then "ruby-21"
           else 'ruby'
           end
       end
@@ -49,7 +51,7 @@ MailHandler.class_eval do
     when :project
       @ruby_lang_project_name
     when 'ruby -v'
-      text[/ruby 1\.\d\.\d(?:p\d+) (\d{4}-\d{1,2}-\d{1,2} (?:revision|patchlevel|trunk) \d+) \[/] || '-'
+      text[/ruby \d\.\d\.\d(?:p\d+) (\d{4}-\d{1,2}-\d{1,2} (?:revision|patchlevel|trunk) \d+) \[/] || '-'
     end
   end
   alias_method_chain :extract_keyword!, :ruby_lang_mailing_list_customization
