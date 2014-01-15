@@ -64,13 +64,13 @@ Mailer.class_eval do
 
   def record_message(issue, journal, mailing_lists)
     message_record_ids = mailing_lists.map {|ml|
-      record = MailingListMessage.create! \
+      record = MailingListMessage.create!(
         :mailing_list => ml,
         :issue => issue,
         :journal => journal
+      )
       record.id
     }
     headers['X-Redmine-MailingListIntegration-Message-Ids'] = message_record_ids.join(",")
   end
 end
-
