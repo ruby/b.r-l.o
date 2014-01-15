@@ -8,6 +8,7 @@ MailHandler.class_eval do
       receive_without_mailing_list_integration(email)
     end
   end
+  alias_method_chain :receive, :mailing_list_integration
 
   def dispatch_to_default_with_mailing_list_integration
     case
@@ -19,23 +20,21 @@ MailHandler.class_eval do
       dispatch_to_default_without_mailing_list_integration
     end
   end
-
-  # override this method to do what you want for mails which has an unknown parent
-  def dispatch_to_chiken_and_egg
-    dispatch_to_default_without_mailing_list_integration
-  end
+  alias_method_chain :dispatch_to_default, :mailing_list_integration
 
   def receive_issue_with_mailing_list_integration
     issue = receive_issue_without_mailing_list_integration
     record_message(issue.id)
     issue
   end
+  alias_method_chain :receive_issue, :mailing_list_integration
 
   def receive_issue_reply_with_mailing_list_integration(issue_id, from_journal=nil)
     journal = receive_issue_reply_without_mailing_list_integration(issue_id, from_journal)
     record_message(issue_id, journal.id)
     journal
   end
+  alias_method_chain :receive_issue_reply, :mailing_list_integration
 
   def target_project_with_mailing_list_integration
     target_project_without_mailing_list_integration
@@ -48,16 +47,13 @@ MailHandler.class_eval do
       raise
     end
   end
+  alias_method_chain :target_project, :mailing_list_integration
 
-  %w[
-    receive
-    dispatch_to_default receive_issue receive_issue_reply
-    target_project
-  ].each do |meth|
-    alias_method_chain meth, :mailing_list_integration
+  # override this method to do what you want for mails which has an unknown parent
+  def dispatch_to_chiken_and_egg
+    dispatch_to_default_without_mailing_list_integration
   end
 
-  private
   def cycled?(email)
     email.header["X-Mailer"] == "Redmine" and email.header["X-Redmine-Host"] == Setting.host_name
   end
