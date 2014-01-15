@@ -9,6 +9,7 @@ module RedmineMailingListIntegration
     end
   end
 end
+
 Issue.class_eval do
   include RedmineMailingListIntegration::RedmineExt::IssueExt
   include BasedOnMail
