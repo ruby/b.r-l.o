@@ -41,7 +41,7 @@ MailHandler.class_eval do
   rescue MailHandler::MissingInformation
     if parent_message and parent_message.issue
       return parent_message.issue.project
-    elsif issue_id = email.header["X-Redmine-Issue-Id"]
+    elsif issue_id = email.header["X-Redmine-Issue-Id"].to_s
       return Issue.find(issue_id).project
     else
       raise
@@ -55,12 +55,12 @@ MailHandler.class_eval do
   end
 
   def cycled?(email)
-    email.header["X-Mailer"] == "Redmine" and email.header["X-Redmine-Host"] == Setting.host_name
+    email.header["X-Mailer"].to_s == "Redmine" and email.header["X-Redmine-Host"].to_s == Setting.host_name
   end
 
   def receive_cycled
-    issue_id = email.header["X-Redmine-Issue-Id"]
-    ids = email.header["X-Redmine-MailingListIntegration-Message-Ids"]
+    issue_id = email.header["X-Redmine-Issue-Id"].to_s
+    ids = email.header["X-Redmine-MailingListIntegration-Message-Ids"].to_s
     if ids
       ids.split(',').each do |id|
         msg = MailingListMessage.find(id)
@@ -89,7 +89,7 @@ MailHandler.class_eval do
 
   def parent_message
     @parent_message ||= begin
-      headers = [email.in_reply_to, email.references].flatten.compact.uniq
+      headers = [email.in_reply_to, email.references].flatten.map(&:to_s).compact.uniq
       headers.detect {|h|
         msg = MailingListMessage.find_by_message_id(h)
         break msg if msg
