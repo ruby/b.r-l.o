@@ -5,3 +5,5 @@ en:
   label_mailing_list_new: New mailing list
   field_driver_name: Driver name
   field_driver_data: Driver options
+  label_destroy: Destroy
+  label_confirm_destroy: Are you sure?

@@ -5,4 +5,5 @@ ja:
   label_mailing_list_new: 新しいメーリングリスト
   field_driver_name: ドライバ名
   field_driver_data: ドライバオプション
-
+  label_destroy: 削除
+  label_confirm_destroy: 本当に削除しますか?

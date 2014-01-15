@@ -9,6 +9,7 @@
     <%= sort_header_tag('identifier', :caption => l(:field_identifier)) %>
     <%= sort_header_tag('address', :caption => l(:field_mail)) %>
     <%= sort_header_tag('created_at', :caption => l(:field_created_on), :default_order => 'desc') %>
+    <th></th>
   </tr></thead>
   <tbody>
 <% for mailing_list in @mailing_lists -%>
@@ -16,6 +17,7 @@
     <td class="identifier"><%= link_to mailing_list.identifier, :action => 'edit', :id => mailing_list %></td>
     <td class="address"><%= mailing_list.address %></td>
     <td class="created_at" align="center"><%= format_time(mailing_list.created_at) %></td>
+    <td class="destroy" align="center"><%= link_to t(:label_destroy), mailing_list, method: :delete, data: { confirm: t(:label_confirm_destroy) } %></td>
   </tr>
 <% end -%>
   </tbody>
