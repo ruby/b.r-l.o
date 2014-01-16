@@ -13,7 +13,7 @@ MailHandler.class_eval do
         @ruby_lang_tracker_name = Tracker.find(:first, :conditions => ['LOWER(trackers.name) = LOWER(?)', tracker_name]).try(:name)
         @ruby_lang_project_name = 
           case proj_name
-          when 'trunk' then 'ruby-trunk'
+          when 'trunk'             then 'ruby-trunk'
           when /\A1\.([89])\z/     then "ruby-1#{$1}"
           when /\A1\.8\.([6-9])\z/ then "ruby-18#{$1}"
           when /\A1\.9\.([1-9])\z/ then "ruby-19#{$1}"
