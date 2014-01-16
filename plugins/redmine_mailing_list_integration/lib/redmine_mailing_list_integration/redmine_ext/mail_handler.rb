@@ -55,7 +55,8 @@ MailHandler.class_eval do
   end
 
   def cycled?(email)
-    email.header["X-Mailer"].to_s == "Redmine" and email.header["X-Redmine-Host"].to_s == Setting.host_name
+    [email.header["X-Mailer"]].flatten.map(&:to_s).uniq.first == "Redmine" and
+      [email.header["X-Redmine-Host"]].flatten.map(&:to_s).uniq.first == Setting.host_name
   end
 
   def receive_cycled
@@ -63,15 +64,16 @@ MailHandler.class_eval do
     ids = email.header["X-Redmine-MailingListIntegration-Message-Ids"].to_s
     if ids
       ids.split(',').each do |id|
-        msg = MailingListMessage.find(id)
-        if msg.mailing_list != driver.mailing_list or msg.issue_id.to_s != issue_id.to_s
-          raise ArgumentError, "header mismatch"
+        if msg = MailingListMessage.where(id: id).first
+          if msg.mailing_list != driver.mailing_list or msg.issue_id.to_s != issue_id
+            raise ArgumentError, "header mismatch"
+          end
+          msg.in_reply_to = email[:in_reply_to].message_ids.join(',')
+          msg.references = email[:references].message_ids.join(',')
+          msg.mail_number = driver.mail_number
+          msg.archive_url = driver.archive_url
+          msg.save!
         end
-        msg.in_reply_to = email[:in_reply_to].message_ids.join(',')
-        msg.references = email[:references].message_ids.join(',')
-        msg.mail_number = driver.mail_number
-        msg.archive_url = driver.archive_url
-        msg.save!
       end
     end
   end
