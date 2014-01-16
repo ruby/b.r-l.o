@@ -41,7 +41,7 @@ Mailer.class_eval do
     mailing_lists = issue.project.mail_routes_for_issue(issue)
     record_message(issue, journal, mailing_lists)
 
-    issue_edit_without_mailing_list_integration(journal, to_users, cc_users)
+    m = issue_edit_without_mailing_list_integration(journal, to_users, cc_users)
 
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
     s << "[#{issue.status.name}] " if journal.new_value_for('status_id')
