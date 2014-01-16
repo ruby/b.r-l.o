@@ -68,8 +68,8 @@ MailHandler.class_eval do
           if msg.mailing_list != driver.mailing_list or msg.issue_id.to_s != issue_id
             raise ArgumentError, "header mismatch"
           end
-          msg.in_reply_to = email[:in_reply_to].message_ids.join(',')
-          msg.references = email[:references].message_ids.join(',')
+          msg.in_reply_to = (email[:in_reply_to] && email[:in_reply_to].message_ids.join(','))
+          msg.references = (email[:references] && email[:references].message_ids.join(','))
           msg.mail_number = driver.mail_number
           msg.archive_url = driver.archive_url
           msg.save!
