@@ -20,7 +20,7 @@ module RedmineMailingListIntegration
       end
 
       def mail_number
-        @email.header["X-Mail-Count"]
+        @email.header["X-Mail-Count"].to_s
       end
 
       def archive_url
