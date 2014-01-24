@@ -1,6 +1,6 @@
 ruby '2.1.0'
 
-gem 'thin'
+gem 'passenger'
 gem 'psych'
 gem 'iconv'
 gem 'dotenv-rails'
