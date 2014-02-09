@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -151,6 +151,12 @@ class Repository < ActiveRecord::Base
     else
       find_by_identifier(param)
     end
+  end
+
+  # TODO: should return an empty hash instead of nil to avoid many ||{}
+  def extra_info
+    h = read_attribute(:extra_info)
+    h.is_a?(Hash) ? h : nil
   end
 
   def merge_extra_info(arg)

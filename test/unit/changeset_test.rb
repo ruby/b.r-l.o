@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -343,6 +343,16 @@ class ChangesetTest < ActiveSupport::TestCase
   def test_text_tag_hash_all_number
     c = Changeset.new(:scmid => '0123456789', :revision => '0123456789')
     assert_equal 'commit:0123456789', c.text_tag
+  end
+
+  def test_text_tag_hash_with_repository_identifier
+    r = Repository::Subversion.new(
+          :project_id => 1,
+          :url     => 'svn://localhost/test',
+          :identifier => 'documents')
+    c = Changeset.new(:revision => '7234cb27', :scmid => '7234cb27', :repository => r)
+    assert_equal 'commit:documents|7234cb27', c.text_tag
+    assert_equal 'ecookbook:commit:documents|7234cb27', c.text_tag(Project.find(2))
   end
 
   def test_previous

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2013  Jean-Philippe Lang
+# Copyright (C) 2006-2014  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -154,13 +154,14 @@ class Changeset < ActiveRecord::Base
   end
 
   def text_tag(ref_project=nil)
-    tag = if scmid?
-      "commit:#{scmid}"
-    else
-      "r#{revision}"
-    end
+    repo = ""
     if repository && repository.identifier.present?
-      tag = "#{repository.identifier}|#{tag}"
+      repo = "#{repository.identifier}|"
+    end
+    tag = if scmid?
+      "commit:#{repo}#{scmid}"
+    else
+      "#{repo}r#{revision}"
     end
     if ref_project && project && ref_project != project
       tag = "#{project.identifier}:#{tag}"
