@@ -6,9 +6,9 @@ class MailingListMessage < ActiveRecord::Base
   validates_presence_of :mailing_list
 
   def identifier
-    if mail_number
+    if mail_number && mailing_list
       '[%s:%s]' % [mailing_list.identifier, mail_number]
-    elsif mailing_list.identifier
+    elsif mailing_list
       '[%s:<unknown>]' % [mailing_list.identifier]
     else
       '[<unknown>:<unknown>]'
