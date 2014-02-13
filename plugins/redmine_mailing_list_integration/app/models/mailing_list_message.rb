@@ -8,8 +8,10 @@ class MailingListMessage < ActiveRecord::Base
   def identifier
     if mail_number
       '[%s:%s]' % [mailing_list.identifier, mail_number]
-    else
+    elsif mailing_list.identifier
       '[%s:<unknown>]' % [mailing_list.identifier]
+    else
+      '[<unknown>:<unknown>]'
     end
   end
 end
