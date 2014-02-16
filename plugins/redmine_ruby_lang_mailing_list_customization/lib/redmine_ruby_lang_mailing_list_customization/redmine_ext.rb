@@ -1,4 +1,5 @@
 require 'redmine_ruby_lang_mailing_list_customization/redmine_ext/application_helper'
+require 'redmine_ruby_lang_mailing_list_customization/redmine_ext/attachment'
 require 'redmine_ruby_lang_mailing_list_customization/redmine_ext/issue'
 require 'redmine_ruby_lang_mailing_list_customization/redmine_ext/mail_handler'
 require 'redmine_ruby_lang_mailing_list_customization/redmine_ext/mailer'
