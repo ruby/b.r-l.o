@@ -178,7 +178,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def text?
-    !!(self.filename =~ /\.(txt|rb|log|patch)$/i)
+    !!(self.filename =~ /\.(txt|rb|log|patch|diff)$/i)
   end
 
   def thumbnailable?
