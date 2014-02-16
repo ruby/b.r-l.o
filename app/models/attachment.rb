@@ -177,10 +177,6 @@ class Attachment < ActiveRecord::Base
     !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i)
   end
 
-  def text?
-    !!(self.filename =~ /\.(txt|rb|log|patch|diff)$/i)
-  end
-
   def thumbnailable?
     image?
   end
