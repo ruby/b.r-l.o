@@ -1,12 +1,12 @@
-ruby '2.1.0' if ENV['DATABASE_URL'] # specified to heroku env
+ruby '2.1.0' unless ENV['DEV']
 
 gem 'passenger'
 gem 'psych'
 gem 'iconv'
-gem 'dotenv-rails'
 
 group :development do
   gem 'pry-rails'
+  gem 'dotenv-rails'
 end
 
 group :production do
