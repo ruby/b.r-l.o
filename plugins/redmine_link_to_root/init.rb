@@ -1,6 +1,5 @@
 require 'redmine'
-require Rails.root.join('app', 'helpers', 'application_helper')
-require 'redmine_link_to_root/extension'
+require 'redmine_link_to_root'
 
 Redmine::Plugin.register :redmine_link_to_root do
   name 'Redmine Link To Root plugin'
@@ -12,9 +11,4 @@ Redmine::Plugin.register :redmine_link_to_root do
   version '0.0.1'
   url 'http://github.com/yugui/redmine_link_to_root'
   author_url 'http://yugui.jp'
-end
-
-ActionView::Base.class_eval do
-  include ApplicationHelper
-  include RedmineLinkToRoot::Extension
 end
