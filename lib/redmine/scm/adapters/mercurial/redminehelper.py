@@ -79,8 +79,13 @@ def _tags(ui, repo):
 def _branches(ui, repo):
     # see mercurial/commands.py:branches
     def iterbranches():
-        for t, n in repo.branchtags().iteritems():
-            yield t, n, repo.changelog.rev(n)
+        if getattr(repo, 'branchtags', None) is not None:
+            # Mercurial < 2.9
+            for t, n in repo.branchtags().iteritems():
+                yield t, n, repo.changelog.rev(n)
+        else:
+            for tag, heads, tip, isclosed in repo.branchmap().iterbranches():
+                yield tag, tip, repo.changelog.rev(tip)
     def branchheads(branch):
         try:
             return repo.branchheads(branch, closed=False)
