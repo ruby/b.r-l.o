@@ -13,6 +13,3 @@
 [submodule "plugins/redmine_link_to_root"]
 	path = plugins/redmine_link_to_root
 	url = https://github.com/ruby/redmine_link_to_root
-[submodule "plugins/redmine_redcarpet_formatter"]
-	path = plugins/redmine_redcarpet_formatter
-	url = https://github.com/ruby/redmine_redcarpet_formatter
