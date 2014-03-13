@@ -6,21 +6,7 @@ This plugin is developed for http://bugs.ruby-lang.org
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'redmine_link_to_root'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install redmine_link_to_root
-
-## Usage
-
-TODO: Write usage instructions here
+Add this repository into your redmine's plugin folder.
 
 ## Contributing
 
