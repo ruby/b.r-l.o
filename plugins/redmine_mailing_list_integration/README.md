@@ -7,21 +7,7 @@ This plugin integrates mailing lists with Redmine.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'redmine_mailing_list_integration'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install redmine_mailing_list_integration
-
-## Usage
-
-TODO: Write usage instructions here
+Add this repository into your redmine's plugin folder.
 
 ## Contributing
 
