@@ -2,25 +2,11 @@
 
 This is an enhancement for RedmineMailingListIntegration plugin. It adds some ruby-lang.org specific features
 
-This plugin is worth for only redmine.ruby-lang.org
+This plugin is worth for only bugs.ruby-lang.org
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'redmine_ruby_lang_mailing_list_customization'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install redmine_ruby_lang_mailing_list_customization
-
-## Usage
-
-TODO: Write usage instructions here
+Add this repository into your redmine's plugin folder.
 
 ## Contributing
 
