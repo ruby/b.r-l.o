@@ -887,6 +887,9 @@ fr:
   label_checkboxes: cases à cocher
   label_link_values_to: Lier les valeurs vers l'URL
   label_custom_field_select_type: Selectionner le type d'objet auquel attacher le champ personnalisé
+  label_check_for_updates: Vérifier les mises à jour
+  label_latest_compatible_version: Dernière version compatible
+  label_unknown_plugin: Plugin inconnu
 
   button_login: Connexion
   button_submit: Soumettre
@@ -1094,7 +1097,7 @@ fr:
   text_scm_config: Vous pouvez configurer les commandes des SCM dans config/configuration.yml. Redémarrer l'application après modification.
   text_scm_command_not_available: Ce SCM n'est pas disponible. Vérifier les paramètres dans la section administration.
   label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: "Le dépôt est vide et local (exemples : /gitrepo, c:\\gitrepo)"
   description_query_sort_criteria_direction: Ordre de tri
   description_project_scope: Périmètre de recherche
   description_filter: Filtre
