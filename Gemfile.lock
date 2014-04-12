@@ -39,6 +39,8 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
+    bounscale (0.0.4)
+      json
     builder (3.0.0)
     capybara (2.1.0)
       mime-types (>= 1.16)
@@ -71,7 +73,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.5.3)
-    mocha (1.0.0)
+    mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.9.2)
     net-ldap (0.3.1)
@@ -166,6 +168,7 @@ DEPENDENCIES
   airbrake
   awesome_nested_set (= 2.1.6)
   aws-sdk
+  bounscale
   builder (= 3.0.0)
   capybara (~> 2.1.0)
   coderay (~> 1.1.0)
