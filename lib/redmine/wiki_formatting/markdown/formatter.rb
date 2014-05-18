@@ -28,6 +28,7 @@ module Redmine
           unless link && link.starts_with?('/')
             css = 'external'
           end
+          # XXX workaround for RD format compatibility
           if content
             content_tag('a', content.html_safe, :href => link, :title => title, :class => css)
           else
