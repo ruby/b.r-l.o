@@ -28,12 +28,7 @@ module Redmine
           unless link && link.starts_with?('/')
             css = 'external'
           end
-          # XXX workaround for RD format compatibility
-          if content
-            content_tag('a', content.html_safe, :href => link, :title => title, :class => css)
-          else
-            link.html_safe
-          end
+          content_tag('a', content.to_s.html_safe, :href => link, :title => title, :class => css)
         end
 
         def block_code(code, language)
@@ -132,7 +127,8 @@ module Redmine
             :space_after_headers => true,
             :tables => true,
             :strikethrough => true,
-            :superscript => true
+            :superscript => true,
+            :no_intra_emphasis => true
           )
         end
       end
