@@ -1,6 +1,6 @@
 ruby '2.1.2' unless ENV['DEV']
 
-gem 'unicorn'
+gem 'passenger'
 gem 'psych'
 gem 'iconv'
 
