@@ -31,3 +31,8 @@ This [Redmine](http://www.redmine.org) plugin makes file attachments be stored o
 * expires: integer number of seconds for private links to expire after being generated
 * proxy: boolean true/false
 * Defaults to private: false, secure: false, proxy: false, default endpoint, and default expires
+
+
+## License
+
+This plugin is released under the [MIT License](http://www.opensource.org/licenses/MIT).
