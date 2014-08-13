@@ -35,7 +35,7 @@ GEM
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
-    aws-sdk (1.50.0)
+    aws-sdk (1.51.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bounscale (0.0.4)
@@ -153,7 +153,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.40)
+    tzinfo (0.3.41)
     websocket (1.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
