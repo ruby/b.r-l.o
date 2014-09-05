@@ -28,7 +28,7 @@ GEM
     activesupport (3.2.19)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    airbrake (4.0.0)
+    airbrake (4.1.0)
       builder
       multi_json
     arel (3.0.3)
