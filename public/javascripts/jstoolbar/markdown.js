@@ -22,6 +22,11 @@
 
 /* Modified by JP LANG for markdown formatting */
 
+jsToolBar.prototype.elements.formatting = {
+  type: 'text',
+  title: 'format: markdown',
+}
+
 // strong
 jsToolBar.prototype.elements.strong = {
 	type: 'button',
