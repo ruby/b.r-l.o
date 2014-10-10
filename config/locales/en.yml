@@ -221,7 +221,7 @@ en:
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
 
   field_name: Name
-  field_description: Description
+  field_description: "Description(markdown)"
   field_summary: Summary
   field_is_required: Required
   field_firstname: First name
