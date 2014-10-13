@@ -24,7 +24,7 @@
 
 jsToolBar.prototype.elements.formatting = {
   type: 'text',
-  title: 'format: markdown',
+  title: 'markdown'
 }
 
 // strong
