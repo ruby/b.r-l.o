@@ -241,7 +241,7 @@ ja:
 
 
   field_name: 名称
-  field_description: '説明(markdown)'
+  field_description: 説明
   field_summary: サマリー
   field_is_required: 必須
   field_firstname: 名前
