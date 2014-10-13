@@ -25,7 +25,7 @@
 // text format
 jsToolBar.prototype.elements.formatting = {
   type: 'text',
-  title: 'markdown'
+  title: 'style: markdown'
 }
 
 // spacer
