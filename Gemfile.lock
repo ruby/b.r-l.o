@@ -37,8 +37,6 @@ GEM
     aws-sdk-v1 (1.57.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    bounscale (0.0.4)
-      json
     builder (3.0.4)
     capybara (2.1.0)
       mime-types (>= 1.16)
@@ -167,7 +165,6 @@ DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   airbrake
   aws-sdk
-  bounscale
   builder (>= 3.0.4)
   capybara (~> 2.1.0)
   coderay (~> 1.1.0)
