@@ -66,6 +66,16 @@ function jsToolBar(textarea) {
 					// de raccourcis vers les éléments DOM correspondants aux outils.
 }
 
+function jsText(title) {
+  this.title = title;
+}
+jsText.prototype.draw = function() {
+  var span = document.createElement('span');
+  span.appendChild(document.createTextNode(this.title));
+  span.className = 'jstText';
+  return span;
+}
+
 function jsButton(title, fn, scope, className) {
     if(typeof jsToolBar.strings == 'undefined') {
       this.title = title || null;
@@ -169,7 +179,13 @@ jsToolBar.prototype = {
 	setHelpLink: function(link) {
 		this.help_link = link;
 	},
-	
+
+        text: function(toolName) {
+	  var tool = this.elements[toolName];
+	  var text = new jsText(tool.title);
+	  return text;
+	},
+
 	button: function(toolName) {
 		var tool = this.elements[toolName];
 		if (typeof tool.fn[this.mode] != 'function') return null;
