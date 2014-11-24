@@ -9,6 +9,7 @@ module RedmineS3
       :access_key_id     => nil,
       :secret_access_key => nil,
       :bucket            => nil,
+      :folder            => '',
       :endpoint          => nil,
       :private           => false,
       :expires           => nil,
@@ -20,7 +21,7 @@ module RedmineS3
       def load_options
         file = ERB.new( File.read(File.join(Rails.root, 'config', 's3.yml')) ).result
         YAML::load( file )[Rails.env].each do |key, value|
-         @@s3_options[key.to_sym] = value
+          @@s3_options[key.to_sym] = value
         end
       end
 
@@ -48,6 +49,15 @@ module RedmineS3
         self.conn.buckets.create(self.bucket) unless bucket.exists?
       end
 
+      def folder
+        str = @@s3_options[:folder]
+        if str.present?
+          str.match(/\S+\//) ? str : "#{str}/"
+        else
+          ''
+        end
+      end
+
       def endpoint
         @@s3_options[:endpoint]
       end
@@ -70,7 +80,7 @@ module RedmineS3
 
       def object(filename)
         bucket = self.conn.buckets[self.bucket]
-        bucket.objects[filename]
+        bucket.objects[folder + filename]
       end
 
       def put(filename, data, content_type='application/octet-stream')
