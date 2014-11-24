@@ -10,7 +10,7 @@ This [Redmine](http://www.redmine.org) plugin makes file attachments be stored o
 4. Edit config/s3.yml with your favourite editor
 5. Restart mongrel/upload to production/whatever
 6. *Optional*: Run `rake redmine_s3:files_to_s3` to upload files in your files folder to s3
-7. `rm -Rf plugins/redmine_s3/.git` 
+7. `rm -Rf plugins/redmine_s3/.git`
 
 ## Options Overview
 * The bucket specified in s3.yml will be created automatically when the plugin is loaded (this is generally when the server starts).
@@ -25,6 +25,7 @@ This [Redmine](http://www.redmine.org) plugin makes file attachments be stored o
 * access_key_id: string key (required)
 * secret_access_key: string key (required)
 * bucket: string bucket name (required)
+* folder: string folder name inside bucket (for example: 'attachments')
 * endpoint: string endpoint instead of s3.amazonaws.com
 * secure: boolean true/false
 * private: boolean true/false
