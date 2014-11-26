@@ -472,6 +472,18 @@ class IssuesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_index_csv_should_fill_parent_column_with_parent_id
+    Issue.delete_all
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id)
+
+    with_settings :default_language => 'en' do
+      get :index, :format => 'csv', :c => %w(parent)
+    end
+    lines = response.body.split
+    assert_include "#{child.id},#{parent.id}", lines
+  end
+
   def test_index_csv_big_5
     with_settings :default_language => "zh-TW" do
       str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88"
@@ -860,6 +872,17 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :set_filter => 1, :c => %w(subject description), :format => 'pdf'
     assert_response :success
     assert_equal 'application/pdf', response.content_type
+  end
+
+  def test_index_with_parent_column
+    Issue.delete_all
+    parent = Issue.generate!
+    child = Issue.generate!(:parent_issue_id => parent.id)
+
+    get :index, :c => %w(parent)
+
+    assert_select 'td.parent', :text => "#{parent.tracker} ##{parent.id}"
+    assert_select 'td.parent a[title=?]', parent.subject
   end
 
   def test_index_send_html_if_query_is_invalid

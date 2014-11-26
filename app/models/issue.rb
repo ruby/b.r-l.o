@@ -195,6 +195,7 @@ class Issue < ActiveRecord::Base
     @workflow_rule_by_attribute = nil
     @assignable_versions = nil
     @relations = nil
+    @spent_hours = nil
     base_reload(*args)
   end
 
@@ -624,7 +625,7 @@ class Issue < ActiveRecord::Base
           errors.add :base, v.custom_field.name + ' ' + l('activerecord.errors.messages.blank')
         end
       else
-        if respond_to?(attribute) && send(attribute).blank?
+        if respond_to?(attribute) && send(attribute).blank? && !disabled_core_fields.include?(attribute)
           errors.add attribute, :blank
         end
       end

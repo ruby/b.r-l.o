@@ -97,6 +97,8 @@ module QueriesHelper
       link_to value, issue_path(issue)
     when :subject
       link_to value, issue_path(issue)
+    when :parent
+      value ? (value.visible? ? link_to_issue(value, :subject => false) : "##{value.id}") : ''
     when :description
       issue.description? ? content_tag('div', textilizable(issue, :description), :class => "wiki") : ''
     when :done_ratio
@@ -120,14 +122,20 @@ module QueriesHelper
     end
   end
 
-  def csv_value(column, issue, value)
+  def csv_value(column, object, value)
     format_object(value, false) do |value|
       case value.class.name
       when 'Float'
         sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
       when 'IssueRelation'
-        other = value.other_issue(issue)
-        l(value.label_for(issue)) + " ##{other.id}"
+        other = value.other_issue(object)
+        l(value.label_for(object)) + " ##{other.id}"
+      when 'Issue'
+        if object.is_a?(TimeEntry)
+          "#{value.tracker} ##{value.id}: #{value.subject}"
+        else
+          value.id
+        end
       else
         value
       end
