@@ -31,8 +31,8 @@ namespace :redmine_s3 do
     # enqueue all of the files to be "worked" on
     fileQ = Queue.new
     storage_path = Redmine::Configuration['attachments_storage_path'] || File.join(Rails.root, "files")
-    Dir.glob(File.join(storage_path,'*')).each do |file|
-      fileQ << file
+    Dir.glob(File.join(storage_path,'**/*')).each do |file|
+      fileQ << file if File.file? file
     end
 
     # init the connection, and grab the ObjectCollection object for the bucket
