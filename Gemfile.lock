@@ -32,9 +32,9 @@ GEM
       builder
       multi_json
     arel (3.0.3)
-    aws-sdk (1.60.1)
-      aws-sdk-v1 (= 1.60.1)
-    aws-sdk-v1 (1.60.1)
+    aws-sdk (1.60.2)
+      aws-sdk-v1 (= 1.60.2)
+    aws-sdk-v1 (1.60.2)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     builder (3.0.4)
@@ -106,7 +106,7 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
-    rails_serve_static_assets (0.0.2)
+    rails_serve_static_assets (0.0.3)
     rails_stdout_logging (0.0.3)
     railties (3.2.21)
       actionpack (= 3.2.21)
@@ -117,7 +117,7 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.13.0)
     rake (10.4.2)
-    rbpdf (1.18.3)
+    rbpdf (1.18.4)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (2.3.0)
