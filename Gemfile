@@ -28,11 +28,7 @@ platforms :mri, :mingw do
     # RMagick 2 supports ruby 1.9
     # RMagick 1 would be fine for ruby 1.8 but Bundler does not support
     # different requirements for the same gem on different platforms
-    if RUBY_VERSION < "1.9"
-      gem "rmagick", "2.13.3"
-    else
-      gem "rmagick", ">= 2.0.0"
-    end
+    gem "rmagick", (RUBY_VERSION < "1.9" ? "2.13.3" : ">= 2.0.0")
   end
 
   # Optional Markdown support, not for JRuby
@@ -66,7 +62,7 @@ if File.exist?(database_file)
         gem "mysql", "~> 2.8.1", :platforms => [:mri, :mingw]
         gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
       when /postgresql/
-        gem "pg", ">= 0.11.0", :platforms => [:mri, :mingw]
+        gem "pg", "~> 0.17.1", :platforms => [:mri, :mingw]
         gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
       when /sqlite3/
         gem "sqlite3", :platforms => [:mri, :mingw]
