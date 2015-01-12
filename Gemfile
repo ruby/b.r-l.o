@@ -7,7 +7,7 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:mri_18, :mingw_18, :jruby]
 gem "builder", ">= 3.0.4"
 gem "request_store", "1.0.5"
 gem "mime-types"
-gem "rbpdf", "~> 1.18.2"
+gem "rbpdf", "~> 1.18.4"
 
 gem "i18n", "~> 0.6.11"
 
@@ -91,7 +91,7 @@ group :test do
   gem "shoulda-matchers", "1.4.1"
   gem "mocha", "~> 1.0.0", :require => 'mocha/api'
   if RUBY_VERSION >= '1.9.3'
-    gem "capybara", "~> 2.1.0"
+    gem "capybara"
     gem "selenium-webdriver"
   end
 end

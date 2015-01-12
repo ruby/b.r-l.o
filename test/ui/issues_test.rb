@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2015  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,13 +60,13 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       :field_format => 'string',
       :name => 'Field1',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_id([1, 2])
+      :trackers => Tracker.where(:id => [1, 2])
     )
     field2 = IssueCustomField.create!(
       :field_format => 'string',
       :name => 'Field2',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_id(2)
+      :trackers => Tracker.where(:id => 2)
     )
 
     Role.non_member.add_permission! :add_issues
@@ -188,7 +188,7 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       :field_format => 'string',
       :name => 'Form update CF',
       :is_for_all => true,
-      :trackers => Tracker.find_all_by_name('Feature request')
+      :trackers => Tracker.where(:name => 'Feature request')
     )
 
     Role.non_member.add_permission! :edit_issues
@@ -237,6 +237,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('#context-menu') do
         click_link 'Watch'
       end
+      # wait for ajax response
+      assert page.has_css?('#context-menu .issue-1-watcher.icon-fav')
       assert page.has_css?('tr#issue-1')
     end
     assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
@@ -254,6 +256,8 @@ class Redmine::UiTest::IssuesTest < Redmine::UiTest::Base
       within('#context-menu') do
         click_link 'Watch'
       end
+      # wait for ajax response
+      assert page.has_css?('#context-menu .issue-bulk-watcher.icon-fav')
       assert page.has_css?('tr#issue-1')
       assert page.has_css?('tr#issue-4')
     end

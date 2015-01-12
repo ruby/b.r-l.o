@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2014  Jean-Philippe Lang
+# Copyright (C) 2006-2015  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -71,7 +71,7 @@ class RolesController < ApplicationController
   def update
     if request.put? and @role.update_attributes(params[:role])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to roles_path
+      redirect_to roles_path(:page => params[:page])
     else
       render :action => 'edit'
     end

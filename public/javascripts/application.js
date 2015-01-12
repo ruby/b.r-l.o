@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2014  Jean-Philippe Lang */
+   Copyright (C) 2006-2015  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
   $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
@@ -189,6 +189,7 @@ function buildFilterRow(field, operator, values) {
       if (values[0] == filterValue[1]) { option.attr('selected', true); }
       select.append(option);
     }
+    break;
   case "integer":
   case "float":
     tr.find('td.values').append(
