@@ -13,6 +13,3 @@
 [submodule "plugins/redmine_link_to_root"]
 	path = plugins/redmine_link_to_root
 	url = https://github.com/ruby/redmine_link_to_root
-[submodule "plugins/redmine_vote"]
-	path = plugins/redmine_vote
-	url = https://github.com/ruby/redmine_vote.git
