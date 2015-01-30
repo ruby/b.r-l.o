@@ -1,1 +1,1 @@
-web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
+web: bundle exec rackup -s Rhebok --port $PORT -O ConfigFile=config/rhebok.rb
