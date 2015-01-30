@@ -84,7 +84,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
-    psych (2.0.11)
+    psych (2.0.12)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -106,7 +106,7 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
-    rails_serve_static_assets (0.0.3)
+    rails_serve_static_assets (0.0.4)
     rails_stdout_logging (0.0.3)
     railties (3.2.21)
       actionpack (= 3.2.21)
@@ -117,7 +117,7 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.13.0)
     rake (10.4.2)
-    rbpdf (1.18.4)
+    rbpdf (1.18.5)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (2.3.0)
