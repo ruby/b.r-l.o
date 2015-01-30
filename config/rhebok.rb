@@ -2,7 +2,6 @@
 
 max_workers ENV["WEB_CONCURRENCY"] || 3
 timeout 15
-preload_app true
 
 before_fork {
   Signal.trap 'TERM' do
