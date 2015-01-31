@@ -4,6 +4,8 @@ gem 'rhebok'
 gem 'psych'
 gem 'iconv'
 
+gem 'rack-protection'
+
 group :development do
   gem 'pry-rails'
   gem 'dotenv-rails'
