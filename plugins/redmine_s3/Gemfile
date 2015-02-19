@@ -1,1 +1,1 @@
-gem 'aws-sdk'
+gem 'aws-sdk', '~> 1'
