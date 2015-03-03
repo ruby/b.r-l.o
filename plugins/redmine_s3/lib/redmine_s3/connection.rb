@@ -94,7 +94,7 @@ module RedmineS3
 
       def delete(filename)
         object = self.object(filename)
-        object.delete if object.exists?
+        object.delete
       end
 
       def object_url(filename)
