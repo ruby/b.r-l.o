@@ -3,7 +3,7 @@ module RedmineMailingListIntegration
     module IssueExt
       def self.included(klass)
         klass.class_eval do
-          has_one :mailing_list_message, :conditions => 'journal_id IS NULL'
+          has_one :mailing_list_message, -> { where('journal_id IS NULL') }
         end
       end
     end

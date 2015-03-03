@@ -53,7 +53,7 @@ class MailingListsController < ApplicationController
 
   def edit
     @mailing_list = MailingList.find(params[:id])
-    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @mailing_list.projects
+    @projects = Project.where("status=#{Project::STATUS_ACTIVE}").order('name DESC').to_a - @mailing_list.projects
     @use = UseOfMailingList.new
   end
 
