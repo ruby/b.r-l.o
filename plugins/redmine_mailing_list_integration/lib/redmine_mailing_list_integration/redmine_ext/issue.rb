@@ -1,10 +1,10 @@
 module RedmineMailingListIntegration
   module RedmineExt
     module IssueExt
-      def self.included(klass)
-        klass.class_eval do
-          has_one :mailing_list_message, -> { where('journal_id IS NULL') }
-        end
+      extend ActiveSupport::Concern
+
+      included do
+        has_one :mailing_list_message, -> { where('journal_id IS NULL') }
       end
     end
   end
