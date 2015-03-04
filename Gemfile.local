@@ -1,4 +1,4 @@
-ruby '2.1.5' unless ENV['DEV']
+ruby '2.2.1' unless ENV['DEV']
 
 gem 'rhebok'
 gem 'psych'
