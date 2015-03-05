@@ -4,13 +4,13 @@ class MailToIssueController < ApplicationController
   accept_rss_auth :create
 
   def new
-    @project = Project.find_by_identifier(params[:id])
+    @project = Project.find_by(identifier: params[:id])
     raise ActiveRecord::RecordNotFound unless @project
     @mail_to_issue = MailToIssue.new
   end
 
   def create
-    @project = Project.find_by_identifier(params[:id])
+    @project = Project.find_by(identifier: params[:id])
     raise ActiveRecord::RecordNotFound unless @project
     @mail_to_issue = MailToIssue.new(params[:mail_to_issue])
 

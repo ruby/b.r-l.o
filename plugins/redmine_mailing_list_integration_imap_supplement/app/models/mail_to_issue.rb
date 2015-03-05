@@ -36,10 +36,10 @@ class MailToIssue
   end
 
   def mailing_list
-    mailing_list_id and MailingList.find_by_id(mailing_list_id)
+    mailing_list_id and MailingList.find(mailing_list_id)
   end
   def tracker
-    tracker_id and Tracker.find_by_id(tracker_id)
+    tracker_id and Tracker.find(tracker_id)
   end
   
 end
