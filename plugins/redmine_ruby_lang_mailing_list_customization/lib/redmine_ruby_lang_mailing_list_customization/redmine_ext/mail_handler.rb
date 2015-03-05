@@ -11,7 +11,7 @@ MailHandler.class_eval do
       if %w[ ruby-core ruby-dev ].include? driver.mailing_list.identifier
         tracker_name, proj_name = $1, $2
         @ruby_lang_tracker_name = Tracker.where(['LOWER(trackers.name) = LOWER(?)', tracker_name]).first.try(:name)
-        @ruby_lang_project_name = 
+        @ruby_lang_project_name =
           case proj_name
           when 'trunk'             then 'ruby-trunk'
           when /\A1\.([89])\z/     then "ruby-1#{$1}"
