@@ -18,9 +18,9 @@ ApplicationHelper.class_eval do
 
     text.gsub(/\[([\w-]+):(\d+)\]/) do
       orig, name, number = $&, $1, $2.to_i
-      ml = MailingList.find_by_identifier(name)
+      ml = MailingList.find_by(identifier: name)
       if ml
-        message = ml.messages.find_by_mail_number(number)
+        message = ml.messages.find_by(mail_number: number)
         if message
           link_to(orig, message.issue)
         else
