@@ -5,6 +5,7 @@ gem 'psych'
 gem 'iconv'
 
 gem 'rack-protection'
+gem 'dotenv-rails'
 
 group :development do
   gem 'pry-rails'
