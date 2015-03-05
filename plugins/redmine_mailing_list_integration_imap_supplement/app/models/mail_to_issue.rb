@@ -41,5 +41,5 @@ class MailToIssue
   def tracker
     tracker_id and Tracker.find(tracker_id)
   end
-  
+
 end
