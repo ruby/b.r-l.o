@@ -13,7 +13,7 @@ class MailingListsController < ApplicationController
     sort_init 'identifier', 'asc'
     sort_update %w(identifier address)
 
-    @mailing_lists = MailingList.find(:all, :order => sort_clause)
+    @mailing_lists = MailingList.all.order(sort_clause)
     @mailing_list_count = MailingList.count
     @mailing_list_pages = Paginator.new self, @mailing_list_count, per_page_option, params['page']
 

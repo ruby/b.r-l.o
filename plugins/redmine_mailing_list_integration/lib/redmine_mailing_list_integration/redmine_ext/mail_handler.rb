@@ -93,7 +93,7 @@ MailHandler.class_eval do
     @parent_message ||= begin
       headers = [email.in_reply_to, email.references].flatten.map(&:to_s).compact.uniq
       headers.detect {|h|
-        msg = MailingListMessage.find_by_message_id(h)
+        msg = MailingListMessage.find_by(message_id: h)
         break msg if msg
       }
     end
