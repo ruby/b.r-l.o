@@ -5,6 +5,8 @@ class UseOfMailingList < ActiveRecord::Base
   self.table_name = 'uses_of_mailing_list'
   belongs_to :mailing_list
   belongs_to :project
+
+  attr_protected :id
   validates_presence_of :mailing_list, :project, :receptor_name
 
   def receptor

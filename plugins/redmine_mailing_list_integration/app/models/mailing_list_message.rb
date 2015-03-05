@@ -3,6 +3,8 @@ class MailingListMessage < ActiveRecord::Base
   belongs_to :mailing_list
   belongs_to :issue
   belongs_to :journal
+
+  attr_protected :id
   validates_presence_of :mailing_list
 
   def identifier
