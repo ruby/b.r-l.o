@@ -101,10 +101,10 @@ MailHandler.class_eval do
 
   def driver
     @driver ||= begin
-      chosen = MailingList.all.map{|ml| 
+      chosen = MailingList.all.map{|ml|
         ml.driver_for(email)
-      }.reject{|c| 
-        c.likelihood <= RedmineMailingListIntegration::Drivers::NOT_MATCHED 
+      }.reject{|c|
+        c.likelihood <= RedmineMailingListIntegration::Drivers::NOT_MATCHED
       }.sort_by(&:likelihood).last
       raise MailHandler::MissingInformation, "Unable to determine driver" unless chosen
       chosen

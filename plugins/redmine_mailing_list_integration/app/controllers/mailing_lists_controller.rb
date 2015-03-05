@@ -18,11 +18,11 @@ class MailingListsController < ApplicationController
     @mailing_list_pages = Paginator.new self, @mailing_list_count, per_page_option, params['page']
 
     respond_to do |format|
-      format.html { 
+      format.html {
         if request.xhr?
           render :layout => false, :action => 'list'
         else
-          render :action => 'list' 
+          render :action => 'list'
         end
       }
       format.xml  { render :xml => @mailing_lists }
