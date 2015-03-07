@@ -153,7 +153,6 @@ GEM
     rake (10.4.2)
     rbpdf (1.18.5)
     rdoc (4.2.0)
-      json (~> 1.4)
     redcarpet (3.1.2)
     request_store (1.0.5)
     rhebok (0.8.6)
