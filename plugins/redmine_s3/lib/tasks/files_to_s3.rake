@@ -20,7 +20,7 @@ namespace :redmine_s3 do
       if s3_mtime.nil? || s3_mtime < File.mtime(file)
         fileObj = File.open(file, 'r')
         default_content_type = 'application/octet-stream'
-        content_type = Mime::Type.lookup_by_extension(File.extname(fileObj)[1..-1]) || default_content_type rescue default_content_type
+        content_type = Mime::Type.lookup_by_extension(File.extname(fileObj)[1..-1]).downcase || default_content_type rescue default_content_type
         RedmineS3::Connection.put(file_path, fileObj.read, content_type)
         fileObj.close
 
