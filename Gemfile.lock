@@ -44,15 +44,15 @@ GEM
       builder
       multi_json
     arel (6.0.0)
-    aws-sdk (2.0.29)
-      aws-sdk-resources (= 2.0.29)
-    aws-sdk-core (2.0.29)
+    aws-sdk (2.0.30)
+      aws-sdk-resources (= 2.0.30)
+    aws-sdk-core (2.0.30)
       builder (~> 3.0)
       jmespath (~> 1.0)
       multi_json (~> 1.0)
       multi_xml (~> 0.5)
-    aws-sdk-resources (2.0.29)
-      aws-sdk-core (= 2.0.29)
+    aws-sdk-resources (2.0.30)
+      aws-sdk-core (= 2.0.30)
     aws-sdk-v1 (1.63.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -138,7 +138,7 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-html-sanitizer (1.0.1)
+    rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
     rails_12factor (0.0.3)
       rails_serve_static_assets
@@ -153,6 +153,7 @@ GEM
     rake (10.4.2)
     rbpdf (1.18.5)
     rdoc (4.2.0)
+      json (~> 1.4)
     redcarpet (3.1.2)
     request_store (1.0.5)
     rhebok (0.8.6)
@@ -182,7 +183,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     thor (0.19.1)
-    thread_safe (0.3.4)
+    thread_safe (0.3.5)
     tilt (1.4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -206,6 +207,7 @@ DEPENDENCIES
   capybara
   coderay (~> 1.1.0)
   dotenv-rails
+  ffi (= 1.9.6)
   iconv
   jquery-rails (~> 3.1.1)
   mime-types
