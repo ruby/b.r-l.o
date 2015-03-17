@@ -36,6 +36,33 @@ module RedmineS3
 
       # Prevent file uploading to the file system to avoid change file name
       def files_to_final_location; end
+
+      # Returns the full path the attachment thumbnail, or nil
+      # if the thumbnail cannot be generated.
+      def thumbnail_s3(options={})
+        return nil unless Object.const_defined?(:Magick)
+        if thumbnailable?
+          size = options[:size].to_i
+          if size > 0
+            # Limit the number of thumbnails per image
+            size = (size / 50) * 50
+            # Maximum thumbnail size
+            size = 800 if size > 800
+          else
+            size = Setting.thumbnails_size.to_i
+          end
+          size         = 100 unless size > 0
+          target       = "#{id}_#{digest}_#{size}.thumb"
+          target       = File.join(RedmineS3::Connection.thumb_folder, target) unless RedmineS3::Connection.thumb_folder.blank?
+          update_thumb = options[:update_thumb] || false
+          begin
+            RedmineS3::ThumbnailPatch.generate_s3_thumb(self.disk_filename, target, size, update_thumb)
+          rescue => e
+            logger.error "An error occured while generating thumbnail for #{disk_filename} to #{target}\nException was: #{e.message}" if logger
+            return nil
+          end
+        end
+      end
     end
   end
 end

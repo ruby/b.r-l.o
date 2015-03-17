@@ -14,7 +14,8 @@ module RedmineS3
       :private           => false,
       :expires           => nil,
       :secure            => false,
-      :proxy             => false
+      :proxy             => false,
+      :thumb_folder      => ''
     }
 
     class << self
@@ -76,6 +77,10 @@ module RedmineS3
 
       def proxy?
         @@s3_options[:proxy]
+      end
+
+      def thumb_folder
+        @@s3_options[:thumb_folder]
       end
 
       def object(filename)
