@@ -15,7 +15,7 @@ module RedmineS3
       :expires           => nil,
       :secure            => false,
       :proxy             => false,
-      :thumb_folder      => ''
+      :thumb_folder      => 'tmp'
     }
 
     class << self
@@ -81,15 +81,21 @@ module RedmineS3
 
       def thumb_folder
         @@s3_options[:thumb_folder]
+        str = @@s3_options[:thumb_folder]
+        if str.present?
+          str.match(/\S+\//) ? str : "#{str}/"
+        else
+          ''
+        end
       end
 
-      def object(filename)
+      def object(filename, target_folder = folder)
         bucket = self.conn.buckets[self.bucket]
-        bucket.objects[folder + filename]
+        bucket.objects[target_folder + filename]
       end
 
-      def put(filename, data, content_type='application/octet-stream')
-        object = self.object(filename)
+      def put(filename, data, content_type='application/octet-stream', target_folder = folder)
+        object = self.object(filename, target_folder)
         options = {}
         options[:acl] = :public_read unless self.private?
         options[:content_type] = content_type if content_type
@@ -97,13 +103,13 @@ module RedmineS3
         object.write(data, options)
       end
 
-      def delete(filename)
-        object = self.object(filename)
+      def delete(filename, target_folder = folder)
+        object = self.object(filename, target_folder)
         object.delete
       end
 
-      def object_url(filename)
-        object = self.object(filename)
+      def object_url(filename, target_folder = folder)
+        object = self.object(filename, target_folder)
         if self.private?
           options = {:secure => self.secure?}
           options[:expires] = self.expires unless self.expires.nil?
@@ -113,8 +119,8 @@ module RedmineS3
         end
       end
 
-      def get(filename)
-        object = self.object(filename)
+      def get(filename, target_folder = folder)
+        object = self.object(filename, target_folder)
         object.read
       end
     end

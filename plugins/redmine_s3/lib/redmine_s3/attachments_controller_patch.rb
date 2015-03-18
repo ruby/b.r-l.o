@@ -23,12 +23,12 @@ module RedmineS3
           @attachment.increment_download
         end
         if RedmineS3::Connection.proxy?
-          send_data RedmineS3::Connection.get(@attachment.disk_filename),
+          send_data RedmineS3::Connection.get(@attachment.disk_filename_s3),
                                           :filename => filename_for_content_disposition(@attachment.filename),
                                           :type => detect_content_type(@attachment),
                                           :disposition => (@attachment.image? ? 'inline' : 'attachment')
         else
-          redirect_to(RedmineS3::Connection.object_url(@attachment.disk_filename))
+          redirect_to(RedmineS3::Connection.object_url(@attachment.disk_filename_s3))
         end
       end
 
@@ -38,7 +38,7 @@ module RedmineS3
         end
         if RedmineS3::Connection.proxy?
           @attachments.each do |attachment|
-            send_data RedmineS3::Connection.get(attachment.disk_filename),
+            send_data RedmineS3::Connection.get(attachment.disk_filename_s3),
                                             :filename => filename_for_content_disposition(attachment.filename),
                                             :type => detect_content_type(attachment),
                                             :disposition => (attachment.image? ? 'inline' : 'attachment')
@@ -52,7 +52,7 @@ module RedmineS3
         return render json: {src: url} if update_thumb
         return if url.nil?
         if RedmineS3::Connection.proxy?
-          send_data RedmineS3::Connection.get(url),
+          send_data RedmineS3::Connection.get(url, ''),
                     :filename => filename_for_content_disposition(@attachment.filename),
                     :type => detect_content_type(@attachment),
                     :disposition => (@attachment.image? ? 'inline' : 'attachment')

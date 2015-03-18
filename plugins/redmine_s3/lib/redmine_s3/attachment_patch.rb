@@ -22,7 +22,7 @@ module RedmineS3
           self.disk_filename = Attachment.disk_filename(filename) if disk_filename.blank?
           logger.debug("Uploading to #{disk_filename}")
           content = @temp_file.respond_to?(:read) ? @temp_file.read : @temp_file
-          RedmineS3::Connection.put(disk_filename, content, self.content_type)
+          RedmineS3::Connection.put(disk_filename_s3, content, self.content_type)
           md5 = Digest::MD5.new
           self.digest = md5.hexdigest
         end
@@ -30,8 +30,8 @@ module RedmineS3
       end
 
       def delete_from_s3
-        logger.debug("Deleting #{disk_filename}")
-        RedmineS3::Connection.delete(disk_filename)
+        logger.debug("Deleting #{disk_filename_s3}")
+        RedmineS3::Connection.delete(disk_filename_s3)
       end
 
       # Prevent file uploading to the file system to avoid change file name
@@ -53,15 +53,18 @@ module RedmineS3
           end
           size         = 100 unless size > 0
           target       = "#{id}_#{digest}_#{size}.thumb"
-          target       = File.join(RedmineS3::Connection.thumb_folder, target) unless RedmineS3::Connection.thumb_folder.blank?
           update_thumb = options[:update_thumb] || false
           begin
-            RedmineS3::ThumbnailPatch.generate_s3_thumb(self.disk_filename, target, size, update_thumb)
+            RedmineS3::ThumbnailPatch.generate_s3_thumb(self.disk_filename_s3, target, size, update_thumb)
           rescue => e
-            logger.error "An error occured while generating thumbnail for #{disk_filename} to #{target}\nException was: #{e.message}" if logger
+            logger.error "An error occured while generating thumbnail for #{disk_filename_s3} to #{target}\nException was: #{e.message}" if logger
             return nil
           end
         end
+      end
+
+      def disk_filename_s3
+        File.join(target_directory, disk_filename)
       end
     end
   end

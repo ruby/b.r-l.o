@@ -32,6 +32,7 @@ This [Redmine](http://www.redmine.org) plugin makes file attachments be stored o
 * private: boolean true/false
 * expires: integer number of seconds for private links to expire after being generated
 * proxy: boolean true/false
+* thumb_folder: string folder where attachment thumbnails are stored; defaults to 'tmp'
 * Defaults to private: false, secure: false, proxy: false, default endpoint, and default expires
 
 
