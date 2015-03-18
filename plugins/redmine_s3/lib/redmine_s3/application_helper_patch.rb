@@ -12,9 +12,9 @@ module RedmineS3
 
     module InstanceMethods
       def thumbnail_tag_with_s3_patch(attachment)
-        link_to image_tag(attachment.thumbnail_s3),
+        link_to image_tag(attachment.thumbnail_s3, data: {thumbnail: thumbnail_path(attachment)}),
                 RedmineS3::Connection.object_url(attachment.disk_filename_s3),
-                :title => attachment.filename
+                title: attachment.filename
       end
     end
   end
