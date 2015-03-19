@@ -66,6 +66,10 @@ module RedmineS3
       def disk_filename_s3
         File.join(target_directory, disk_filename)
       end
+
+      def attachment_target_directory
+        target_directory
+      end
     end
   end
 end

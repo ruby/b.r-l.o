@@ -80,7 +80,6 @@ module RedmineS3
       end
 
       def thumb_folder
-        @@s3_options[:thumb_folder]
         str = @@s3_options[:thumb_folder]
         if str.present?
           str.match(/\S+\//) ? str : "#{str}/"
@@ -89,12 +88,12 @@ module RedmineS3
         end
       end
 
-      def object(filename, target_folder = folder)
+      def object(filename, target_folder = self.folder)
         bucket = self.conn.buckets[self.bucket]
         bucket.objects[target_folder + filename]
       end
 
-      def put(filename, data, content_type='application/octet-stream', target_folder = folder)
+      def put(filename, data, content_type='application/octet-stream', target_folder = self.folder)
         object = self.object(filename, target_folder)
         options = {}
         options[:acl] = :public_read unless self.private?
@@ -103,12 +102,12 @@ module RedmineS3
         object.write(data, options)
       end
 
-      def delete(filename, target_folder = folder)
+      def delete(filename, target_folder = self.folder)
         object = self.object(filename, target_folder)
         object.delete
       end
 
-      def object_url(filename, target_folder = folder)
+      def object_url(filename, target_folder = self.folder)
         object = self.object(filename, target_folder)
         if self.private?
           options = {:secure => self.secure?}
@@ -119,7 +118,7 @@ module RedmineS3
         end
       end
 
-      def get(filename, target_folder = folder)
+      def get(filename, target_folder = self.folder)
         object = self.object(filename, target_folder)
         object.read
       end
