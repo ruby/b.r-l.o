@@ -12,7 +12,7 @@ module RedmineS3
         img = img.strip!
         img = img.resize_to_fit(size)
 
-        RedmineS3::Connection.put(target, img.to_blob, img.mime_type, target_folder)
+        RedmineS3::Connection.put(target, File.basename(target), img.to_blob, img.mime_type, target_folder)
       end
       RedmineS3::Connection.object_url(target, target_folder)
     end

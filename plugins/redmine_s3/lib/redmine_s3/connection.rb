@@ -93,12 +93,12 @@ module RedmineS3
         bucket.objects[target_folder + filename]
       end
 
-      def put(filename, data, content_type='application/octet-stream', target_folder = self.folder)
-        object = self.object(filename, target_folder)
+      def put(disk_filename, original_filename, data, content_type='application/octet-stream', target_folder = self.folder)
+        object = self.object(disk_filename, target_folder)
         options = {}
         options[:acl] = :public_read unless self.private?
         options[:content_type] = content_type if content_type
-        options[:content_disposition] = "inline; filename=#{ERB::Util.url_encode(filename)}"
+        options[:content_disposition] = "inline; filename=#{ERB::Util.url_encode(original_filename)}"
         object.write(data, options)
       end
 

@@ -18,11 +18,12 @@ module RedmineS3
 
     module InstanceMethods
       def put_to_s3
-        if @temp_file && (@temp_file.size > 0)
-          self.disk_filename = Attachment.disk_filename(filename) if disk_filename.blank?
+        if @temp_file && (@temp_file.size > 0) && errors.blank?
+          self.disk_directory = disk_directory || target_directory
+          self.disk_filename = Attachment.disk_filename(filename, disk_directory) if disk_filename.blank?
           logger.debug("Uploading to #{disk_filename}")
           content = @temp_file.respond_to?(:read) ? @temp_file.read : @temp_file
-          RedmineS3::Connection.put(disk_filename_s3, content, self.content_type)
+          RedmineS3::Connection.put(disk_filename_s3, filename, content, self.content_type)
           md5 = Digest::MD5.new
           self.digest = md5.hexdigest
         end
@@ -64,11 +65,9 @@ module RedmineS3
       end
 
       def disk_filename_s3
-        File.join(target_directory, disk_filename)
-      end
-
-      def attachment_target_directory
-        target_directory
+        path = disk_filename
+        path = File.join(disk_directory, path) unless disk_directory.blank?
+        path
       end
     end
   end
