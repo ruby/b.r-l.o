@@ -84,7 +84,7 @@ module RedmineS3
         if str.present?
           str.match(/\S+\//) ? str : "#{str}/"
         else
-          ''
+          'tmp/'
         end
       end
 

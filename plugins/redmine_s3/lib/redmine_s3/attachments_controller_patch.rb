@@ -7,7 +7,8 @@ module RedmineS3
       # Same as typing in the class
       base.class_eval do
         unloadable # Send unloadable so it will not be unloaded in development
-        before_filter :find_attachment_s3, :only => [:show, :download]
+        before_filter :find_attachment_s3, :only => [:show]
+        before_filter :download_attachment_s3, :only => [:download]
         before_filter :find_thumbnail_attachment_s3, :only => [:thumbnail]
         before_filter :find_editable_attachments_s3, :only => [:edit, :update]
         skip_before_filter :file_readable
@@ -19,6 +20,25 @@ module RedmineS3
 
     module InstanceMethods
       def find_attachment_s3
+        if @attachment.is_diff?
+          @diff = RedmineS3::Connection.get(@attachment.disk_filename_s3)
+          @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
+          @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
+          # Save diff type as user preference
+          if User.current.logged? && @diff_type != User.current.pref[:diff_type]
+            User.current.pref[:diff_type] = @diff_type
+            User.current.preference.save
+          end
+          render :action => 'diff'
+        elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
+          @content = RedmineS3::Connection.get(@attachment.disk_filename_s3)
+          render :action => 'file'
+        else
+          download_attachment_s3
+        end
+      end
+
+      def download_attachment_s3
         if @attachment.container.is_a?(Version) || @attachment.container.is_a?(Project)
           @attachment.increment_download
         end
