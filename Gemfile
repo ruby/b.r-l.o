@@ -4,7 +4,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'." 
 end
 
-gem "rails", "4.2.0"
+gem "rails", "4.2.1"
 gem "jquery-rails", "~> 3.1.1"
 gem "coderay", "~> 1.1.0"
 gem "builder", ">= 3.0.4"
@@ -96,8 +96,6 @@ group :test do
   # For running UI tests
   gem "capybara"
   gem "selenium-webdriver"
-  # building ffi 1.9.7 fails in Ubuntu: https://github.com/ffi/ffi/issues/414
-  gem "ffi", "1.9.6"
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
