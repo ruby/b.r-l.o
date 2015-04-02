@@ -2,9 +2,9 @@ module RedmineS3
   module ThumbnailPatch
     # Generates a thumbnail for the source image to target
     def self.generate_s3_thumb(source, target, size, update_thumb = false)
-      return nil unless Object.const_defined?(:Magick)
       target_folder = RedmineS3::Connection.thumb_folder
       if update_thumb
+        return unless Object.const_defined?(:Magick)
         require 'open-uri'
         img = Magick::ImageList.new
         url = RedmineS3::Connection.object_url(source)

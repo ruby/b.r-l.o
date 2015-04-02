@@ -68,7 +68,7 @@ module RedmineS3
 
       def find_thumbnail_attachment_s3
         update_thumb = 'true' == params[:update_thumb]
-        url          = @attachment.thumbnail_s3({update_thumb: update_thumb})
+        url          = @attachment.thumbnail_s3(update_thumb: update_thumb)
         return render json: {src: url} if update_thumb
         return if url.nil?
         if RedmineS3::Connection.proxy?
