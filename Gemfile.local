@@ -1,11 +1,10 @@
-ruby '2.2.1' unless ENV['DEV']
+ruby '2.2.2' unless ENV['DEV']
 
 gem 'rhebok'
 gem 'psych'
 gem 'iconv'
 
 gem 'rack-protection'
-gem 'dotenv-rails'
 
 group :development do
   gem 'pry-rails'
