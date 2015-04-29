@@ -229,7 +229,7 @@ class IssuesController < ApplicationController
     else
       @available_statuses = @issues.map(&:new_statuses_allowed_to).reduce(:&)
     end
-    @custom_fields = target_projects.map{|p|p.all_issue_custom_fields.visible}.reduce(:&)
+    @custom_fields = @issues.map{|i|i.editable_custom_fields}.reduce(:&)
     @assignables = target_projects.map(&:assignable_users).reduce(:&)
     @trackers = target_projects.map(&:trackers).reduce(:&)
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
@@ -425,7 +425,7 @@ class IssuesController < ApplicationController
     @issue.start_date ||= Date.today if Setting.default_issue_start_date_to_creation_date?
 
     if attrs = params[:issue].deep_dup
-      if params[:was_default_status] == attrs[:status_id]
+      if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
         attrs.delete(:status_id)
       end
       @issue.safe_attributes = attrs

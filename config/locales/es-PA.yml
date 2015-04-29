@@ -3,8 +3,10 @@
 # Redmine spanish translation:
 # by J. Cayetano Delgado (Cayetano _dot_ Delgado _at_ ioko _dot_ com)
 # Contributors: @borjacampina @jgutierrezvega
+# Modified by: Leonel Iturralde
+# For use to spanish panama
 
-es:
+es-PA:
   number:
     # Used in number_with_delimiter()
     # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
@@ -21,7 +23,7 @@ es:
       format:
         # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
         format: "%n %u"
-        unit: "€"
+        unit: "$"
         # These three are to override number.format and are optional
         separator: ","
         delimiter: "."
@@ -136,7 +138,7 @@ es:
         greater_than_start_date: "debe ser posterior a la fecha de comienzo"
         not_same_project: "no pertenece al mismo proyecto"
         circular_dependency: "Esta relación podría crear una dependencia circular"
-        cant_link_an_issue_with_a_descendant: "Esta petición no puede ser ligada a una de estas tareas"
+        cant_link_an_issue_with_a_descendant: "Esta incidencia no puede ser ligada a una de estas tareas"
         earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
 
         # Append your own errors here or at the model/attributes scope.
@@ -246,17 +248,17 @@ es:
   default_tracker_support: Soporte
   enumeration_activities: Actividades (tiempo dedicado)
   enumeration_doc_categories: Categorías del documento
-  enumeration_issue_priorities: Prioridad de las peticiones
+  enumeration_issue_priorities: Prioridad de las incidencias
   error_can_t_load_default_data: "No se ha podido cargar la configuración por defecto: %{value}"
-  error_issue_not_found_in_project: 'La petición no se encuentra o no está asociada a este proyecto'
+  error_issue_not_found_in_project: 'La incidencia no se encuentra o no está asociada a este proyecto'
   error_scm_annotate: "No existe la entrada o no ha podido ser anotada"
-  error_scm_annotate_big_text_file: "La entrada no puede anotarse, al superar el tamaño máximo para ficheros de texto."
+  error_scm_annotate_big_text_file: "La entrada no puede anotarse, al superar el tamaño máximo para archivos de texto."
   error_scm_command_failed: "Se produjo un error al acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada y/o la revisión no existe en el repositorio."
   field_account: Cuenta
   field_activity: Actividad
   field_admin: Administrador
-  field_assignable: Se pueden asignar peticiones a este perfil
+  field_assignable: Se pueden asignar incidencias a este perfil
   field_assigned_to: Asignado a
   field_attr_firstname: Cualidad del nombre
   field_attr_lastname: Cualidad del apellido
@@ -279,7 +281,7 @@ es:
   field_effective_date: Fecha
   field_estimated_hours: Tiempo estimado
   field_field_format: Formato
-  field_filename: Fichero
+  field_filename: Archivo
   field_filesize: Tamaño
   field_firstname: Nombre
   field_fixed_version: Versión prevista
@@ -288,15 +290,15 @@ es:
   field_host: Anfitrión
   field_hours: Horas
   field_identifier: Identificador
-  field_is_closed: Petición resuelta
+  field_is_closed: Incidencia resuelta
   field_is_default: Estado por defecto
   field_is_filter: Usado como filtro
   field_is_for_all: Para todos los proyectos
-  field_is_in_roadmap: Consultar las peticiones en la planificación
+  field_is_in_roadmap: Consultar las incidencias en la planificación
   field_is_public: Público
   field_is_required: Obligatorio
-  field_issue: Petición
-  field_issue_to: Petición relacionada
+  field_issue: Incidencia
+  field_issue_to: Incidencia relacionada
   field_language: Idioma
   field_last_login_on: Última conexión
   field_lastname: Apellido
@@ -342,13 +344,13 @@ es:
   general_csv_separator: ';'
   general_pdf_fontname: freesans
   general_first_day_of_week: '1'
-  general_lang_name: 'Spanish (Español)'
+  general_lang_name: 'Spanish/Panama (Español/Panamá)'
   general_text_No: 'No'
   general_text_Yes: 'Sí'
   general_text_no: 'no'
   general_text_yes: 'sí'
   label_activity: Actividad
-  label_add_another_file: Añadir otro fichero
+  label_add_another_file: Añadir otro archivo
   label_add_note: Añadir una nota
   label_added: añadido
   label_added_time_by: "Añadido por %{author} hace %{age}"
@@ -360,12 +362,12 @@ es:
   label_all_words: Todas las palabras
   label_and_its_subprojects: "%{value} y proyectos secundarios"
   label_applied_status: Aplicar estado
-  label_assigned_to_me_issues: Peticiones que me están asignadas
+  label_assigned_to_me_issues: Incidencias que me asignaron
   label_associated_revisions: Revisiones asociadas
-  label_attachment: Fichero
-  label_attachment_delete: Borrar el fichero
-  label_attachment_new: Nuevo fichero
-  label_attachment_plural: Ficheros
+  label_attachment: Archivo
+  label_attachment_delete: Borrar el archivo
+  label_attachment_new: Nuevo archivo
+  label_attachment_plural: Archivos
   label_attribute: Cualidad
   label_attribute_plural: Cualidades
   label_auth_source: Modo de autenticación
@@ -379,7 +381,7 @@ es:
   label_board_plural: Foros
   label_boolean: Booleano
   label_browse: Hojear
-  label_bulk_edit_selected_issues: Editar las peticiones seleccionadas
+  label_bulk_edit_selected_issues: Editar las incidencias seleccionadas
   label_calendar: Calendario
   label_change_plural: Cambios
   label_change_properties: Cambiar propiedades
@@ -454,7 +456,7 @@ es:
   label_f_hour_plural: "%{value} horas"
   label_feed_plural: Feeds
   label_feeds_access_key_created_on: "Clave de acceso por Atom creada hace %{value}"
-  label_file_added: Fichero añadido
+  label_file_added: Archivo añadido
   label_file_plural: Archivos
   label_filter_add: Añadir el filtro
   label_filter_plural: Filtros
@@ -476,21 +478,21 @@ es:
   label_information_plural: Información
   label_integer: Número
   label_internal: Interno
-  label_issue: Petición
-  label_issue_added: Petición añadida
-  label_issue_category: Categoría de las peticiones
+  label_issue: Incidencias
+  label_issue_added: Incidencias añadida
+  label_issue_category: Categoría de las incidencias
   label_issue_category_new: Nueva categoría
-  label_issue_category_plural: Categorías de las peticiones
-  label_issue_new: Nueva petición
-  label_issue_plural: Peticiones
-  label_issue_status: Estado de la petición
+  label_issue_category_plural: Categorías de las incidencias
+  label_issue_new: Nueva incidencias
+  label_issue_plural: Incidencias
+  label_issue_status: Estado de la incidencias
   label_issue_status_new: Nuevo estado
-  label_issue_status_plural: Estados de las peticiones
-  label_issue_tracking: Peticiones
-  label_issue_updated: Petición actualizada
-  label_issue_view_all: Ver todas las peticiones
+  label_issue_status_plural: Estados de las incidencias
+  label_issue_tracking: Incidencias
+  label_issue_updated: Incidencia actualizada
+  label_issue_view_all: Ver todas las incidencias
   label_issue_watchers: Seguidores
-  label_issues_by: "Peticiones por %{value}"
+  label_issues_by: "Incidencias por %{value}"
   label_jump_to_a_project: Ir al proyecto...
   label_language_based: Basado en el idioma
   label_last_changes: "últimos %{count} cambios"
@@ -577,7 +579,7 @@ es:
   label_registration_activation_by_email: activación de cuenta por correo
   label_registration_automatic_activation: activación automática de cuenta
   label_registration_manual_activation: activación manual de cuenta
-  label_related_issues: Peticiones relacionadas
+  label_related_issues: Incidencias relacionadas
   label_relates_to: relacionada con
   label_relation_delete: Eliminar relación
   label_relation_new: Nueva relación
@@ -585,7 +587,7 @@ es:
   label_reply_plural: Respuestas
   label_report: Informe
   label_report_plural: Informes
-  label_reported_issues: Peticiones registradas por mí
+  label_reported_issues: Incidencias registradas por mí
   label_repository: Repositorio
   label_repository_plural: Repositorios
   label_result_plural: Resultados
@@ -594,7 +596,7 @@ es:
   label_revision_plural: Revisiones
   label_roadmap: Planificación
   label_roadmap_due_in: "Finaliza en %{value}"
-  label_roadmap_no_issues: No hay peticiones para esta versión
+  label_roadmap_no_issues: No hay incidencias para esta versión
   label_roadmap_overdue: "%{value} tarde"
   label_role: Perfil
   label_role_and_permissions: Perfiles y permisos
@@ -630,7 +632,7 @@ es:
   label_total: Total
   label_tracker: Tipo
   label_tracker_new: Nuevo tipo
-  label_tracker_plural: Tipos de peticiones
+  label_tracker_plural: Tipos de incidencias
   label_updated_time: "Actualizado hace %{value}"
   label_updated_time_by: "Actualizado por %{author} hace %{age}"
   label_used_by: Utilizado por
@@ -646,7 +648,7 @@ es:
   label_version_plural: Versiones
   label_view_diff: Ver diferencias
   label_view_revisions: Ver las revisiones
-  label_watched_issues: Peticiones monitorizadas
+  label_watched_issues: Incidencias monitorizadas
   label_week: Semana
   label_wiki: Wiki
   label_wiki_edit: Modificación Wiki
@@ -661,11 +663,11 @@ es:
   mail_body_account_information_external: "Puede usar su cuenta %{value} para conectarse."
   mail_body_lost_password: 'Para cambiar su contraseña, haga clic en el siguiente enlace:'
   mail_body_register: 'Para activar su cuenta, haga clic en el siguiente enlace:'
-  mail_body_reminder: "%{count} peticion(es) asignadas a ti finalizan en los próximos %{days} días:"
-  mail_subject_account_activation_request: "Petición de activación de cuenta %{value}"
+  mail_body_reminder: "%{count} incidencia(s) asignadas a ti finalizan en los próximos %{days} días:"
+  mail_subject_account_activation_request: "Incidencia de activación de cuenta %{value}"
   mail_subject_lost_password: "Tu contraseña del %{value}"
   mail_subject_register: "Activación de la cuenta del %{value}"
-  mail_subject_reminder: "%{count} peticion(es) finalizan en los próximos %{days} días"
+  mail_subject_reminder: "%{count} incidencia(s) finalizan en los próximos %{days} días"
   notice_account_activated: Su cuenta ha sido activada. Ya puede conectarse.
   notice_account_invalid_creditentials: Usuario o contraseña inválido.
   notice_account_lost_email_sent: Se le ha enviado un correo con instrucciones para elegir una nueva contraseña.
@@ -679,11 +681,11 @@ es:
   notice_default_data_loaded: Configuración por defecto cargada correctamente.
   notice_email_error: "Ha ocurrido un error mientras enviando el correo (%{value})"
   notice_email_sent: "Se ha enviado un correo a %{value}"
-  notice_failed_to_save_issues: "Imposible grabar %{count} peticion(es) de %{total} seleccionada(s): %{ids}."
+  notice_failed_to_save_issues: "Imposible grabar %{count} incidencia(s) de %{total} seleccionada(s): %{ids}."
   notice_feeds_access_key_reseted: Su clave de acceso para Atom ha sido reiniciada.
   notice_file_not_found: La página a la que intenta acceder no existe.
   notice_locking_conflict: Los datos han sido modificados por otro usuario.
-  notice_no_issue_selected: "Ninguna petición seleccionada. Por favor, compruebe la petición que quiere modificar"
+  notice_no_issue_selected: "Ninguna incidencia seleccionada. Por favor, compruebe la incidencia que quiere modificar"
   notice_not_authorized: No tiene autorización para acceder a esta página.
   notice_successful_connection: Conexión correcta.
   notice_successful_create: Creación correcta.
@@ -692,18 +694,18 @@ es:
   notice_unable_delete_version: No se puede borrar la versión
   permission_add_issue_notes: Añadir notas
   permission_add_issue_watchers: Añadir seguidores
-  permission_add_issues: Añadir peticiones
+  permission_add_issues: Añadir incidencias
   permission_add_messages: Enviar mensajes
   permission_browse_repository: Hojear repositiorio
   permission_comment_news: Comentar noticias
   permission_commit_access: Acceso de escritura
-  permission_delete_issues: Borrar peticiones
+  permission_delete_issues: Borrar incidencias
   permission_delete_messages: Borrar mensajes
   permission_delete_own_messages: Borrar mensajes propios
   permission_delete_wiki_pages: Borrar páginas wiki
-  permission_delete_wiki_pages_attachments: Borrar ficheros
+  permission_delete_wiki_pages_attachments: Borrar archivos
   permission_edit_issue_notes: Modificar notas
-  permission_edit_issues: Modificar peticiones
+  permission_edit_issues: Modificar incidencias
   permission_edit_messages: Modificar mensajes
   permission_edit_own_issue_notes: Modificar notas propias
   permission_edit_own_messages: Editar mensajes propios
@@ -713,16 +715,16 @@ es:
   permission_edit_wiki_pages: Modificar páginas wiki
   permission_log_time: Anotar tiempo dedicado
   permission_manage_boards: Administrar foros
-  permission_manage_categories: Administrar categorías de peticiones
-  permission_manage_files: Administrar ficheros
-  permission_manage_issue_relations: Administrar relación con otras peticiones
+  permission_manage_categories: Administrar categorías de incidencias
+  permission_manage_files: Administrar archivos
+  permission_manage_issue_relations: Administrar relación con otras incidencias
   permission_manage_members: Administrar miembros
   permission_manage_news: Administrar noticias
   permission_manage_public_queries: Administrar consultas públicas
   permission_manage_repository: Administrar repositorio
   permission_manage_versions: Administrar versiones
   permission_manage_wiki: Administrar wiki
-  permission_move_issues: Mover peticiones
+  permission_move_issues: Mover incidencias
   permission_protect_wiki_pages: Proteger páginas wiki
   permission_rename_wiki_pages: Renombrar páginas wiki
   permission_save_queries: Grabar consultas
@@ -730,7 +732,7 @@ es:
   permission_view_calendar: Ver calendario
   permission_view_changesets: Ver cambios
   permission_view_documents: Ver documentos
-  permission_view_files: Ver ficheros
+  permission_view_files: Ver archivos
   permission_view_gantt: Ver diagrama de Gantt
   permission_view_issue_watchers: Ver lista de seguidores
   permission_view_messages: Ver mensajes
@@ -739,8 +741,8 @@ es:
   permission_view_wiki_pages: Ver wiki
   project_module_boards: Foros
   project_module_documents: Documentos
-  project_module_files: Ficheros
-  project_module_issue_tracking: Peticiones
+  project_module_files: Archivos
+  project_module_issue_tracking: Incidencias
   project_module_news: Noticias
   project_module_repository: Repositorio
   project_module_time_tracking: Control de tiempo
@@ -748,25 +750,25 @@ es:
   setting_activity_days_default: Días a mostrar en la actividad de proyecto
   setting_app_subtitle: Subtítulo de la aplicación
   setting_app_title: Título de la aplicación
-  setting_attachment_max_size: Tamaño máximo del fichero
+  setting_attachment_max_size: Tamaño máximo del archivo
   setting_autofetch_changesets: Autorellenar los commits del repositorio
   setting_autologin: Inicio de sesión automático
   setting_bcc_recipients: Ocultar las copias de carbón (bcc)
   setting_commit_fix_keywords: Palabras clave para la corrección
   setting_commit_ref_keywords: Palabras clave para la referencia
-  setting_cross_project_issue_relations: Permitir relacionar peticiones de distintos proyectos
+  setting_cross_project_issue_relations: Permitir relacionar incidencias de distintos proyectos
   setting_date_format: Formato de fecha
   setting_default_language: Idioma por defecto
   setting_default_projects_public: Los proyectos nuevos son públicos por defecto
   setting_diff_max_lines_displayed: Número máximo de diferencias mostradas
-  setting_display_subprojects_issues: Mostrar por defecto peticiones de proy. secundarios en el principal
+  setting_display_subprojects_issues: Mostrar por defecto incidencias de proy. secundarios en el principal
   setting_emails_footer: Pie de mensajes
   setting_enabled_scm: Activar SCM
   setting_feeds_limit: Límite de contenido para sindicación
   setting_gravatar_enabled: Usar iconos de usuario (Gravatar)
   setting_host_name: Nombre y ruta del servidor
-  setting_issue_list_default_columns: Columnas por defecto para la lista de peticiones
-  setting_issues_export_limit: Límite de exportación de peticiones
+  setting_issue_list_default_columns: Columnas por defecto para la lista de incidencias
+  setting_issues_export_limit: Límite de exportación de incidencias
   setting_login_required: Se requiere identificación
   setting_mail_from: Correo desde el que enviar mensajes
   setting_mail_handler_api_enabled: Activar SW para mensajes entrantes
@@ -792,25 +794,25 @@ es:
   text_comma_separated: Múltiples valores permitidos (separados por coma).
   text_default_administrator_account_changed: Cuenta de administrador por defecto modificada
   text_destroy_time_entries: Borrar las horas
-  text_destroy_time_entries_question: Existen %{hours} horas asignadas a la petición que quiere borrar. ¿Qué quiere hacer?
+  text_destroy_time_entries_question: Existen %{hours} horas asignadas a la incidencia que quiere borrar. ¿Qué quiere hacer?
   text_diff_truncated: '... Diferencia truncada por exceder el máximo tamaño visualizable.'
   text_email_delivery_not_configured: "Las notificaciones están desactivadas porque el servidor de correo no está configurado.\nConfigure el servidor de SMTP en config/configuration.yml y reinicie la aplicación para activar los cambios."
   text_enumeration_category_reassign_to: 'Reasignar al siguiente valor:'
   text_enumeration_destroy_question: "%{count} objetos con este valor asignado."
   text_file_repository_writable: Se puede escribir en el repositorio
-  text_issue_added: "Petición %{id} añadida por %{author}."
-  text_issue_category_destroy_assignments: Dejar las peticiones sin categoría
-  text_issue_category_destroy_question: "Algunas peticiones (%{count}) están asignadas a esta categoría. ¿Qué desea hacer?"
-  text_issue_category_reassign_to: Reasignar las peticiones a la categoría
-  text_issue_updated: "La petición %{id} ha sido actualizada por %{author}."
-  text_issues_destroy_confirmation: '¿Seguro que quiere borrar las peticiones seleccionadas?'
-  text_issues_ref_in_commit_messages: Referencia y petición de corrección en los mensajes
+  text_issue_added: "Incidencia %{id} añadida por %{author}."
+  text_issue_category_destroy_assignments: Dejar las incidencias sin categoría
+  text_issue_category_destroy_question: "Algunas incidencias (%{count}) están asignadas a esta categoría. ¿Qué desea hacer?"
+  text_issue_category_reassign_to: Reasignar las incidencias a la categoría
+  text_issue_updated: "La incidencia %{id} ha sido actualizada por %{author}."
+  text_issues_destroy_confirmation: '¿Seguro que quiere borrar las incidencias seleccionadas?'
+  text_issues_ref_in_commit_messages: Referencia y incidencia de corrección en los mensajes
   text_length_between: "Longitud entre %{min} y %{max} caracteres."
   text_load_default_configuration: Cargar la configuración por defecto
   text_min_max_length_info: 0 para ninguna restricción
-  text_no_configuration_data: "Todavía no se han configurado perfiles, ni tipos, estados y flujo de trabajo asociado a peticiones. Se recomiendo encarecidamente cargar la configuración por defecto. Una vez cargada, podrá modificarla."
+  text_no_configuration_data: "Todavía no se han configurado perfiles, ni tipos, estados y flujo de trabajo asociado a incidencias. Se recomiendo encarecidamente cargar la configuración por defecto. Una vez cargada, podrá modificarla."
   text_project_destroy_confirmation: ¿Estás seguro de querer eliminar el proyecto?
-  text_reassign_time_entries: 'Reasignar las horas a esta petición:'
+  text_reassign_time_entries: 'Reasignar las horas a esta incidencia:'
   text_regexp_info: ej. ^[A-Z0-9]+$
   text_repository_usernames_mapping: "Establezca la correspondencia entre los usuarios de Redmine y los presentes en el log del repositorio.\nLos usuarios con el mismo nombre o correo en Redmine y en el repositorio serán asociados automáticamente."
   text_rmagick_available: RMagick disponible (opcional)
@@ -821,20 +823,20 @@ es:
   text_tip_issue_begin_day: tarea que comienza este día
   text_tip_issue_begin_end_day: tarea que comienza y termina este día
   text_tip_issue_end_day: tarea que termina este día
-  text_tracker_no_workflow: No hay ningún flujo de trabajo definido para este tipo de petición
+  text_tracker_no_workflow: No hay ningún flujo de trabajo definido para este tipo de incidencia
   text_unallowed_characters: Caracteres no permitidos
-  text_user_mail_option: "De los proyectos no seleccionados, sólo recibirá notificaciones sobre elementos monitorizados o elementos en los que esté involucrado (por ejemplo, peticiones de las que usted sea autor o asignadas a usted)."
+  text_user_mail_option: "De los proyectos no seleccionados, sólo recibirá notificaciones sobre elementos monitorizados o elementos en los que esté involucrado (por ejemplo, incidencia de las que usted sea autor o asignadas a usted)."
   text_user_wrote: "%{value} escribió:"
   text_wiki_destroy_confirmation: ¿Seguro que quiere borrar el wiki y todo su contenido?
   text_workflow_edit: Seleccionar un flujo de trabajo para actualizar
   text_plugin_assets_writable: Se puede escribir en el directorio público de las extensiones
-  warning_attachments_not_saved: "No se han podido grabar %{count} ficheros."
+  warning_attachments_not_saved: "No se han podido grabar %{count} archivos."
   button_create_and_continue: Crear y continuar
   text_custom_field_possible_values_info: 'Un valor en cada línea'
   label_display: Mostrar
   field_editable: Modificable
-  setting_repository_log_display_limit: Número máximo de revisiones mostradas en el fichero de trazas
-  setting_file_max_size_displayed: Tamaño máximo de los ficheros de texto mostrados
+  setting_repository_log_display_limit: Número máximo de revisiones mostradas en el archivo de trazas
+  setting_file_max_size_displayed: Tamaño máximo de los archivos de texto mostrados
   field_watcher: Seguidor
   setting_openid: Permitir identificación y registro por OpenID
   field_identity_url: URL de OpenID
@@ -863,8 +865,8 @@ es:
   label_view_all_revisions: Ver todas las revisiones
   label_tag: Etiqueta
   label_branch: Rama
-  error_no_tracker_in_project: Este proyecto no tiene asociados tipos de peticiones. Por favor, revise la configuración.
-  error_no_default_issue_status: No se ha definido un estado de petición por defecto. Por favor, revise la configuración (en "Administración" -> "Estados de las peticiones").
+  error_no_tracker_in_project: Este proyecto no tiene asociados tipos de incidencias. Por favor, revise la configuración.
+  error_no_default_issue_status: No se ha definido un estado de incidencia por defecto. Por favor, revise la configuración (en "Administración" -> "Estados de las incidencias").
   text_journal_changed: "%{label} cambiado %{old} por %{new}"
   text_journal_set_to: "%{label} establecido a %{value}"
   text_journal_deleted: "%{label} eliminado (%{old})"
@@ -879,7 +881,7 @@ es:
   version_status_closed: cerrado
   version_status_locked: bloqueado
   version_status_open: abierto
-  error_can_not_reopen_issue_on_closed_version: No se puede reabrir una petición asignada a una versión cerrada
+  error_can_not_reopen_issue_on_closed_version: No se puede reabrir una incidencia asignada a una versión cerrada
 
   label_user_anonymous: Anónimo
   button_move_and_follow: Mover y seguir
@@ -899,15 +901,15 @@ es:
   setting_issue_done_ratio_issue_status: Usar el estado de tareas
   error_issue_done_ratios_not_updated: Ratios de tareas realizadas no actualizado.
   error_workflow_copy_target: Por favor, elija categoría(s) y perfil(es) destino
-  setting_issue_done_ratio_issue_field: Utilizar el campo de petición
+  setting_issue_done_ratio_issue_field: Utilizar el campo de incidencia
   label_copy_same_as_target: El mismo que el destino
   label_copy_target: Destino
   notice_issue_done_ratios_updated: Ratios de tareas realizadas actualizados.
   error_workflow_copy_source: Por favor, elija una categoría o rol de origen
   label_update_issue_done_ratios: Actualizar ratios de tareas realizadas
   setting_start_of_week: Comenzar las semanas en
-  permission_view_issues: Ver peticiones
-  label_display_used_statuses_only: Sólo mostrar los estados usados por este tipo de petición
+  permission_view_issues: Ver incidencias
+  label_display_used_statuses_only: Sólo mostrar los estados usados por este tipo de incidencia
   label_revision_id: Revisión %{value}
   label_api_access_key: Clave de acceso de la API
   label_api_access_key_created_on: Clave de acceso de la API creada hace %{value}
@@ -930,7 +932,7 @@ es:
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Cachear texto formateado
   permission_manage_project_activities: Gestionar actividades del proyecto
-  error_unable_delete_issue_status: Fue imposible eliminar el estado de la petición
+  error_unable_delete_issue_status: Fue imposible eliminar el estado de la incidencia
   label_profile: Perfil
   permission_manage_subtasks: Gestionar subtareas
   field_parent_issue: Tarea padre
@@ -939,7 +941,7 @@ es:
   error_can_not_delete_custom_field: Fue imposible eliminar el campo personalizado
   error_unable_to_connect: Fue imposible conectar con (%{value})
   error_can_not_remove_role: Este rol está en uso y no puede ser eliminado.
-  error_can_not_delete_tracker: Este tipo contiene peticiones y no puede ser eliminado.
+  error_can_not_delete_tracker: Este tipo contiene incidencias y no puede ser eliminado.
   field_principal: Principal
   label_my_page_block: Bloque Mi página
   notice_failed_to_save_members: "Fallo al guardar miembro(s): %{errors}."
@@ -977,8 +979,8 @@ es:
   label_news_comment_added: Comentario añadido a noticia
   button_expand_all: Expandir todo
   button_collapse_all: Contraer todo
-  label_additional_workflow_transitions_for_assignee: Transiciones adicionales permitidas cuando la petición está asignada al usuario
-  label_additional_workflow_transitions_for_author: Transiciones adicionales permitidas cuando el usuario es autor de la petición
+  label_additional_workflow_transitions_for_assignee: Transiciones adicionales permitidas cuando la incidencia está asignada al usuario
+  label_additional_workflow_transitions_for_author: Transiciones adicionales permitidas cuando el usuario es autor de la incidencia
   label_bulk_edit_selected_time_entries: Editar en bloque las horas seleccionadas
   text_time_entries_destroy_confirmation: ¿Está seguro de querer eliminar (la hora seleccionada/las horas seleccionadas)?
   label_role_anonymous: Anónimo
@@ -986,13 +988,13 @@ es:
   label_issue_note_added: Nota añadida
   label_issue_status_updated: Estado actualizado
   label_issue_priority_updated: Prioridad actualizada
-  label_issues_visibility_own: Peticiones creadas por el usuario o asignadas a él
-  field_issues_visibility: Visibilidad de las peticiones
-  label_issues_visibility_all: Todas las peticiones
-  permission_set_own_issues_private: Poner las peticiones propias como públicas o privadas
+  label_issues_visibility_own: Incidencias creadas por el usuario o asignadas a él
+  field_issues_visibility: Visibilidad de las incidencias
+  label_issues_visibility_all: Todas las incidencias
+  permission_set_own_issues_private: Poner las incidencias propias como públicas o privadas
   field_is_private: Privada
-  permission_set_issues_private: Poner peticiones como públicas o privadas
-  label_issues_visibility_public: Todas las peticiones no privadas
+  permission_set_issues_private: Poner incidencias como públicas o privadas
+  label_issues_visibility_public: Todas las incidencias no privadas
   text_issues_destroy_descendants_confirmation: Se procederá a borrar también %{count} subtarea(s).
   field_commit_logs_encoding: Codificación de los mensajes de commit
   field_scm_path_encoding: Codificación de las rutas
@@ -1004,12 +1006,12 @@ es:
   text_mercurial_repository_note: Repositorio local (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Orden
   text_scm_command_version: Versión
-  label_git_report_last_commit: Informar del último commit para ficheros y directorios
+  label_git_report_last_commit: Informar del último commit para archivos y directorios
   text_scm_config: Puede configurar las órdenes de cada scm en configuration/configuration.yml. Por favor, reinicie la aplicación después de editarlo
   text_scm_command_not_available: La orden para el Scm no está disponible. Por favor, compruebe la configuración en el panel de administración.
-  notice_issue_successful_create: Petición %{id} creada.
+  notice_issue_successful_create: Incidencia %{id} creada.
   label_between: entre
-  setting_issue_group_assignment: Permitir asignar peticiones a grupos
+  setting_issue_group_assignment: Permitir asignar incidencias a grupos
   label_diff: diferencias
   text_git_repository_note: El repositorio es básico y local (p.e. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Dirección de ordenación
@@ -1020,7 +1022,7 @@ es:
   description_message_content: Contenido del mensaje
   description_available_columns: Columnas disponibles
   description_date_range_interval: Elija el rango seleccionando la fecha de inicio y fin
-  description_issue_category_reassign: Elija la categoría de la petición
+  description_issue_category_reassign: Elija la categoría de la incidencia
   description_search: Campo de búsqueda
   description_notes: Notas
   description_date_range_list: Elija el rango en la lista
@@ -1031,18 +1033,18 @@ es:
   description_selected_columns: Columnas seleccionadas
   label_parent_revision: Padre
   label_child_revision: Hijo
-  setting_default_issue_start_date_to_creation_date: Utilizar la fecha actual como fecha de inicio para nuevas peticiones
+  setting_default_issue_start_date_to_creation_date: Utilizar la fecha actual como fecha de inicio para nuevas incidencias
   button_edit_section: Editar esta sección
   setting_repositories_encodings: Codificación de adjuntos y repositorios
   description_all_columns: Todas las columnas
   button_export: Exportar
   label_export_options: "%{export_format} opciones de exportación"
-  error_attachment_too_big: Este fichero no se puede adjuntar porque excede el tamaño máximo de fichero (%{max_size})
+  error_attachment_too_big: Este archivo no se puede adjuntar porque excede el tamaño máximo de archivo (%{max_size})
   notice_failed_to_save_time_entries: "Error al guardar %{count} entradas de tiempo de las %{total} seleccionadas: %{ids}."
   label_x_issues:
-    zero:  0 petición
-    one:   1 petición
-    other: "%{count} peticiones"
+    zero:  0 incidencia
+    one:   1 incidencia
+    other: "%{count} incidencias"
   label_repository_new: Nuevo repositorio
   field_repository_is_default: Repositorio principal
   label_copy_attachments: Copiar adjuntos
@@ -1050,12 +1052,12 @@ es:
   label_completed_versions: Versiones completadas
   text_project_identifier_info: Solo se permiten letras en minúscula (a-z), números, guiones y barras bajas.<br />Una vez guardado, el identificador no se puede cambiar.
   field_multiple: Valores múltiples
-  setting_commit_cross_project_ref: Permitir referenciar y resolver peticiones de todos los demás proyectos
+  setting_commit_cross_project_ref: Permitir referenciar y resolver incidencias de todos los demás proyectos
   text_issue_conflict_resolution_add_notes: Añadir mis notas y descartar mis otros cambios
   text_issue_conflict_resolution_overwrite: Aplicar mis campos de todas formas (las notas anteriores se mantendrán pero algunos cambios podrían ser sobreescritos)
-  notice_issue_update_conflict: La petición ha sido actualizada por otro usuario mientras la editaba.
+  notice_issue_update_conflict: La incidencia ha sido actualizada por otro usuario mientras la editaba.
   text_issue_conflict_resolution_cancel: Descartar todos mis cambios y mostrar de nuevo %{link}
-  permission_manage_related_issues: Gestionar peticiones relacionadas
+  permission_manage_related_issues: Gestionar incidencias relacionadas
   field_auth_source_ldap_filter: Filtro LDAP
   label_search_for_watchers: Buscar seguidores para añadirlos
   notice_account_deleted: Su cuenta ha sido eliminada
@@ -1095,12 +1097,12 @@ es:
   label_copy_subtasks: Copiar subtareas
   label_copied_to: copiada a
   label_copied_from: copiada desde
-  label_any_issues_in_project: cualquier petición del proyecto
-  label_any_issues_not_in_project: cualquier petición que no sea del proyecto
+  label_any_issues_in_project: cualquier incidencia del proyecto
+  label_any_issues_not_in_project: cualquier incidencia que no sea del proyecto
   field_private_notes: Notas privadas
   permission_view_private_notes: Ver notas privadas
   permission_set_notes_private: Poner notas como privadas
-  label_no_issues_in_project: no hay peticiones en el proyecto
+  label_no_issues_in_project: no hay incidencias en el proyecto
   label_any: todos
   label_last_n_weeks: en las últimas %{count} semanas
   setting_cross_project_subtasks: Permitir subtareas cruzadas entre proyectos
@@ -1114,7 +1116,7 @@ es:
   label_in_the_past_days: en los anteriores
   label_attribute_of_user: "%{name} del usuario"
   text_turning_multiple_off: Si desactiva los valores múltiples, éstos serán eliminados para dejar un único valor por elemento.
-  label_attribute_of_issue: "%{name} de la petición"
+  label_attribute_of_issue: "%{name} de la incidencia"
   permission_add_documents: Añadir documentos
   permission_edit_documents: Editar documentos
   permission_delete_documents: Borrar documentos
@@ -1123,14 +1125,14 @@ es:
   field_inherit_members: Heredar miembros
   field_closed_on: Cerrada
   field_generate_password: Generar contraseña
-  setting_default_projects_tracker_ids: Tipos de petición habilitados por defecto
+  setting_default_projects_tracker_ids: Tipos de incidencia habilitados por defecto
   label_total_time: Total
   notice_account_not_activated_yet: No ha activado su cuenta aún. Si quiere
     recibir un nuevo correo de activación, por favor <a href="%{url}">haga clic en este enlace</a>.
   notice_account_locked: Su cuenta está bloqueada.
   label_hidden: Oculto
-  label_visibility_private: solamente para mí
-  label_visibility_roles: solamente para estos roles
+  label_visibility_private: sólo para mí
+  label_visibility_roles: sólo para estos roles
   label_visibility_public: para cualquier usuario
   field_must_change_passwd: Cambiar contraseña en el próximo inicio de sesión
   notice_new_password_must_be_different: La nueva contraseña debe ser diferente de la actual
@@ -1158,13 +1160,13 @@ es:
   label_users_visibility_all: Todos los Usuarios Activos
   label_users_visibility_members_of_visible_projects: Miembros de Proyectos Visibles
   label_edit_attachments: Editar archivos adjuntos
-  setting_link_copied_issue: Enlazar petición cuando se copia
-  label_link_copied_issue: Enlazar petición copiada
+  setting_link_copied_issue: Enlazar incidencia cuando se copia
+  label_link_copied_issue: Enlazar incidencia copiada
   label_ask: Preguntar
   label_search_attachments_yes: Buscar adjuntos por nombre de archivo y descripciones
   label_search_attachments_no: No buscar adjuntos
   label_search_attachments_only: Sólo Buscar adjuntos
-  label_search_open_issues_only: Sólo Abrir Peticiones
+  label_search_open_issues_only: Sólo Abrir Incidencias
   field_address: Correo electrónico
   setting_max_additional_emails: Número Máximo de correos electrónicos adicionales
   label_email_address_plural: Correo Electrónicos
@@ -1173,4 +1175,4 @@ es:
   label_disable_notifications: No Permitir Notificaciones
   setting_search_results_per_page: Buscar resultados por página
   label_blank_value: blanco
-  permission_copy_issues: Copiar petición
+  permission_copy_issues: Copiar incidencias

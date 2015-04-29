@@ -73,7 +73,6 @@ class MailHandler < ActionMailer::Base
 
   cattr_accessor :ignored_emails_headers
   @@ignored_emails_headers = {
-    'X-Auto-Response-Suppress' => /(oof|all)/,
     'Auto-Submitted' => /\Aauto-(replied|generated)/,
     'X-Autoreply' => 'yes'
   }
@@ -443,10 +442,6 @@ class MailHandler < ActionMailer::Base
   def cleaned_up_subject
     subject = email.subject.to_s
     subject.strip[0,255]
-  end
-
-  def self.full_sanitizer
-    @full_sanitizer ||= HTML::FullSanitizer.new
   end
 
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
