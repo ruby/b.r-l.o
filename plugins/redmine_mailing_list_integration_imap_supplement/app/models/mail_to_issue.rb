@@ -12,10 +12,7 @@ class MailToIssue
   end
 
   public
-  include ActiveRecord::Validations
-  class << self
-    include ActiveRecord::Validations::ClassMethods
-  end
+  include ActiveModel::Validations
   def self.self_and_descendants_from_active_record; [self] end
 
   ATTRIBUTES = %w[
