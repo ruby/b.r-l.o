@@ -4,8 +4,8 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'." 
 end
 
-gem "rails", "4.2.1"
-gem "jquery-rails", "~> 3.1.1"
+gem "rails", "4.2.2"
+gem "jquery-rails", "~> 3.1.3"
 gem "coderay", "~> 1.1.0"
 gem "builder", ">= 3.0.4"
 gem "request_store", "1.0.5"
@@ -16,7 +16,7 @@ gem "actionpack-xml_parser"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
-gem "rbpdf", "~> 1.18.5"
+gem "rbpdf", "~> 1.18.6"
 
 # Optional gem for LDAP authentication
 group :ldap do
@@ -68,7 +68,7 @@ if File.exist?(database_file)
         gem "activerecord-jdbcpostgresql-adapter", :platforms => :jruby
       when /sqlite3/
         gem "sqlite3", :platforms => [:mri, :mingw, :x64_mingw]
-        gem "jdbc-sqlite3", "< 3.8", :platforms => :jruby
+        gem "jdbc-sqlite3", ">= 3.8.10.1", :platforms => :jruby
         gem "activerecord-jdbcsqlite3-adapter", :platforms => :jruby
       when /sqlserver/
         gem "tiny_tds", "~> 0.6.2", :platforms => [:mri, :mingw, :x64_mingw]
