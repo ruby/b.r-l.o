@@ -1,5 +1,6 @@
 class CreateEmailAddresses < ActiveRecord::Migration
   def change
+    drop_table :email_addresses
     create_table :email_addresses do |t|
       t.column :user_id, :integer, :null => false
       t.column :address, :string, :null => false
