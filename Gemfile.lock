@@ -87,10 +87,10 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.11.2)
     net-ldap (0.3.1)
-    newrelic_rpm (3.12.1.298)
+    newrelic_rpm (3.13.0.299)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    pg (0.17.1)
+    pg (0.18.2)
     prefork_engine (0.0.5)
       proc-wait3 (~> 1.7.2)
     proc-wait3 (1.7.2)
@@ -148,7 +148,7 @@ GEM
     rhebok (0.8.6)
       prefork_engine (>= 0.0.4)
       rack
-    rmagick (2.13.4)
+    rmagick (2.15.3)
     ruby-openid (2.3.0)
     rubyzip (1.1.7)
     selenium-webdriver (2.47.1)
@@ -193,12 +193,13 @@ DEPENDENCIES
   dotenv-rails
   iconv
   jquery-rails (~> 3.1.3)
+  loofah (~> 2.0)
   mime-types
   minitest
   mocha
   net-ldap (~> 0.3.1)
   newrelic_rpm
-  pg (~> 0.17.1)
+  pg (~> 0.18.1)
   protected_attributes
   pry-rails
   psych
@@ -212,7 +213,7 @@ DEPENDENCIES
   redcarpet (~> 3.1.2)
   request_store (= 1.0.5)
   rhebok
-  rmagick (~> 2.13.4)
+  rmagick (>= 2.14.0)
   ruby-openid (~> 2.3.0)
   selenium-webdriver
   simplecov (~> 0.9.1)
