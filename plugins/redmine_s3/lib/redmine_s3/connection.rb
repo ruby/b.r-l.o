@@ -12,6 +12,7 @@ module RedmineS3
       :folder            => '',
       :endpoint          => nil,
       :port              => nil,
+      :ssl               => nil,
       :private           => false,
       :expires           => nil,
       :secure            => false,
@@ -35,6 +36,7 @@ module RedmineS3
         }
         options[:s3_endpoint] = self.endpoint unless self.endpoint.nil?
         options[:s3_port] = self.port unless self.port.nil?
+        options[:use_ssl] = self.ssl unless self.ssl.nil?
         @conn = AWS::S3.new(options)
       end
 
@@ -67,6 +69,10 @@ module RedmineS3
 
       def port
         @@s3_options[:port]
+      end
+
+      def ssl
+        @@s3_options[:ssl]
       end
 
       def expires

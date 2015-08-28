@@ -29,12 +29,13 @@ This [Redmine](http://www.redmine.org) plugin makes file attachments be stored o
 * folder: string folder name inside bucket (for example: 'attachments')
 * endpoint: string endpoint instead of s3.amazonaws.com
 * port: integer port number
+* ssl: boolean true/false
 * secure: boolean true/false
 * private: boolean true/false
 * expires: integer number of seconds for private links to expire after being generated
 * proxy: boolean true/false
 * thumb_folder: string folder where attachment thumbnails are stored; defaults to 'tmp'
-* Defaults to private: false, secure: false, proxy: false, default endpoint, default port and default expires
+* Defaults to private: false, secure: false, proxy: false, default endpoint, default port, default ssl and default expires
 
 
 ## License
