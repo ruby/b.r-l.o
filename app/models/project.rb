@@ -519,11 +519,17 @@ class Project < ActiveRecord::Base
   # Returns a scope of all custom fields enabled for project issues
   # (explicitly associated custom fields and custom fields enabled for all projects)
   def all_issue_custom_fields
-    @all_issue_custom_fields ||= IssueCustomField.
-      sorted.
-      where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
-        " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
-        " WHERE cfp.project_id = ?)", true, id)
+    if new_record?
+      @all_issue_custom_fields ||= IssueCustomField.
+        sorted.
+        where("is_for_all = ? OR id IN (?)", true, issue_custom_field_ids)
+    else
+      @all_issue_custom_fields ||= IssueCustomField.
+        sorted.
+        where("is_for_all = ? OR id IN (SELECT DISTINCT cfp.custom_field_id" +
+          " FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} cfp" +
+          " WHERE cfp.project_id = ?)", true, id)
+    end
   end
 
   def project
@@ -687,12 +693,14 @@ class Project < ActiveRecord::Base
     attrs = attrs.deep_dup
 
     @unallowed_parent_id = nil
-    parent_id_param = attrs['parent_id'].to_s
-    if parent_id_param.blank? || parent_id_param != parent_id.to_s
-      p = parent_id_param.present? ? Project.find_by_id(parent_id_param) : nil
-      unless allowed_parents(user).include?(p)
-        attrs.delete('parent_id')
-        @unallowed_parent_id = true
+    if new_record? || attrs.key?('parent_id')
+      parent_id_param = attrs['parent_id'].to_s
+      if new_record? || parent_id_param != parent_id.to_s
+        p = parent_id_param.present? ? Project.find_by_id(parent_id_param) : nil
+        unless allowed_parents(user).include?(p)
+          attrs.delete('parent_id')
+          @unallowed_parent_id = true
+        end
       end
     end
 

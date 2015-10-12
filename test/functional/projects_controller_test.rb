@@ -486,6 +486,17 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'eCookbook', Project.find(1).name
   end
 
+  def test_update_child_project_without_parent_permission_should_not_show_validation_error
+    child = Project.generate_with_parent!
+    user = User.generate!
+    User.add_to_project(user, child, Role.generate!(:permissions => [:edit_project]))
+    @request.session[:user_id] = user.id
+
+    post :update, :id => child.id, :project => {:name => 'Updated'}
+    assert_response 302
+    assert_match /Successful update/, flash[:notice]
+  end
+
   def test_modules
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['issue_tracking', 'news']
@@ -597,6 +608,20 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1
     get :copy, :id => 99
     assert_response 404
+  end
+
+  def test_get_copy_should_preselect_custom_fields
+    field1 = IssueCustomField.generate!(:is_for_all => false)
+    field2 = IssueCustomField.generate!(:is_for_all => false)
+    source = Project.generate!(:issue_custom_fields => [field1])
+    @request.session[:user_id] = 1
+
+    get :copy, :id => source.id
+    assert_response :success
+    assert_select 'fieldset#project_issue_custom_fields' do
+      assert_select 'input[type=checkbox][value=?][checked=checked]', field1.id.to_s
+      assert_select 'input[type=checkbox][value=?]:not([checked])', field2.id.to_s
+    end
   end
 
   def test_post_copy_should_copy_requested_items
