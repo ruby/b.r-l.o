@@ -1,11 +1,11 @@
 MailHandler.class_eval do
   private
-  def receive_with_mailing_list_integration(email)
+  def receive_with_mailing_list_integration(email, options = {})
     if cycled?(email)
       @email = email
       receive_cycled
     else
-      receive_without_mailing_list_integration(email)
+      receive_without_mailing_list_integration(email, options = {})
     end
   end
   alias_method_chain :receive, :mailing_list_integration
