@@ -5,7 +5,7 @@ MailHandler.class_eval do
       @email = email
       receive_cycled
     else
-      receive_without_mailing_list_integration(email, options = {})
+      receive_without_mailing_list_integration(email, options)
     end
   end
   alias_method_chain :receive, :mailing_list_integration
