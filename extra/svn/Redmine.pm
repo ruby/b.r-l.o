@@ -244,6 +244,7 @@ sub RedmineDSN {
               WHERE 
                 users.login=? 
                 AND projects.identifier=?
+                AND users.type='User'
                 AND users.status=1 
                 AND (
                   roles.id IN (SELECT member_roles.role_id FROM members, member_roles WHERE members.user_id = users.id AND members.project_id = projects.id AND members.id = member_roles.member_id)
@@ -332,8 +333,10 @@ sub access_handler {
 
   my $project_id = get_project_identifier($r);
 
-  $r->set_handlers(PerlAuthenHandler => [\&OK])
-      if is_public_project($project_id, $r) && anonymous_allowed_to_browse_repository($project_id, $r);
+  if (is_public_project($project_id, $r) && anonymous_allowed_to_browse_repository($project_id, $r)) {
+    $r->user("");
+    $r->set_handlers(PerlAuthenHandler => [\&OK]);
+  }
 
   return OK
 }
