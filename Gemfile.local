@@ -1,4 +1,4 @@
-ruby '2.3.0' unless ENV['DEV']
+ruby ENV['CUSTOM_RUBY_VERSION'] || '2.3.0'
 
 gem 'rhebok'
 gem 'psych'
