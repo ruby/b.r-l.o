@@ -1187,13 +1187,13 @@ es:
   error_invalid_csv_file_or_settings: El archivo no es un archivo CSV o no coincide con la
     configuración
   error_can_not_read_import_file: Ocurrió un error mientras se leía el archivo a importar
-  permission_import_issues: Importar incidencias
-  label_import_issues: Importar incidencias
+  permission_import_issues: Importar Peticiones
+  label_import_issues: Importar petición
   label_select_file_to_import: Selecciona el archivo a importar
   label_fields_separator: Separador de Campos
   label_fields_wrapper: Envoltorio de Campo
   label_encoding: Codificación
-  label_comma_char: Comma
+  label_comma_char: Coma
   label_semi_colon_char: Punto y Coma
   label_quote_char: Comilla Simple
   label_double_quote_char: Comilla Doble
@@ -1203,13 +1203,14 @@ es:
   button_import: Importar
   field_total_estimated_hours: Total de Tiempo Estimado
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Totales
+  label_assigned_issues: Peticiones Asignadas
+  label_field_format_enumeration: Lista Llave/valor
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
+  field_default_version: Version Predeterminada
+  error_attachment_extension_not_allowed: Extensión adjuntada %{extension} no es permitida
+  setting_attachment_extensions_allowed: Extensiones Permitidas
+  setting_attachment_extensions_denied: Extensiones Prohibidas
+  label_any_open_issues: cualquier peticiones abierta
+  label_no_open_issues: peticiones cerradas
+  label_default_values_for_new_users: Valor predeterminado para nuevos usuarios

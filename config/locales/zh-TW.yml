@@ -1060,6 +1060,7 @@
   label_create_missing_values: 建立缺少的數值
   label_api: API
   label_field_format_enumeration: 鍵/值 清單
+  label_default_values_for_new_users: 新用戶使用之預設值
 
   button_login: 登入
   button_submit: 送出

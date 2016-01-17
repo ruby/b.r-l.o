@@ -978,6 +978,7 @@ bg:
   label_create_missing_values: Създаване на липсващи стойности
   label_api: API
   label_field_format_enumeration: Списък ключ/стойност
+  label_default_values_for_new_users: Стойности по подразбиране за нови потребители
 
   button_login: Вход
   button_submit: Изпращане
