@@ -3,6 +3,7 @@
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
     <div id="note-<%= journal.indice %>">
     <h4><a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
+      <%= m = MailingListMessage.find_by_journal_id(journal.id) and m.mail_number and link_to(m.identifier, m.archive_url, :class => 'journal-link', :style => 'padding-right: 0.5em') %>
     <%= avatar(journal.user, :size => "24") %>
     <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
     <%= content_tag('span', l(:field_is_private), :class => 'private') if journal.private_notes? %></h4>
