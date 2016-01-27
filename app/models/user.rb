@@ -268,7 +268,8 @@ class User < Principal
   def reputation
     Rails.cache.fetch("reputation_cache_#{login}") do
       events = Redmine::Activity::Fetcher.new(User.current, :author => self).events
-      events = events.select{|event| event.class == Journal && event.journalized_id != 12004}
+      ignored_issue = [12004]
+      events = events.select{|event| event.class == Journal && !event.journalized_id.in?(ignored_issue)}
       events.count
     end
   end
