@@ -856,6 +856,7 @@ class AnonymousUser < User
   def logged?; false end
   def admin; false end
   def name(*args); I18n.t(:label_user_anonymous) end
+  def reputation; 0 end
   def mail=(*args); nil end
   def mail; nil end
   def time_zone; nil end
