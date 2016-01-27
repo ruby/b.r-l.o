@@ -426,9 +426,7 @@ module ApplicationHelper
   end
 
   def authoring(created, author, options={})
-    events = Redmine::Activity::Fetcher.new(User.current, :author => author).events
-    events = events.select{|event| event.class == Journal && event.journalized_id != 12004}
-    l(options[:label] || :label_added_time_by, :author => "#{link_to_user(author)} (#{events.count})", :age => time_tag(created)).html_safe
+    l(options[:label] || :label_added_time_by, :author => "#{link_to_user(author)} (#{author.reputation})", :age => time_tag(created)).html_safe
   end
 
   def time_tag(time)

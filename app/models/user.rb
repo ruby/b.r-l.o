@@ -265,6 +265,14 @@ class User < Principal
     end
   end
 
+  def reputation
+    Rails.cache.fetch("reputation_cache_#{login}", expire: 24.hours) do
+      events = Redmine::Activity::Fetcher.new(User.current, :author => self).events
+      events = events.select{|event| event.class == Journal && event.journalized_id != 12004}
+      events.count
+    end
+  end
+
   def active?
     self.status == STATUS_ACTIVE
   end
@@ -574,7 +582,7 @@ class User < Principal
         end
       end
     end
-    
+
     hash.each do |role, projects|
       projects.uniq!
     end
