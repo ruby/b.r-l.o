@@ -8,4 +8,7 @@
 #   ...
 #
 
-config.force_ssl = true if Rails.env.production?
+if Rails.env.production?
+  config.force_ssl = true
+  config.cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 24.hours }
+end

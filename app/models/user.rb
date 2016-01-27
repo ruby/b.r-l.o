@@ -266,7 +266,7 @@ class User < Principal
   end
 
   def reputation
-    Rails.cache.fetch("reputation_cache_#{login}", expire: 24.hours) do
+    Rails.cache.fetch("reputation_cache_#{login}") do
       events = Redmine::Activity::Fetcher.new(User.current, :author => self).events
       events = events.select{|event| event.class == Journal && event.journalized_id != 12004}
       events.count
