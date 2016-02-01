@@ -31,7 +31,7 @@ Mailer.class_eval do
     m = issue_add_without_mailing_list_integration(issue, to_users, cc_users)
 
     m.header[:to] = mailing_lists.map(&:address)
-    m.header[:subject] = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] [#{issue.status.name}] #{issue.subject}"
+    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
   alias_method_chain :issue_add, :mailing_list_integration
@@ -43,8 +43,8 @@ Mailer.class_eval do
 
     m = issue_edit_without_mailing_list_integration(journal, to_users, cc_users)
 
-    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s << "[#{issue.status.name}] " if journal.new_value_for('status_id')
+    s = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}]"
+    s << "[#{issue.status.name}]" if journal.new_value_for('status_id')
     s << issue.subject
 
     m.header[:to] = mailing_lists.map(&:address)
