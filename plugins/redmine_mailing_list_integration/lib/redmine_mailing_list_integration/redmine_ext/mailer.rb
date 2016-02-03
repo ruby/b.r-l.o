@@ -45,7 +45,7 @@ Mailer.class_eval do
 
     s = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}]"
     s << "[#{issue.status.name}]" if journal.new_value_for('status_id')
-    s << issue.subject
+    s << " #{issue.subject}"
 
     m.header[:to] = mailing_lists.map(&:address)
     m.header[:subject] = s
