@@ -26,6 +26,7 @@ module RedmineS3
           content = @temp_file.respond_to?(:read) ? @temp_file.read : @temp_file
           RedmineS3::Connection.put(disk_filename_s3, filename, content, self.content_type)
           md5 = Digest::MD5.new
+          md5.update(content)
           self.digest = md5.hexdigest
         end
         @temp_file = nil # so that the model's original after_save block skips writing to the fs
