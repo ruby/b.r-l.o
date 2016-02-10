@@ -23,11 +23,8 @@ module RedmineS3
           self.disk_directory = disk_directory || target_directory
           self.disk_filename  = Attachment.disk_filename(filename, disk_directory) if disk_filename.blank?
           logger.debug("Uploading to #{disk_filename}")
-          content = @temp_file.respond_to?(:read) ? @temp_file.read : @temp_file
-          RedmineS3::Connection.put(disk_filename_s3, filename, content, self.content_type)
-          md5 = Digest::MD5.new
-          md5.update(content)
-          self.digest = md5.hexdigest
+          RedmineS3::Connection.put(disk_filename_s3, filename, @temp_file, self.content_type)
+          self.digest = Time.now.to_i.to_s
         end
         @temp_file = nil # so that the model's original after_save block skips writing to the fs
       end
