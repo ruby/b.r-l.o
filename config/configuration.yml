@@ -201,6 +201,7 @@ default:
 # specific configuration options for production environment
 # that overrides the default ones
 production:
+  karma: false
   email_delivery:
     delivery_method: :smtp
     smtp_settings:
