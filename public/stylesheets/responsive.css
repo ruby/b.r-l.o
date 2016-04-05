@@ -52,6 +52,7 @@
 
   html {
     overflow-y: auto; /* avoid 2nd scrollbar on desktop */
+    -webkit-text-size-adjust: 100%; /* prevent font scaling in landscape mode on webkit */
   }
 
   body {
@@ -94,6 +95,8 @@
     padding: 0;
     border: none;
     background-color: #628db6;
+    position: fixed;
+    z-index: 9999;
   }
 
   /* Hide project name on mobile (project name is still visible in select menu) */
@@ -188,7 +191,7 @@
   \*----------------------------------------*/
 
   #main {
-    padding: 0;
+    padding: 64px 0 0; /* padding-top equals header height */
   }
 
   #main.nosidebar #content,
@@ -509,6 +512,13 @@
 
   .flyout-menu__avatar .user {
     padding-left: 15px;
+    padding-right: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    -webkit-flex-grow: 1;
+        -ms-flex-grow: 1;
+            flex-grow: 1;
   }
 
   /* user link when no avatar is present */
@@ -524,9 +534,12 @@
   html.flyout-is-active {
     overflow: hidden;
   }
+ 
+  .flyout-is-active #wrapper, .flyout-is-active #header {
+    right: 250px; /* when left flyout is active, move body and header to the right (same amount like flyout-menu's width) */
+  }
 
   .flyout-is-active #wrapper {
-    right: 250px; /* when left flyout is active, move body to the right (same amount like flyout-menu's width) */
     overflow: visible;
     height: 100%;
   }
@@ -650,9 +663,26 @@
   div#version-summary {float:none; width:100%; margin-left:0;}
   body.controller-versions.action-show div#roadmap .related-issues {width:100%;}
 
+  /* History and Changeset */
+  div#issue-changesets {
+    float: none;
+    width: auto;
+    margin-left: 0;
+    padding-left: 0;
+    margin-bottom: 2em;
+  }
+
+  div#issue-changesets div.changeset {
+    padding-top: 1em;
+  }
+
   /*----------------------------------------*\
     G) FORMS
   \*----------------------------------------*/
+
+  input, select, textarea {
+    max-width: 100%;
+  }
 
   /* tabular forms resets for mobile */
   .tabular p, .tabular.settings p {
@@ -686,6 +716,72 @@
   }
 
   span#watchers_inputs {
+    width: 100%;
+  }
+
+  /* subtasks and related issues list on issue show */
+  #issue_tree .issues, #relations .issues {
+    border-collapse: separate;
+    border-spacing: 0 1em; /* vertical space between tasks */
+  }
+
+  #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
+    display: block;
+    float: left;
+    text-align: left;
+    padding-right: 5px;
+  }
+
+  #issue_tree .issue > td, #relations .issue > td, #issue_tree .issue .user {
+    text-overflow: ellipsis; /* if text exceeds its space, add ... */
+    overflow: hidden;
+  }
+
+  #issue_tree .issue > td.subject, #relations .issue > td.subject {
+    width: 100% !important; /* let subject have one full width column */
+  }
+
+  #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
+    width: 33.33%; /* three columns for all cells that are not subject */
+  }
+
+  #relations .issues, #relations .issue {
+    position: relative; /* needed for .buttons positioning */
+  }
+
+  /* positioniong of unline button */
+  #relations .issue > td.buttons {
+    text-align: right;
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding-right: 0;
+  }
+
+  #relations .issue .buttons a {
+    vertical-align: middle;
+    padding-right: 5px;
+  }
+
+  #relations .issue > td.subject {
+    padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
+  }
+
+  /* attachment upload form */
+  #attachments_fields span {
+    position: relative;
+    clear: both;
+    margin-bottom: 1em;
+    white-space: normal;
+  }
+  #attachments_fields span a.remove-upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  #attachments_fields input.description {
+    margin-left: 0;
     width: 100%;
   }
 }

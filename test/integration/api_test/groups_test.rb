@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2015  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -67,7 +67,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/json', response.content_type
 
-    json = MultiJson.load(response.body)
+    json = ActiveSupport::JSON.decode(response.body)
     groups = json['groups']
     assert_kind_of Array, groups
     group = groups.detect {|g| g['name'] == 'A Team'}

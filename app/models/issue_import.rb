@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2015  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -127,6 +127,9 @@ class IssueImport < Import
     end
     if due_date = row_date(row, 'due_date')
       attributes['due_date'] = due_date
+    end
+    if estimated_hours = row_value(row, 'estimated_hours')
+      attributes['estimated_hours'] = estimated_hours
     end
     if done_ratio = row_value(row, 'done_ratio')
       attributes['done_ratio'] = done_ratio

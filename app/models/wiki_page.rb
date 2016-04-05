@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2015  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -126,7 +126,7 @@ class WikiPage < ActiveRecord::Base
         child.wiki_id = wiki_id
         child.redirect_existing_links = redirect_existing_links
         unless child.save
-          WikiPage.where(:id => child.id).update_all :parent_nil => nil
+          WikiPage.where(:id => child.id).update_all :parent_id => nil
         end
       end
     end

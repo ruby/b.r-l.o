@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2015  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -63,6 +63,12 @@ class CustomFieldEnumeration < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def self.fields_for_order_statement(table=nil)
+    table ||= table_name
+    columns = ['position']
+    columns.uniq.map {|field| "#{table}.#{field}"}
   end
 
   private

@@ -1145,49 +1145,47 @@ de:
   setting_search_results_per_page: Suchergebnisse pro Seite
   label_blank_value: leer
   permission_copy_issues: Tickets kopieren
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
+  error_password_expired: Ihr Passwort ist abgelaufen oder der Administrator verlangt eine Passwortänderung.
+  field_time_entries_visibility: Zeiten-Sichtbarkeit
+  label_parent_task_attributes: Eigenschaften übergeordneter Aufgaben
+  label_parent_task_attributes_derived: Abgeleitet von Unteraufgaben
+  label_parent_task_attributes_independent: Unabhängig von Unteraufgaben
+  label_time_entries_visibility_all: Alle Zeitaufwände
+  label_time_entries_visibility_own: Nur eigene Aufwände
+  label_member_management: Mitglieder verwalten
   label_member_management_all_roles: Alle Rollen
   label_member_management_selected_roles_only: Nur diese Rollen
   label_total_spent_time: Aufgewendete Zeit aller Projekte anzeigen
   notice_import_finished: Alle %{count} Einträge wurden importiert.
   notice_import_finished_with_errors: ! '%{count} von %{total} Einträgen konnten nicht
     importiert werden.'
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
+  error_invalid_file_encoding: Die Datei ist keine gültige %{encoding} kodierte Datei
+  error_invalid_csv_file_or_settings: Die Datei ist keine CSV-Datei oder entspricht nicht den Einstellungen unten
   error_can_not_read_import_file: Beim Einlesen der Datei ist ein Fehler aufgetreten
   permission_import_issues: Tickets importieren
   label_import_issues: Tickets importieren
   label_select_file_to_import: Bitte wählen Sie eine Datei für den Import aus
   label_fields_separator: Trennzeichen
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
+  label_fields_wrapper: Textqualifizierer
+  label_encoding: Kodierung
   label_comma_char: Komma
   label_semi_colon_char: Semikolon
   label_quote_char: Anführungszeichen
   label_double_quote_char: Doppelte Anführungszeichen
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
+  label_fields_mapping: Zuordnung der Felder
+  label_file_content_preview: Inhaltsvorschau
+  label_create_missing_values: Ergänze fehlende Werte
   button_import: Importieren
-  field_total_estimated_hours: Total estimated time
+  field_total_estimated_hours: Summe des geschätzten Aufwands
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Summe
+  label_assigned_issues: Zugewiesene Tickets
+  label_field_format_enumeration: Eigenschaft/Wert-Paare
   label_f_hour_short: '%{value} h'
   field_default_version: Standard-Version
   error_attachment_extension_not_allowed: Attachment Erweiterung %{extension} ist nicht zugelassen
   setting_attachment_extensions_allowed: Zugelassene Erweiterungen
   setting_attachment_extensions_denied: Nicht zugelassene Erweiterungen
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
+  label_any_open_issues: irgendein offenes Ticket
+  label_no_open_issues: kein offenes Ticket
   label_default_values_for_new_users: Standardwerte für neue Benutzer

@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2015  Jean-Philippe Lang
+# Copyright (C) 2006-2016  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -281,6 +281,32 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:issue_count_by_group)
   end
 
+  def test_index_with_query_grouped_by_key_value_custom_field
+    cf = IssueCustomField.create!(:name => 'Key', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'enumeration')
+    cf.enumerations << valueb = CustomFieldEnumeration.new(:name => 'Value B', :position => 1)
+    cf.enumerations << valuea = CustomFieldEnumeration.new(:name => 'Value A', :position => 2)
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => valueb.id)
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => valueb.id)
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => valuea.id)
+    CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
+
+    get :index, :project_id => 1, :set_filter => 1, :group_by => "cf_#{cf.id}"
+    assert_response :success
+    assert_template 'index'
+    assert_not_nil assigns(:issues)
+    assert_not_nil assigns(:issue_count_by_group)
+
+    assert_select 'tr.group', 3
+    assert_select 'tr.group' do
+      assert_select 'span.name', :text => 'Value B'
+      assert_select 'span.count', :text => '2'
+    end
+    assert_select 'tr.group' do
+      assert_select 'span.name', :text => 'Value A'
+      assert_select 'span.count', :text => '1'
+    end
+  end
+
   def test_index_with_query_grouped_by_user_custom_field
     cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
@@ -425,6 +451,26 @@ class IssuesControllerTest < ActionController::TestCase
     with_settings :issues_export_limit => 2 do
       get :index
       assert_select '#csv-export-options p.icon-warning', :text => %r{limit: 2}
+    end
+  end
+
+  def test_index_should_include_query_params_as_hidden_fields_in_csv_export_form
+    get :index, :project_id => 1, :set_filter => "1", :tracker_id => "2", :sort => 'status', :c => ["status", "priority"]
+
+    assert_select '#csv-export-form[action=?]', '/projects/ecookbook/issues.csv'
+    assert_select '#csv-export-form[method=?]', 'get'
+
+    assert_select '#csv-export-form' do
+      assert_select 'input[name=?][value=?]', 'set_filter', '1'
+
+      assert_select 'input[name=?][value=?]', 'f[]', 'tracker_id'
+      assert_select 'input[name=?][value=?]', 'op[tracker_id]', '='
+      assert_select 'input[name=?][value=?]', 'v[tracker_id][]', '2'
+
+      assert_select 'input[name=?][value=?]', 'c[]', 'status'
+      assert_select 'input[name=?][value=?]', 'c[]', 'priority'
+
+      assert_select 'input[name=?][value=?]', 'sort', 'status'
     end
   end
 
@@ -3814,13 +3860,15 @@ class IssuesControllerTest < ActionController::TestCase
 
     @request.session[:user_id] = 2
     # update issues assignee
-    post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
-                                     :issue => {:priority_id => '',
-                                                :assigned_to_id => group.id,
-                                                :custom_field_values => {'2' => ''}}
-
-    assert_response 302
-    assert_equal [group, group], Issue.where(:id => [1, 2]).collect {|i| i.assigned_to}
+    with_settings :issue_group_assignment => '1' do
+      post :bulk_update, :ids => [1, 2], :notes => 'Bulk editing',
+                                       :issue => {:priority_id => '',
+                                                  :assigned_to_id => group.id,
+                                                  :custom_field_values => {'2' => ''}}
+  
+      assert_response 302
+      assert_equal [group, group], Issue.where(:id => [1, 2]).collect {|i| i.assigned_to}
+    end
   end
 
   def test_bulk_update_on_different_projects
@@ -4204,7 +4252,7 @@ class IssuesControllerTest < ActionController::TestCase
       assert_no_difference 'Project.find(1).issues.count' do
         post :bulk_update, :ids => [1, 2], :copy => '1', 
              :issue => {
-               :project_id => '2', :tracker_id => '', :assigned_to_id => '4',
+               :project_id => '2', :tracker_id => '', :assigned_to_id => '2',
                :status_id => '1', :start_date => '2009-12-01', :due_date => '2009-12-31'
              }
       end
@@ -4214,7 +4262,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, copied_issues.size
     copied_issues.each do |issue|
       assert_equal 2, issue.project_id, "Project is incorrect"
-      assert_equal 4, issue.assigned_to_id, "Assigned to is incorrect"
+      assert_equal 2, issue.assigned_to_id, "Assigned to is incorrect"
       assert_equal 1, issue.status_id, "Status is incorrect"
       assert_equal '2009-12-01', issue.start_date.to_s, "Start date is incorrect"
       assert_equal '2009-12-31', issue.due_date.to_s, "Due date is incorrect"

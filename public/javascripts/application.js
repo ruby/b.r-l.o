@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2015  Jean-Philippe Lang */
+   Copyright (C) 2006-2016  Jean-Philippe Lang */
 
 function checkAll(id, checked) {
   $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
@@ -514,6 +514,7 @@ function observeAutocompleteField(fieldId, url, options) {
     $('#'+fieldId).autocomplete($.extend({
       source: url,
       minLength: 2,
+      position: {collision: "flipfit"},
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
       response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));

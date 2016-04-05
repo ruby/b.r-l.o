@@ -4,12 +4,12 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
   abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
 end
 
-gem "rails", "4.2.5.1"
+gem "rails", "4.2.5.2"
 gem "jquery-rails", "~> 3.1.4"
 gem "coderay", "~> 1.1.0"
 gem "builder", ">= 3.0.4"
 gem "request_store", "1.0.5"
-gem "mime-types"
+gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
 gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
