@@ -1,15 +1,6 @@
-[submodule "plugins/redmine_s3"]
-	path = plugins/redmine_s3
-	url = https://github.com/ruby/redmine_s3
-[submodule "plugins/redmine_ruby_lang_mailing_list_customization"]
-	path = plugins/redmine_ruby_lang_mailing_list_customization
-	url = https://github.com/ruby/redmine_ruby_lang_mailing_list_customization
-[submodule "plugins/redmine_mailing_list_integration_imap_supplement"]
-	path = plugins/redmine_mailing_list_integration_imap_supplement
-	url = https://github.com/ruby/redmine_mailing_list_integration_imap_supplement
-[submodule "plugins/redmine_mailing_list_integration"]
-	path = plugins/redmine_mailing_list_integration
-	url = https://github.com/ruby/redmine_mailing_list_integration
-[submodule "plugins/redmine_link_to_root"]
-	path = plugins/redmine_link_to_root
-	url = https://github.com/ruby/redmine_link_to_root
+[submodule "plugins/redmine_elasticsearch"]
+	path = plugins/redmine_elasticsearch
+	url = https://github.com/ruby/redmine_elasticsearch.git
+[submodule "plugins/redmine_resque"]
+	path = plugins/redmine_resque
+	url = https://github.com/ruby/redmine_resque.git
