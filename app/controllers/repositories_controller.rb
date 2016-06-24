@@ -34,6 +34,7 @@ class RepositoriesController < ApplicationController
   before_filter :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
   before_filter :authorize
   accept_rss_auth :revisions
+  accept_api_auth :add_related_issue, :remove_related_issue
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
@@ -236,11 +237,24 @@ class RepositoriesController < ApplicationController
     issue_id = params[:issue_id].to_s.sub(/^#/,'')
     @issue = @changeset.find_referenced_issue_by_id(issue_id)
     if @issue && (!@issue.visible? || @changeset.issues.include?(@issue))
+      issue = @issue
       @issue = nil
     end
 
     if @issue
       @changeset.issues << @issue
+    end
+
+    respond_to do |format|
+      format.js
+      format.json do
+        status =
+          @issue ? 201 :
+          !issue.visible? ? 403 :
+          @changeset.issues.include?(issue) ? 409 :
+          404
+        render :text => %[{"status":#{status}}'], :status => status
+      end
     end
   end
 
