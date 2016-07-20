@@ -17,7 +17,7 @@
     position: relative;
 }
 
-#new-object {
+#main-menu li a.new-object {
     background-color: #8A4040;
     color: #f8f8f8;
 }
