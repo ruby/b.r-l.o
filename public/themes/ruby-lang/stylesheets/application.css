@@ -17,6 +17,11 @@
     position: relative;
 }
 
+#new-object {
+    background-color: #8A4040;
+    color: #f8f8f8;
+}
+
 #header h1 {
     height: 60px;
     padding-left: 70px;
