@@ -20,12 +20,12 @@ class MailingListsController < ApplicationController
     respond_to do |format|
       format.html {
         if request.xhr?
-          render :layout => false, :action => 'list'
+          render layout: false, action: 'list'
         else
-          render :action => 'list'
+          render action: 'list'
         end
       }
-      format.xml  { render :xml => @mailing_lists }
+      format.xml  { render xml: @mailing_lists }
     end
   end
 
@@ -33,7 +33,7 @@ class MailingListsController < ApplicationController
     @mailing_list = MailingList.new
     respond_to do |format|
       format.html # add.html.erb
-      format.xml  { render :xml => @mailing_list }
+      format.xml  { render xml: @mailing_list }
     end
   end
 
@@ -42,11 +42,11 @@ class MailingListsController < ApplicationController
     respond_to do |format|
       if @mailing_list.save
         flash[:notice] = l(:notice_successful_create)
-        format.html { redirect_to(:action => 'index') }
-        format.xml  { render :xml => @mailing_list, :status => :created, :location => @mailing_list }
+        format.html { redirect_to(action: 'index') }
+        format.xml  { render xml: @mailing_list, status: :created, location: @mailing_list }
       else
         format.html # add.html.erb
-        format.xml  { render :xml => @mailing_list.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @mailing_list.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -62,11 +62,11 @@ class MailingListsController < ApplicationController
     respond_to do |format|
       if @mailing_list.update_attributes(params[:mailing_list])
         flash[:notice] = l(:notice_successful_update)
-        format.html { redirect_to(:action => 'edit', :id => @mailing_list) }
+        format.html { redirect_to(action: 'edit', id: @mailing_list) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @mailing_list.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @mailing_list.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -76,7 +76,7 @@ class MailingListsController < ApplicationController
     @mailing_list.destroy
 
     respond_to do |format|
-      format.html { redirect_to(:action => 'index') }
+      format.html { redirect_to(action: 'index') }
       format.xml  { head :ok }
     end
   end

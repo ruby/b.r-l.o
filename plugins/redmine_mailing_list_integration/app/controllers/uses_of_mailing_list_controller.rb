@@ -12,15 +12,15 @@ class UsesOfMailingListController < ApplicationController
     if @use.save
       flash[:notice] = l(:notice_successful_update)
       respond_to do |format|
-        format.html { redirect_to :controller => 'mailing_lists', :action => 'edit', :id => @mailing_list, :tab => 'use' }
+        format.html { redirect_to controller: 'mailing_lists', action: 'edit', id: @mailing_list, tab: 'use' }
         format.any  { head :created }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :controller => 'mailing_lists', :action => 'edit', :id => @mailing_list, :tab => 'use' }
-        format.xml  { render :xml => @use.errors, :status => :unprocessable_entity }
-        format.json  { render :json => @use.errors, :status => :unprocessable_entity }
-        format.any  { render :nothing => true, :status => :unprocessable_entity }
+        format.html { redirect_to controller: 'mailing_lists', action: 'edit', id: @mailing_list, tab: 'use' }
+        format.xml  { render xml: @use.errors, status: :unprocessable_entity }
+        format.json  { render json: @use.errors, status: :unprocessable_entity }
+        format.any  { render nothing: true, status: :unprocessable_entity }
       end
     end
   end
@@ -36,15 +36,15 @@ class UsesOfMailingListController < ApplicationController
     if @use.update_attributes(params[:use_of_mailing_list])
       flash[:notice] = l(:notice_successful_update)
       respond_to do |format|
-        format.html { redirect_to :controller => 'mailing_lists', :action => 'edit', :id => @mailing_list, :tab => 'use' }
+        format.html { redirect_to controller: 'mailing_lists', action: 'edit', id: @mailing_list, tab: 'use' }
         format.any  { head :ok }
       end
     else
       respond_to do |format|
-        format.html { redirect_to :controller => 'mailing_lists', :action => 'edit', :id => @mailing_list, :tab => 'use' }
-        format.xml  { render :xml => @use.errors, :status => :unprocessable_entity }
-        format.json  { render :json => @use.errors, :status => :unprocessable_entity }
-        format.any  { render :nothing => true, :status => :unprocessable_entity }
+        format.html { redirect_to controller: 'mailing_lists', action: 'edit', id: @mailing_list, tab: 'use' }
+        format.xml  { render xml: @use.errors, status: :unprocessable_entity }
+        format.json  { render json: @use.errors, status: :unprocessable_entity }
+        format.any  { render nothing: true, status: :unprocessable_entity }
       end
     end
   end
@@ -55,7 +55,7 @@ class UsesOfMailingListController < ApplicationController
       flash[:notice] = l(:notice_successful_delete)
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'mailing_lists', :action => 'edit', :id => @mailing_list, :tab => 'use' }
+      format.html { redirect_to controller: 'mailing_lists', action: 'edit', id: @mailing_list, tab: 'use' }
       format.any { head :ok }
     end
   end

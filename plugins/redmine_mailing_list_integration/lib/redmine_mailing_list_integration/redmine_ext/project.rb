@@ -3,8 +3,8 @@ module RedmineMailingListIntegration
     module ProjectExt
       def self.included(klass)
         klass.class_eval do
-          has_many :uses_of_mailing_list, :class_name => 'UseOfMailingList'
-          has_many :mailing_lists, :through => :'uses_of_mailing_list'
+          has_many :uses_of_mailing_list, class_name: 'UseOfMailingList'
+          has_many :mailing_lists, through: :'uses_of_mailing_list'
         end
       end
 

@@ -15,7 +15,7 @@ Redmine::Plugin.register :redmine_mailing_list_integration do
   url 'http://github.com/yugui/redmine_mailing_list_integration'
   author_url 'http://yugui.jp'
 
-  requires_redmine :version_or_higher => '1.1.0'
+  requires_redmine version_or_higher: '1.1.0'
 
   mailing_list_integration do
     driver :fml, RedmineMailingListIntegration::Drivers::FmlDriver
@@ -31,7 +31,7 @@ require "redmine_mailing_list_integration/hooks"
 require 'redmine_mailing_list_integration/redmine_ext'
 
 Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :mailing_lists, {:controller => 'mailing_lists'}, :caption => :label_mailing_list_plural
+  menu.push :mailing_lists, {controller: 'mailing_lists'}, caption: :label_mailing_list_plural
 end
 
 ActiveSupport::Inflector.inflections do |inflect|

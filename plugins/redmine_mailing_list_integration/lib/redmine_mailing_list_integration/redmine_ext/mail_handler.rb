@@ -79,14 +79,14 @@ MailHandler.class_eval do
   end
 
   def record_message(issue_id, journal_id = nil)
-    MailingListMessage.create! :message_id => email.message_id,
-      :in_reply_to => (email[:in_reply_to] && email[:in_reply_to].message_ids.join(",")),
-      :references => (email[:references] && email[:references].message_ids.join(",")),
-      :mailing_list => driver.mailing_list,
-      :issue => (issue_id && Issue.find(issue_id)),
-      :journal => (journal_id && Journal.find(journal_id)),
-      :mail_number => driver.mail_number,
-      :archive_url => driver.archive_url
+    MailingListMessage.create! message_id: email.message_id,
+      in_reply_to: (email[:in_reply_to] && email[:in_reply_to].message_ids.join(",")),
+      references: (email[:references] && email[:references].message_ids.join(",")),
+      mailing_list: driver.mailing_list,
+      issue: (issue_id && Issue.find(issue_id)),
+      journal: (journal_id && Journal.find(journal_id)),
+      mail_number: driver.mail_number,
+      archive_url: driver.archive_url
   end
 
   def parent_message
