@@ -22,19 +22,19 @@ class MailToIssueController < ApplicationController
       number = "[#{ml.identifier}:#{@mail_to_issue.mail_number}]"
       if msgs.empty?
         @mail_to_issue.errors[:base] << "no such mail #{number}"
-        render :action => 'new'
+        render action: 'new'
       else
         msg = msgs.first.attr['RFC822']
         tracker = @mail_to_issue.tracker
-        if issue = MailHandler.receive(msg, :issue => {:project => @project.identifier, :tracker => tracker.name}) and issue.kind_of?(Issue)
-          redirect_to :controller => 'issues', :action => 'show', :id => issue.id
+        if issue = MailHandler.receive(msg, issue: {project: @project.identifier, tracker: tracker.name}) and issue.kind_of?(Issue)
+          redirect_to controller: 'issues', action: 'show', id: issue.id
         else
           @mail_to_issue.errors[:base] << "failed to process #{number}"
-          render :action => 'new'
+          render action: 'new'
         end
       end
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 end
