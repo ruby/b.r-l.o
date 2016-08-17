@@ -12,7 +12,7 @@ module RedmineRubyLangMailingListCustomization
       ]
 
       selected = [current_language.to_s, Setting.default_language].find{|lang| %w[ en ja ].include?(lang) }
-      return "<p>%s</p>" % form.select(:lang, options, :required => true, :selected => selected, :label => l(:field_mailing_list))
+      return "<p>%s</p>" % form.select(:lang, options, required: true, selected: selected, label: l(:field_mailing_list))
     end
 
     def controller_issues_new_before_save(context = {})
