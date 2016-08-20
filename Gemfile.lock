@@ -45,7 +45,7 @@ GEM
     addressable (2.4.0)
     airbrake (5.4.4)
       airbrake-ruby (~> 1.4)
-    airbrake-ruby (1.4.5)
+    airbrake-ruby (1.4.6)
     ansi (1.5.0)
     arel (6.0.3)
     aws-sdk (1.66.0)
@@ -80,7 +80,6 @@ GEM
     hiredis (0.6.1)
     htmlentities (4.3.1)
     i18n (0.7.0)
-    iconv (1.0.4)
     jquery-rails (3.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -270,7 +269,6 @@ DEPENDENCIES
   coderay (~> 1.1.1)
   dotenv-rails
   hiredis
-  iconv
   jquery-rails (~> 3.1.4)
   kaminari
   mime-types (~> 3.0)
