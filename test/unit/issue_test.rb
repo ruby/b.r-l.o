@@ -519,6 +519,22 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [issue], Issue.assigned_to(user).to_a
   end
 
+  def test_issue_should_be_readonly_on_closed_project
+    issue = Issue.find(1)
+    user = User.find(1)
+
+    assert_equal true, issue.visible?(user)
+    assert_equal true, issue.editable?(user)
+    assert_equal true, issue.deletable?(user)
+
+    issue.project.close
+    issue.reload
+
+    assert_equal true, issue.visible?(user)
+    assert_equal false, issue.editable?(user)
+    assert_equal false, issue.deletable?(user)
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
@@ -760,7 +776,7 @@ class IssueTest < ActiveSupport::TestCase
     user = User.find(2)
     group = Group.generate!
     group.users << user
- 
+
     issue = Issue.generate!(:author_id => 1, :assigned_to => group)
     assert_include 4, issue.new_statuses_allowed_to(user).map(&:id)
   end
@@ -1330,6 +1346,16 @@ class IssueTest < ActiveSupport::TestCase
       assert copy.save
       assert copy.save
     end
+  end
+
+  def test_copy_should_clear_closed_on
+    copied_open = Issue.find(8).copy(:status_id => 1)
+    assert copied_open.save
+    assert_nil copied_open.closed_on
+
+    copied_closed = Issue.find(8).copy
+    assert copied_closed.save
+    assert_not_nil copied_closed.closed_on
   end
 
   def test_should_not_call_after_project_change_on_creation
