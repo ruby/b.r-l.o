@@ -163,7 +163,7 @@ GEM
       htmlentities (= 4.3.1)
       rbpdf-font (~> 1.19.0)
     rbpdf-font (1.19.0)
-    rdoc (5.0.0)
+    rdoc (4.3.0)
     redcarpet (3.3.4)
     redis (3.3.1)
     redis-actionpack (5.0.1)
@@ -211,7 +211,7 @@ GEM
     ruby-openid (2.3.0)
     rubyzip (1.2.0)
     rufus-scheduler (3.2.2)
-    selenium-webdriver (3.0.0)
+    selenium-webdriver (2.53.4)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
@@ -287,7 +287,7 @@ DEPENDENCIES
   rails-html-sanitizer (>= 1.0.3)
   rails_12factor
   rbpdf (~> 1.19.0)
-  rdoc (>= 2.4.2)
+  rdoc (~> 4.3)
   redcarpet (~> 3.3.2)
   redis-rails
   request_store (= 1.0.5)
@@ -297,7 +297,7 @@ DEPENDENCIES
   rmagick (>= 2.14.0)
   roadie-rails
   ruby-openid (~> 2.3.0)
-  selenium-webdriver
+  selenium-webdriver (~> 2.53.4)
   simplecov (~> 0.9.1)
   tire
   tzinfo-data
