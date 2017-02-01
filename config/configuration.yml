@@ -212,6 +212,11 @@ production:
       port: 587
       authentication: :plain
       enable_starttls_auto: true
+  elasticsearch:
+    log: true
+    request_timeout: 180
+    host: <%= ENV['ELASTICSEARCH_URL'] %>
+    port: 9243
 
 # specific configuration options for development environment
 # that overrides the default ones
