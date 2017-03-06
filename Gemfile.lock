@@ -44,8 +44,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrake (5.7.1)
-      airbrake-ruby (~> 1.7)
+    airbrake (5.8.1)
+      airbrake-ruby (~> 1.8)
     airbrake-ruby (1.8.0)
     ansi (1.5.0)
     arel (6.0.4)
@@ -92,7 +92,7 @@ GEM
     erubis (2.7.0)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.17)
+    ffi (1.9.18)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     hashie (3.5.5)
@@ -333,4 +333,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.14.5
+   1.14.6
