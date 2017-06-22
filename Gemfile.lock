@@ -44,9 +44,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrake (6.1.0)
-      airbrake-ruby (~> 2.2, >= 2.2.3)
-    airbrake-ruby (2.2.4)
+    airbrake (6.1.2)
+      airbrake-ruby (~> 2.2, >= 2.2.5)
+    airbrake-ruby (2.2.6)
     ansi (1.5.0)
     arel (6.0.4)
     aws-sdk (1.67.0)
@@ -55,7 +55,7 @@ GEM
       json (~> 1.4)
       nokogiri (~> 1)
     builder (3.2.3)
-    capybara (2.14.0)
+    capybara (2.14.3)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -66,7 +66,7 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
-    css_parser (1.4.10)
+    css_parser (1.5.0)
       addressable
     docile (1.1.5)
     dotenv (2.2.1)
@@ -119,7 +119,7 @@ GEM
     kaminari-core (1.0.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     metaclass (0.0.4)
     method_source (0.8.2)
@@ -135,7 +135,7 @@ GEM
     multi_json (1.12.1)
     multipart-post (2.0.0)
     net-ldap (0.12.1)
-    newrelic_rpm (4.1.0.333)
+    newrelic_rpm (4.2.0.334)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     pg (0.18.4)
@@ -230,16 +230,16 @@ GEM
       prefork_engine (>= 0.0.7)
       rack
     rmagick (2.16.0)
-    roadie (3.2.1)
-      css_parser (~> 1.4.5)
-      nokogiri (>= 1.5.0, < 1.8.0)
+    roadie (3.2.2)
+      css_parser (~> 1.4)
+      nokogiri (~> 1.5)
     roadie-rails (1.1.1)
       railties (>= 3.0, < 5.1)
       roadie (~> 3.1)
     ruby-openid (2.3.0)
     ruby-prof (0.16.2)
     rubyzip (1.2.1)
-    rufus-scheduler (3.4.0)
+    rufus-scheduler (3.4.2)
       et-orbi (~> 1.0)
     selenium-webdriver (2.53.4)
       childprocess (~> 0.5)
@@ -272,7 +272,7 @@ GEM
     vegas (0.1.11)
       rack (>= 1.0.0)
     websocket (1.2.4)
-    xpath (2.0.0)
+    xpath (2.1.0)
       nokogiri (~> 1.3)
     yard (0.9.9)
 
@@ -323,6 +323,7 @@ DEPENDENCIES
   resque-scheduler
   rhebok
   rmagick (>= 2.14.0)
+  roadie (~> 3.2.1)
   roadie-rails (~> 1.1.1)
   ruby-openid (~> 2.3.0)
   selenium-webdriver (~> 2.53.4)
@@ -335,4 +336,4 @@ RUBY VERSION
    ruby 2.3.4p301
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
