@@ -44,9 +44,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrake (6.0.0)
-      airbrake-ruby (~> 2.0)
-    airbrake-ruby (2.0.0)
+    airbrake (6.2.0)
+      airbrake-ruby (~> 2.3)
+    airbrake-ruby (2.3.0)
     ansi (1.5.0)
     arel (6.0.4)
     aws-sdk (1.67.0)
@@ -55,24 +55,24 @@ GEM
       json (~> 1.4)
       nokogiri (~> 1)
     builder (3.2.3)
-    capybara (2.13.0)
+    capybara (2.14.4)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    childprocess (0.6.3)
+    childprocess (0.7.1)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
-    css_parser (1.4.10)
+    css_parser (1.5.0)
       addressable
     docile (1.1.5)
-    dotenv (2.2.0)
-    dotenv-rails (2.2.0)
-      dotenv (= 2.2.0)
-      railties (>= 3.2, < 5.1)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     elasticsearch (5.0.4)
       elasticsearch-api (= 5.0.4)
       elasticsearch-transport (= 5.0.4)
@@ -82,17 +82,17 @@ GEM
       ansi
       elasticsearch
       ruby-prof
-    elasticsearch-model (5.0.0)
+    elasticsearch-model (5.0.1)
       activesupport (> 3)
-      elasticsearch (> 1)
+      elasticsearch (~> 5)
       hashie
     elasticsearch-transport (5.0.4)
       faraday
       multi_json
     erubis (2.7.0)
-    et-orbi (1.0.3)
+    et-orbi (1.0.5)
       tzinfo
-    faraday (0.12.0.1)
+    faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     globalid (0.4.0)
@@ -119,7 +119,7 @@ GEM
     kaminari-core (1.0.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.4)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     metaclass (0.0.4)
     method_source (0.8.2)
@@ -128,21 +128,21 @@ GEM
     mime-types-data (3.2016.0521)
     mimemagic (0.3.2)
     mini_portile2 (2.1.0)
-    minitest (5.10.1)
+    minitest (5.10.2)
     mocha (1.2.1)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     net-ldap (0.12.1)
-    newrelic_rpm (4.1.0.333)
-    nokogiri (1.6.8.1)
+    newrelic_rpm (4.2.0.334)
+    nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     pg (0.18.4)
     prefork_engine (0.0.7)
       proc-wait3 (~> 1.7.2)
     proc-wait3 (1.7.3)
-    protected_attributes (1.1.3)
+    protected_attributes (1.1.4)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -151,7 +151,7 @@ GEM
     pry-rails (0.3.6)
       pry (>= 0.10.4)
     public_suffix (2.0.5)
-    rack (1.6.5)
+    rack (1.6.8)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
@@ -230,16 +230,16 @@ GEM
       prefork_engine (>= 0.0.7)
       rack
     rmagick (2.16.0)
-    roadie (3.2.1)
-      css_parser (~> 1.4.5)
-      nokogiri (>= 1.5.0, < 1.8.0)
+    roadie (3.2.2)
+      css_parser (~> 1.4)
+      nokogiri (~> 1.5)
     roadie-rails (1.1.1)
       railties (>= 3.0, < 5.1)
       roadie (~> 3.1)
     ruby-openid (2.3.0)
     ruby-prof (0.16.2)
     rubyzip (1.2.1)
-    rufus-scheduler (3.4.0)
+    rufus-scheduler (3.4.2)
       et-orbi (~> 1.0)
     selenium-webdriver (2.53.4)
       childprocess (~> 0.5)
@@ -272,9 +272,9 @@ GEM
     vegas (0.1.11)
       rack (>= 1.0.0)
     websocket (1.2.4)
-    xpath (2.0.0)
+    xpath (2.1.0)
       nokogiri (~> 1.3)
-    yard (0.9.8)
+    yard (0.9.9)
 
 PLATFORMS
   ruby
@@ -304,7 +304,7 @@ DEPENDENCIES
   mocha
   net-ldap (~> 0.12.0)
   newrelic_rpm
-  nokogiri (~> 1.6.8)
+  nokogiri (~> 1.7.2)
   pg (~> 0.18.1)
   protected_attributes
   pry-rails
@@ -323,7 +323,8 @@ DEPENDENCIES
   resque-scheduler
   rhebok
   rmagick (>= 2.14.0)
-  roadie-rails
+  roadie (~> 3.2.1)
+  roadie-rails (~> 1.1.1)
   ruby-openid (~> 2.3.0)
   selenium-webdriver (~> 2.53.4)
   simplecov (~> 0.9.1)
@@ -335,4 +336,4 @@ RUBY VERSION
    ruby 2.3.4p301
 
 BUNDLED WITH
-   1.14.6
+   1.15.1

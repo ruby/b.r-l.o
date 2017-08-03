@@ -14,10 +14,11 @@ gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
 gem "protected_attributes"
 gem "actionpack-action_caching"
 gem "actionpack-xml_parser"
-gem "roadie-rails"
+gem "roadie-rails", "~> 1.1.1"
+gem "roadie", "~> 3.2.1"
 gem "mimemagic"
 
-gem "nokogiri", "~> 1.6.8"
+gem "nokogiri", (RUBY_VERSION >= "2.1" ? "~> 1.7.2" : "~> 1.6.8")
 gem "i18n", "~> 0.7.0"
 gem "ffi", "1.9.14", :platforms => :mingw if RUBY_VERSION < "2.0"
 
@@ -69,7 +70,7 @@ if File.exist?(database_file)
     adapters.each do |adapter|
       case adapter
       when 'mysql2'
-        gem "mysql2", "~> 0.3.11", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "mysql2", "~> 0.4.6", :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
       when 'mysql'
         gem "activerecord-jdbcmysql-adapter", :platforms => :jruby
