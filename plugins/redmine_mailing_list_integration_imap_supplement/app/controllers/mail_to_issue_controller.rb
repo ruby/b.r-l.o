@@ -30,7 +30,7 @@ class MailToIssueController < ApplicationController
         if issue.kind_of?(Issue)
           redirect_to controller: 'issues', action: 'show', id: issue.id
         else
-          @mail_to_issue.errors[:base] << "failed to process #{number} #{msg} #{tracker} #{issue}"
+          @mail_to_issue.errors[:base] << "failed to process mail: #{number} tracker: #{tracker} issue: #{issue}"
           render action: 'new'
         end
       end
