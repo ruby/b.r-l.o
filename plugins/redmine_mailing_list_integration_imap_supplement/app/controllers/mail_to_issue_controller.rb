@@ -26,10 +26,11 @@ class MailToIssueController < ApplicationController
       else
         msg = msgs.first.attr['RFC822']
         tracker = @mail_to_issue.tracker
-        if issue = MailHandler.receive(msg, issue: {project: @project.identifier, tracker: tracker.name}) and issue.kind_of?(Issue)
+        issue = MailHandler.receive(msg, issue: {project: @project.identifier, tracker: tracker.name})
+        if issue.kind_of?(Issue)
           redirect_to controller: 'issues', action: 'show', id: issue.id
         else
-          @mail_to_issue.errors[:base] << "failed to process #{number}"
+          @mail_to_issue.errors[:base] << "failed to process #{number} #{msg} #{tracker} #{issue}"
           render action: 'new'
         end
       end
