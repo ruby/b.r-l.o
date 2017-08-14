@@ -26,7 +26,7 @@ class MailToIssueController < ApplicationController
       else
         msg = msgs.first.attr['RFC822']
         tracker = @mail_to_issue.tracker
-        issue = MailHandler.receive(msg, issue: {project: @project.identifier, tracker: tracker.name}, unknown_user: 'accept', no_permission_check: true)
+        issue = MailHandler.receive(msg, issue: {project: @project.identifier, tracker: tracker.name}, unknown_user: 'accept', no_permission_check: '1')
         if issue.kind_of?(Issue)
           redirect_to controller: 'issues', action: 'show', id: issue.id
         else
