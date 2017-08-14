@@ -220,11 +220,12 @@ module ApplicationHelper
   end
 
   def thumbnail_tag(attachment)
+    thumbnail_size = Setting.thumbnails_size.to_i
     link_to(
       image_tag(
         thumbnail_path(attachment),
-        :srcset => "#{thumbnail_path(attachment, :size => Setting.thumbnails_size.to_i * 2)} 2x",
-        :width => Setting.thumbnails_size
+        :srcset => "#{thumbnail_path(attachment, :size => thumbnail_size * 2)} 2x",
+        :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;"
       ),
       named_attachment_path(
         attachment,
@@ -652,7 +653,7 @@ module ApplicationHelper
     if options[:formatting] == false
       text = h(text)
     else
-      formatting = options[:formatting] || Setting.text_formatting
+      formatting = Setting.text_formatting
       text = Redmine::WikiFormatting.to_html(formatting, text, :object => obj, :attribute => attr)
     end
 
