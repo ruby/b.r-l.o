@@ -41,9 +41,6 @@ MailHandler.class_eval do
   rescue MailHandler::MissingInformation
     if parent_message and parent_message.issue
       return parent_message.issue.project
-    elsif email.header["X-Redmine-Issue-Id"].nil?
-      # issue id がヘッダにない時はしょうがないので Ruby trunk にする
-      return Project.find_by(name: 'Ruby trunk')
     elsif issue_id = email.header["X-Redmine-Issue-Id"].to_s
       return Issue.find(issue_id).project
     else
