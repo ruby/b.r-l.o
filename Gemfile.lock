@@ -39,8 +39,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.5.1)
-      public_suffix (~> 2.0, >= 2.0.2)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
     airbrake (6.2.1)
       airbrake-ruby (~> 2.3, >= 2.3.1)
     airbrake-ruby (2.3.2)
@@ -61,7 +61,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.7.1)
       ffi (~> 1.0, >= 1.0.11)
-    coderay (1.1.1)
+    coderay (1.1.2)
     concurrent-ruby (1.0.5)
     css_parser (1.5.0)
       addressable
@@ -89,7 +89,7 @@ GEM
     erubis (2.7.0)
     et-orbi (1.0.5)
       tzinfo
-    faraday (0.13.0)
+    faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     globalid (0.4.0)
@@ -127,13 +127,13 @@ GEM
     mini_mime (0.1.4)
     mini_portile2 (2.1.0)
     minitest (5.10.3)
-    mocha (1.2.1)
+    mocha (1.3.0)
       metaclass (~> 0.0.1)
     mono_logger (1.1.0)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     net-ldap (0.12.1)
-    newrelic_rpm (4.3.0.335)
+    newrelic_rpm (4.4.0.336)
     nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     pg (0.18.4)
@@ -148,7 +148,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.6)
       pry (>= 0.10.4)
-    public_suffix (2.0.5)
+    public_suffix (3.0.0)
     rack (1.6.8)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
@@ -256,7 +256,7 @@ GEM
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.2.0)
+    sprockets-rails (3.2.1)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
@@ -330,4 +330,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.3
+   1.15.4
