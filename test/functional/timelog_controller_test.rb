@@ -725,6 +725,8 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_at_project_level
+    @request.session[:user_id] = 2
+
     get :index, :params => {:project_id => 'ecookbook', :c => ['project']}
     assert_response :success
 
@@ -736,6 +738,9 @@ class TimelogControllerTest < Redmine::ControllerTest
 
     assert_select '.total-for-hours', :text => 'Hours: 162.90'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
+
+    # 'Log time' shoudl link to log time on the filtered issue
+    assert_select 'a[href=?]', "/projects/ecookbook/time_entries/new"
   end
 
   def test_index_with_display_subprojects_issues_to_false_should_not_include_subproject_entries
@@ -770,6 +775,9 @@ class TimelogControllerTest < Redmine::ControllerTest
 
     get :index, :params => {:project_id => 'ecookbook', :issue_id => issue.id.to_s, :set_filter => 1}
     assert_select '.total-for-hours', :text => 'Hours: 7.00'
+
+    # 'Log time' shoudl link to log time on the filtered issue
+    assert_select 'a[href=?]', "/issues/#{issue.id}/time_entries/new"
   end
 
   def test_index_at_project_level_with_issue_fixed_version_id_short_filter
@@ -780,6 +788,27 @@ class TimelogControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get :index, :params => {:project_id => 'ecookbook', :"issue.fixed_version_id" => version.id.to_s, :set_filter => 1}
+    assert_select '.total-for-hours', :text => 'Hours: 5.00'
+  end
+
+  def test_index_at_project_level_with_multiple_issue_fixed_version_ids
+    version = Version.generate!(:project_id => 1)
+    version2 = Version.generate!(:project_id => 1)
+    issue = Issue.generate!(:project_id => 1, :fixed_version => version)
+    issue2 = Issue.generate!(:project_id => 1, :fixed_version => version2)
+    TimeEntry.generate!(:issue => issue, :hours => 2)
+    TimeEntry.generate!(:issue => issue2, :hours => 3)
+    @request.session[:user_id] = 2
+
+    get :index, :params => {
+      :project_id => 'ecookbook',
+      :f => ['issue.fixed_version_id'],
+      :op => {'issue.fixed_version_id' => '='},
+      :v => {'issue.fixed_version_id' => [version.id.to_s,version2.id.to_s]}
+    }
+    assert_response :success
+
+    assert_select 'tr.time-entry', 2
     assert_select '.total-for-hours', :text => 'Hours: 5.00'
   end
 

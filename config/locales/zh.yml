@@ -134,8 +134,8 @@ zh:
         circular_dependency: "此关联将导致循环依赖"
         cant_link_an_issue_with_a_descendant: "问题不能关联到它的子任务"
         earlier_than_minimum_start_date: "不能早于 %{date} 由于有前置问题"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        not_a_regexp: "不是一个合法的正则表达式"
+        open_issue_with_closed_parent: "无法将一个打开的问题关联至一个被关闭的父任务"
 
   actionview_instancetag_blank_option: 请选择
 
@@ -1194,7 +1194,7 @@ zh:
   error_no_projects_with_tracker_allowed_for_new_issue: 当前项目中不包含对应的跟踪类型，不能创建该类型的工作项。
   field_textarea_font: 用于文本区域的字体
   label_font_default: 默认字体
-  label_font_monospace: 等款字体
+  label_font_monospace: 等宽字体
   label_font_proportional: 比例字体
   setting_timespan_format: 时间格式设置
   label_table_of_contents: 目录

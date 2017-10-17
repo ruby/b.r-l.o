@@ -23,7 +23,7 @@ class TimeEntryQuery < Query
   self.available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:spent_on, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"], :default_order => 'desc', :groupable => true),
-    QueryColumn.new(:tweek, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"], :caption => l(:label_week)),
+    QueryColumn.new(:tweek, :sortable => ["#{TimeEntry.table_name}.spent_on", "#{TimeEntry.table_name}.created_on"], :caption => :label_week),
     QueryColumn.new(:user, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
@@ -35,8 +35,7 @@ class TimeEntryQuery < Query
 
   def initialize(attributes=nil, *args)
     super attributes
-    self.filters ||= {}
-    add_filter('spent_on', '*') unless filters.present?
+    self.filters ||= { 'spent_on' => {:operator => "*", :values => []} }
   end
 
   def initialize_available_filters
@@ -64,7 +63,7 @@ class TimeEntryQuery < Query
     add_available_filter("issue.fixed_version_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),
-      :values => lambda { fixed_version_values }) if project
+      :values => lambda { fixed_version_values })
 
     add_available_filter("user_id",
       :type => :list_optional, :values => lambda { author_values }
@@ -112,6 +111,13 @@ class TimeEntryQuery < Query
     [['spent_on', 'desc']]
   end
 
+  # If a filter against a single issue is set, returns its id, otherwise nil.
+  def filtered_issue_id
+    if value_for('issue_id').to_s =~ /\A(\d+)\z/
+      $1
+    end
+  end
+
   def base_scope
     TimeEntry.visible.
       joins(:project, :user).
@@ -153,7 +159,7 @@ class TimeEntryQuery < Query
   end
 
   def sql_for_issue_fixed_version_id_field(field, operator, value)
-    issue_ids = Issue.where(:fixed_version_id => value.first.to_i).pluck(:id)
+    issue_ids = Issue.where(:fixed_version_id => value.map(&:to_i)).pluck(:id)
     case operator
     when "="
       if issue_ids.any?
