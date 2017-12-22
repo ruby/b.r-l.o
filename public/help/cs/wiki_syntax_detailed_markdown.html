@@ -16,7 +16,7 @@
         <p>Redmine umožňuje hypertextové odkazy mezi jednotlivými zdroji (úkoly, revize, wiki stránky...) kdekoli, kde je použito Wiki formátování.</p>
         <ul>
             <li>Odkaz na úkol: <strong>#124</strong> (zobrazí <del><a href="#" class="issue" title="Hromadná změna nezmění kategorii úkolů (Uzavřeno)">#124</a></del>, odkaz je přeškrtnutý, jestliže je úkol uzavřen)</li>
-            <li>Odkaz na poznámku k úkolu: <strong>#124-6</strong>, nebo <strong>#124#note-6</strong></li>
+            <li>Odkaz na poznámku k úkolu: <strong>#124-6</strong> nebo <strong>#124#note-6</strong></li>
         </ul>
 
         <p>Odkazy Wiki:</p>
@@ -26,10 +26,6 @@
             <li><strong>[[Příručka#čtěte-více]]</strong> Vás přenese ke kotvě "čtěte-více". Nadpisy mají automaticky přiřazené kotvy, na které se můžete odkazovat: <a href="#" class="wiki-page">Příručka</a>.</li>
             <li><strong>[[Příručka|Uživatelský manuál]]</strong> zobrazí odkaz na tu samou stránku, ale s jiným textem: <a href="#" class="wiki-page">Uživatelský manuál</a>.</li>
         </ul>
-
-        <p>Můžete se také odkazovat na Wiki stránky jiného projektu:</p>
-
-        <ul>
 
         <p>Můžete se také odkazovat na Wiki stránky jiného projektu:</p>
 
@@ -49,7 +45,8 @@
                     <li><strong>document:Úvod</strong> (odkaz na dokument s názvem "Úvod")</li>
                     <li><strong>document:"Nějaký dokument"</strong> (Uvozovky se mohou použít v případě, že název obsahuje mezery.)</li>
                     <li><strong>projekt_test:document:"Nějaký dokument"</strong> (odkaz na dokument s názvem "Nějaký dokument" v jiném projektu "projekt_test")</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
@@ -59,7 +56,8 @@
                     <li><strong>version:1.0.0</strong> odkaz na verzi s názvem "1.0.0")</li>
                     <li><strong>version:"1.0 beta 2"</strong></li>
                     <li><strong>projekt_test:version:1.0.0</strong> (odkaz na verzi "1.0.0" jiného projektu "projekt_test")</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
@@ -67,7 +65,8 @@
                 <ul>
                     <li><strong>attachment:soubor.zip</strong> (odkaz na přílohu aktuálního objektu s názvem soubor.zip)</li>
                     <li>Aktuálně mohou být odkazovány pouze přílohy aktuálního objektu (u úkolu mohou být odkazy pouze na přílohy danného úkolu).</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
@@ -79,7 +78,8 @@
                     <li><strong>commit:hg|c6f4d0fd</strong>         (odkaz na revizi  s nečíselným označním revize určitého repozitáře, pro projekty s více repozitáři)</li>
                     <li><strong>projekt_test:r758</strong>               (odkaz na revizi jiného projektu)</li>
                     <li><strong>projekt_test:commit:c6f4d0fd</strong>    (odkaz na revizi  s nečíselným označním revize jiného projektu)</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
@@ -94,7 +94,8 @@
                     <li><strong>source:svn1|some/file</strong>      (odkaz na soubor určitého repozitáře, pro projekty s více repositáři)</li>
                     <li><strong>projekt_test:source:some/file</strong>   (odkaz na soubor umístěný v /some/file repositáře projektu "projekt_test")</li>
                     <li><strong>projekt_test:export:some/file</strong>   (vynutit stažení souboru umístěného v /some/file repositáře projektu "projekt_test")</li>
-                </ul></li>
+                </ul>
+             </li>
         </ul>
 
         <ul>
@@ -103,16 +104,17 @@
                     <li><strong>forum#1</strong> (odkaz na fórum s id 1</li>
                     <li><strong>forum:Support</strong> (odkaz na fórum pojmenované Support)</li>
                     <li><strong>forum:"Technical Support"</strong> (Použij dvojté uvozovkym jestliže název fóra obsahuje mezery.)</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
             <li>Příspěvky diskuzního fóra:
                 <ul>
                     <li><strong>message#1218</strong> (odkaz na příspěvek s ID 1218)</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
-
 
         <ul>
             <li>Projekty:
@@ -120,7 +122,8 @@
                     <li><strong>project#3</strong> (odkaz na projekt s ID 3)</li>
                     <li><strong>project:projekt_test</strong> (odkaz na projekt pojmenovaný "projekt_test")</li>
                     <li><strong>project:"projekt test"</strong> (odkaz na projekt pojmenovaný "projekt test")</li>
-                </ul></li>
+                </ul>
+            </li>
         </ul>
 
         <ul>
@@ -129,29 +132,29 @@
                     <li><strong>news#2</strong> (odkaz na novinku id 2)</li>
                     <li><strong>news:Greetings</strong> (odkaz na novinku "Greetings")</li>
                     <li><strong>news:"First Release"</strong> (použij dvojté uvozovky, jestliže název novinky obsahuje mezery)</li>
-                </ul></li>
-        </ul>
-
-        <ul>
-            <li>Users:
-                <ul>
-                    <li><strong>user#2</strong> (link to user with id 2)</li>
-                    <li><strong>user:jsmith</strong> (Link to user with login jsmith)</li>
-                    <li><strong>@jsmith</strong> (Link to user with login jsmith)</li>
                 </ul>
             </li>
         </ul>
 
-        <p>Escaping:</p>
-
         <ul>
-            <li>Zabránit parsování Redmine odkazů, lze vložením vykřičníku před odkaz: !</li>
+            <li>Uživatelé:
+                <ul>
+                    <li><strong>user#2</strong> (odkaz na uživatele s id 2)</li>
+                    <li><strong>user:jsmith</strong> (odkaz na uživatele s loginem jsmith)</li>
+                    <li><strong>@jsmith</strong> (odkaz na uživatele s loginem jsmith)</li>
+                </ul>
+            </li>
         </ul>
 
+        <p>Escape sekvence:</p>
+
+        <ul>
+            <li>Zabránit parsování Redmine odkazů lze vložením vykřičníku před odkaz: !</li>
+        </ul>
 
         <h3><a name="4" class="wiki-page"></a>Externí odkazy</h3>
 
-        <p>URLs (starting with: www, http, https, ftp, ftps, sftp and sftps) and email addresses are automatically turned into clickable links:</p>
+        <p>URL (začínající: www, http, https, ftp, ftps, sftp a sftps) a e-mailové adresy jsou automaticky převedeny na klikací odkazy:</p>
 
 <pre>
 http://www.redmine.org, someone@foo.bar
@@ -159,7 +162,7 @@ http://www.redmine.org, someone@foo.bar
 
         <p>zobrazí: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
 
-        <p>Jestliže chcete zobrazit určitý text místo URL, můžete použít standardní syntaxi textile:</p>
+        <p>Jestliže chcete zobrazit určitý text místo URL, můžete použít standardní syntaxi Textile:</p>
 
 <pre>
 "Webová stránka Redmine":http://www.redmine.org
@@ -168,10 +171,10 @@ http://www.redmine.org, someone@foo.bar
         <p>zobrazí: <a href="http://www.redmine.org" class="external">Webová stránka Redmine</a></p>
 
 
-    <<h2><a name="5" class="wiki-page"></a>Formátování textu</h2>
+    <h2><a name="5" class="wiki-page"></a>Formátování textu</h2>
 
 
-    <p>Pro nadpisy, tučný text, tabulky a seznamy, Redmine podporuje syntaxi Textile.  Podívejte se na <a class="external" href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29">http://en.wikipedia.org/wiki/Textile_(markup_language)</a> pro informace o využití těchto vlastností. Několik příkladů je uvedeno níže, ale Textile toho dokáže mnohem víc.</p>
+    <p>Pro nadpisy, tučný text, tabulky a seznamy, Redmine podporuje syntaxi Markdown. Podívejte se na <a class="external" href="http://daringfireball.net/projects/markdown/syntax">http://daringfireball.net/projects/markdown/syntax</a> pro informace o využití těchto vlastností. Několik příkladů je uvedeno níže, ale Markdown toho dokáže mnohem víc.</p>
 
         <h3><a name="6" class="wiki-page"></a>Styly písma</h3>
 
@@ -194,11 +197,11 @@ http://www.redmine.org, someone@foo.bar
         <h3><a name="7" class="wiki-page"></a>Vložené obrázky</h3>
 
         <ul>
-            <li><strong>![](image_url)</strong> zobrazí obrázek z odkazu (syntaxe markdown)</li>
+            <li><strong>![](image_url)</strong> zobrazí obrázek z odkazu (syntaxe Markdown)</li>
             <li>Jestliže máte obrázek přiložený k Wiki stránce, může být zobrazen jako vložený obrázek pomocí jeho jména: <strong>![](attached_image)</strong></li>
         </ul>
 
-        <h3><a name="8" class="wiki-page"></a>Headings</h3>
+        <h3><a name="8" class="wiki-page"></a>Nadpisy</h3>
 
 <pre>
 # Nadpis 1. úrovně
@@ -277,9 +280,9 @@ Pro rozbalení klikněte na odkaz.
 
     <h2><a name="13" class="wiki-page"></a>Zvýrazňování kódu</h2>
 
-    <p>Výchozí zvýrazňování kódu zavisí na <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, což je rychlá zvýrazňovací knihovna napsaná v Ruby. It currently supports c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml and yaml (yml) languages, where the names inside parentheses are aliases.</p>
+    <p>Výchozí zvýrazňování kódu zavisí na <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, což je rychlá zvýrazňovací knihovna napsaná v Ruby. Aktuálně podporuje: c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml a yaml (yml) jazyky, jejichž jména jsou v závorkách jsou aliasy.</p>
 
-    <p>Kód můžete na stránce zvýraznit pomocí následující syntaxe (note that the language name or alias is case-insensitive):</p>
+    <p>Kód můžete na stránce zvýraznit pomocí následující syntaxe (záleží na velikosti písma jazyku nebo aliasu):</p>
 
 <pre>
 ~~~ ruby

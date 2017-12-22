@@ -32,6 +32,8 @@ module Redmine
 
         # raised if hg command exited with error, e.g. unknown revision.
         class HgCommandAborted < CommandFailed; end
+        # raised if bad command argument detected before executing hg.
+        class HgCommandArgumentError < CommandFailed; end
 
         class << self
           def client_command
@@ -138,8 +140,8 @@ module Redmine
 
         def entries(path=nil, identifier=nil, options={})
           p1 = scm_iconv(@path_encoding, 'UTF-8', path)
-          manifest = hg('rhmanifest', '-r', CGI.escape(hgrev(identifier)),
-                        CGI.escape(without_leading_slash(p1.to_s))) do |io|
+          manifest = hg('rhmanifest', "-r#{CGI.escape(hgrev(identifier))}",
+                        '--', CGI.escape(without_leading_slash(p1.to_s))) do |io|
             output = io.read.force_encoding('UTF-8')
             begin
               parse_xml(output)['rhmanifest']['repository']['manifest']
@@ -179,10 +181,10 @@ module Redmine
         # Iterates the revisions by using a template file that
         # makes Mercurial produce a xml output.
         def each_revision(path=nil, identifier_from=nil, identifier_to=nil, options={})
-          hg_args = ['log', '--debug', '-C', '--style', self.class.template_path]
-          hg_args << '-r' << "#{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
-          hg_args << '--limit' << options[:limit] if options[:limit]
-          hg_args << hgtarget(path) unless path.blank?
+          hg_args = ['log', '--debug', '-C', "--style=#{self.class.template_path}"]
+          hg_args << "-r#{hgrev(identifier_from)}:#{hgrev(identifier_to)}"
+          hg_args << "--limit=#{options[:limit]}" if options[:limit]
+          hg_args << '--' << hgtarget(path) unless path.blank?
           log = hg(*hg_args) do |io|
             output = io.read.force_encoding('UTF-8')
             begin
@@ -222,23 +224,23 @@ module Redmine
 
         # Returns list of nodes in the specified branch
         def nodes_in_branch(branch, options={})
-          hg_args = ['rhlog', '--template', '{node}\n', '--rhbranch', CGI.escape(branch)]
-          hg_args << '--from' << CGI.escape(branch)
-          hg_args << '--to'   << '0'
-          hg_args << '--limit' << options[:limit] if options[:limit]
+          hg_args = ['rhlog', '--template={node}\n', "--rhbranch=#{CGI.escape(branch)}"]
+          hg_args << "--from=#{CGI.escape(branch)}"
+          hg_args << '--to=0'
+          hg_args << "--limit=#{options[:limit]}" if options[:limit]
           hg(*hg_args) { |io| io.readlines.map { |e| e.chomp } }
         end
 
         def diff(path, identifier_from, identifier_to=nil)
           hg_args = %w|rhdiff|
           if identifier_to
-            hg_args << '-r' << hgrev(identifier_to) << '-r' << hgrev(identifier_from)
+            hg_args << "-r#{hgrev(identifier_to)}" << "-r#{hgrev(identifier_from)}"
           else
-            hg_args << '-c' << hgrev(identifier_from)
+            hg_args << "-c#{hgrev(identifier_from)}"
           end
           unless path.blank?
             p = scm_iconv(@path_encoding, 'UTF-8', path)
-            hg_args << CGI.escape(hgtarget(p))
+            hg_args << '--' << CGI.escape(hgtarget(p))
           end
           diff = []
           hg *hg_args do |io|
@@ -253,7 +255,7 @@ module Redmine
 
         def cat(path, identifier=nil)
           p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
-          hg 'rhcat', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
+          hg 'rhcat', "-r#{CGI.escape(hgrev(identifier))}", '--', hgtarget(p) do |io|
             io.binmode
             io.read
           end
@@ -264,7 +266,7 @@ module Redmine
         def annotate(path, identifier=nil)
           p = CGI.escape(scm_iconv(@path_encoding, 'UTF-8', path))
           blame = Annotate.new
-          hg 'rhannotate', '-ncu', '-r', CGI.escape(hgrev(identifier)), hgtarget(p) do |io|
+          hg 'rhannotate', '-ncu', "-r#{CGI.escape(hgrev(identifier))}", '--', hgtarget(p) do |io|
             io.each_line do |line|
               line.force_encoding('ASCII-8BIT')
               next unless line =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
@@ -286,10 +288,24 @@ module Redmine
           end
         end
 
+        # command options which may be processed earlier, by faulty parser in hg
+        HG_EARLY_BOOL_ARG = /^--(debugger|profile|traceback)$/
+        HG_EARLY_LIST_ARG = /^(--(config|cwd|repo(sitory)?)\b|-R)/
+        private_constant :HG_EARLY_BOOL_ARG, :HG_EARLY_LIST_ARG
+
         # Runs 'hg' command with the given args
         def hg(*args, &block)
+          # as of hg 4.4.1, early parsing of bool options is not terminated at '--'
+          if args.any? { |s| s =~ HG_EARLY_BOOL_ARG }
+            raise HgCommandArgumentError, "malicious command argument detected"
+          end
+          if args.take_while { |s| s != '--' }.any? { |s| s =~ HG_EARLY_LIST_ARG }
+            raise HgCommandArgumentError, "malicious command argument detected"
+          end
+
           repo_path = root_url || url
-          full_args = ['-R', repo_path, '--encoding', 'utf-8']
+          full_args = ["-R#{repo_path}", '--encoding=utf-8']
+          # don't use "--config=<value>" form for compatibility with ancient Mercurial
           full_args << '--config' << "extensions.redminehelper=#{HG_HELPER_EXT}"
           full_args << '--config' << 'diff.git=false'
           full_args += args
