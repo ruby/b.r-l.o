@@ -9,7 +9,7 @@ gem "addressable", "2.4.0" if RUBY_VERSION < "2.0"
 if RUBY_VERSION < "2.1"
   gem "public_suffix", (RUBY_VERSION < "2.0" ? "~> 1.4" : "~> 2.0.5")
 end
-gem "jquery-rails", "~> 3.1.4"
+gem "jquery-rails", "~> 4.3.1"
 gem "coderay", "~> 1.1.1"
 gem "request_store", "1.0.5"
 gem "mime-types", (RUBY_VERSION >= "2.0" ? "~> 3.0" : "~> 2.99")
