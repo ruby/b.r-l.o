@@ -21,4 +21,4 @@
 	url = https://github.com/ruby/redmine_resque.git
 [submodule "plugins/redmine_git_remote"]
 	path = plugins/redmine_git_remote
-	url = git@github.com:ruby/redmine_git_remote.git
+	url = https://github.com/ruby/redmine_git_remote.git
