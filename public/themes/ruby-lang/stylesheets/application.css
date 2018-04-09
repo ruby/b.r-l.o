@@ -49,3 +49,18 @@ p code {
     padding: 0.2em 0.4em;
     border-radius: 0.1em;
 }
+
+@media screen and (max-width: 899px) {
+    #top-menu {
+        background: #602020;
+        color: #fff;
+    }
+    #header {
+        background-color: #8A4040;
+        color: #f8f8f8;
+    }
+    #main-menu li a.new-object {
+        background-color: #8A4040;
+        color: #f8f8f8;
+    }
+}
