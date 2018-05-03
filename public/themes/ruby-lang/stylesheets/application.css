@@ -44,9 +44,10 @@ div.wiki pre {
     word-wrap: break-word;      /* IE 5.5+ */
 }
 
-p code {
+div.wiki *:not(pre)>code,
+div.wiki>code  {
     background-color: rgba(27,31,35,0.05);
-    padding: 0.2em 0.4em;
-    border-radius: 0.1em;
+    padding: 0em 0.2em;
+    border-radius: 0.2em;
 }
 
