@@ -1375,6 +1375,44 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_nil copied_closed.closed_on
   end
 
+  def test_copy_should_not_copy_locked_watchers
+    user = User.find(2)
+    user2 = User.find(3)
+    issue = Issue.find(8)
+
+    Watcher.create!(:user => user, :watchable => issue)
+    Watcher.create!(:user => user2, :watchable => issue)
+
+    user2.status = User::STATUS_LOCKED
+    user2.save!
+
+    issue = Issue.new.copy_from(8)
+
+    assert issue.save
+    assert issue.watched_by?(user)
+    assert !issue.watched_by?(user2)
+  end
+
+  def test_copy_should_clear_subtasks_target_version_if_locked_or_closed
+    version = Version.new(:project => Project.find(1), :name => '2.1',)
+    version.save!
+
+    parent = Issue.generate!
+    child1 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 1', :fixed_version_id => 3)
+    child2 = Issue.generate!(:parent_issue_id => parent.id, :subject => 'Child 2', :fixed_version_id => version.id)
+
+    version.status = 'locked'
+    version.save!
+
+    copy = parent.reload.copy
+
+    assert_difference 'Issue.count', 3 do
+      assert copy.save
+    end
+
+    assert_equal [3, nil], copy.children.map(&:fixed_version_id)
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Test', :author_id => 1)
@@ -2088,6 +2126,32 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal Date.parse('2012-09-19'), issue2.start_date
     assert_equal Date.parse('2012-09-21'), issue2.due_date
   end
+
+  def test_rescheduling_an_issue_to_a_different_due_date_should_add_journal_to_following_issue
+    with_settings :non_working_week_days => [] do
+      issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+      issue2 = Issue.generate!(:start_date => '2012-10-18', :due_date => '2012-10-20')
+      IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                            :relation_type => IssueRelation::TYPE_PRECEDES)
+
+      assert_difference 'issue2.journals.count' do
+        issue1.reload
+        issue1.init_journal(User.find(3))
+        issue1.due_date = '2012-10-23'
+        issue1.save!
+      end
+      journal = issue2.journals.order(:id).last
+
+      start_date_detail = journal.details.find_by(:prop_key => 'start_date')
+      assert_equal '2012-10-18', start_date_detail.old_value
+      assert_equal '2012-10-24', start_date_detail.value
+
+      due_date_detail = journal.details.find_by(:prop_key => 'due_date')
+      assert_equal '2012-10-20', due_date_detail.old_value
+      assert_equal '2012-10-26', due_date_detail.value
+    end
+  end
+
 
   def test_rescheduling_reschedule_following_issue_earlier_should_consider_other_preceding_issues
     issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
