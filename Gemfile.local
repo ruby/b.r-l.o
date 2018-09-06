@@ -14,4 +14,5 @@ group :production do
   gem 'hiredis'
   gem 'newrelic_rpm'
   gem 'airbrake'
+  gem 'sqreen'
 end

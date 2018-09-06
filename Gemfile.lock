@@ -90,6 +90,7 @@ GEM
     erubis (2.7.0)
     et-orbi (1.1.4)
       tzinfo
+    execjs (2.7.0)
     faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
@@ -118,6 +119,7 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    libv8 (3.16.14.19)
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -217,6 +219,7 @@ GEM
       redis-store (>= 1.2, < 2)
     redis-store (1.5.0)
       redis (>= 2.2, < 5)
+    ref (2.0.0)
     request_store (1.0.5)
     resque (1.27.4)
       mono_logger (~> 1.0)
@@ -264,8 +267,14 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqreen (1.13.4)
+      execjs (>= 0.3.0)
+      therubyracer (>= 0.12.1)
     test_after_commit (0.4.2)
       activerecord (>= 3.2)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -327,6 +336,7 @@ DEPENDENCIES
   ruby-openid (~> 2.3.0)
   selenium-webdriver (~> 2.53.4)
   simplecov (~> 0.9.1)
+  sqreen
   test_after_commit (~> 0.4.2)
   tzinfo-data
   yard
@@ -335,4 +345,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.3
+   1.16.4
