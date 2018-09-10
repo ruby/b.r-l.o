@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change
+  before_action :tag_request
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -191,6 +192,12 @@ class ApplicationController < ActionController::Base
       else
         session.delete(:pwd)
       end
+    end
+  end
+
+  def tag_request
+    if User.current
+      Sqreen.identify(username: User.current.login)
     end
   end
 

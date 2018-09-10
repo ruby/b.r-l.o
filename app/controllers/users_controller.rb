@@ -95,6 +95,9 @@ class UsersController < ApplicationController
     @user.pref.safe_attributes = params[:pref]
 
     if @user.save
+
+      Sqreen.signup_track(username: params[:username])
+
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
