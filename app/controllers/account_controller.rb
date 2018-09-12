@@ -209,8 +209,6 @@ class AccountController < ApplicationController
   def password_authentication
     user = User.try_to_login(params[:username], params[:password], false)
 
-    Sqreen.auth_track(!user.nil?, username: params[:usernname])
-
     if user.nil?
       invalid_credentials
     elsif user.new_record?
@@ -218,6 +216,8 @@ class AccountController < ApplicationController
     else
       # Valid user
       if user.active?
+        Sqreen.auth_track(!user.nil?, email: user.mail)
+
         successful_authentication(user)
         update_sudo_timestamp! # activate Sudo Mode
       else

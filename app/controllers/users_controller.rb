@@ -96,7 +96,7 @@ class UsersController < ApplicationController
 
     if @user.save
 
-      Sqreen.signup_track(username: params[:username])
+      Sqreen.signup_track(email: @user.mail)
 
       Mailer.account_information(@user, @user.password).deliver if params[:send_information]
 

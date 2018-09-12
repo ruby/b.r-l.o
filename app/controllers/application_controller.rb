@@ -197,7 +197,7 @@ class ApplicationController < ActionController::Base
 
   def tag_request
     if User.current
-      Sqreen.identify(username: User.current.login)
+      Sqreen.identify(email: User.current.mail)
     end
   end
 
