@@ -13,12 +13,3 @@
 [submodule "plugins/redmine_link_to_root"]
 	path = plugins/redmine_link_to_root
 	url = https://github.com/ruby/redmine_link_to_root
-[submodule "plugins/redmine_elasticsearch"]
-	path = plugins/redmine_elasticsearch
-	url = https://github.com/ruby/redmine_elasticsearch.git
-[submodule "plugins/redmine_resque"]
-	path = plugins/redmine_resque
-	url = https://github.com/ruby/redmine_resque.git
-[submodule "plugins/redmine_git_remote"]
-	path = plugins/redmine_git_remote
-	url = https://github.com/ruby/redmine_git_remote.git
