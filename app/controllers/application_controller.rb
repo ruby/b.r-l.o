@@ -52,7 +52,6 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change
-  before_action :tag_request
 
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
@@ -91,6 +90,9 @@ class ApplicationController < ActionController::Base
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
+
+    Sqreen.identify(email: User.current.mail) if User.current.logged?
+
     logger.info("  Current user: " + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})" : "anonymous")) if logger
   end
 
@@ -192,12 +194,6 @@ class ApplicationController < ActionController::Base
       else
         session.delete(:pwd)
       end
-    end
-  end
-
-  def tag_request
-    if User.current
-      Sqreen.identify(email: User.current.mail)
     end
   end
 
