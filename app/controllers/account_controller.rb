@@ -177,6 +177,7 @@ class AccountController < ApplicationController
     (redirect_to(home_url); return) unless user.registered?
     user.activate
     if user.save
+      Sqreen.signup_track(email: user.mail)
       token.destroy
       flash[:notice] = l(:notice_account_activated)
     end
