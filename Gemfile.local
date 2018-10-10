@@ -1,6 +1,6 @@
 ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 2.5.1'
 
-gem 'rhebok'
+gem 'puma'
 gem 'rack-protection'
 
 group :development do

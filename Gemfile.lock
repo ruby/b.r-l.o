@@ -101,9 +101,6 @@ GEM
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     pg (0.18.4)
-    prefork_engine (0.0.7)
-      proc-wait3 (~> 1.7.2)
-    proc-wait3 (1.7.3)
     protected_attributes (1.1.4)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.11.3)
@@ -112,6 +109,7 @@ GEM
     pry-rails (0.3.6)
       pry (>= 0.10.4)
     public_suffix (3.0.3)
+    puma (3.12.0)
     rack (1.6.10)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
@@ -174,9 +172,6 @@ GEM
     redis-store (1.6.0)
       redis (>= 2.2, < 5)
     request_store (1.0.5)
-    rhebok (0.9.3)
-      prefork_engine (>= 0.0.7)
-      rack
     rmagick (2.16.0)
     roadie (3.2.2)
       css_parser (~> 1.4)
@@ -202,7 +197,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sq_mini_racer (0.2.3.sqreen2)
+    sq_mini_racer (0.2.3.sqreen4)
     sqreen (1.14.2)
       sq_mini_racer (~> 0.2.2.sqreen1)
     test_after_commit (0.4.2)
@@ -240,6 +235,7 @@ DEPENDENCIES
   pg (~> 0.18.1)
   protected_attributes
   pry-rails
+  puma
   rack-openid
   rack-protection
   rails (= 4.2.10)
@@ -251,7 +247,6 @@ DEPENDENCIES
   redcarpet (~> 3.4.0)
   redis-rails
   request_store (= 1.0.5)
-  rhebok
   rmagick (>= 2.14.0)
   roadie (~> 3.2.1)
   roadie-rails (~> 1.1.1)
