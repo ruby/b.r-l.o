@@ -39,9 +39,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    airbrake (7.3.5)
-      airbrake-ruby (~> 2.10)
-    airbrake-ruby (2.11.0)
+    airbrake (7.4.0)
+      airbrake-ruby (~> 2.12)
+    airbrake-ruby (2.12.0)
     arel (6.0.4)
     aws-sdk (1.67.0)
       aws-sdk-v1 (= 1.67.0)
@@ -198,7 +198,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sq_mini_racer (0.2.3.sqreen4)
-    sqreen (1.14.2)
+    sqreen (1.15.0)
       sq_mini_racer (~> 0.2.2.sqreen1)
     test_after_commit (0.4.2)
       activerecord (>= 3.2)
@@ -207,7 +207,7 @@ GEM
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     websocket (1.2.8)
-    xpath (3.1.0)
+    xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.16)
 
@@ -262,4 +262,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.6
+   1.17.1
