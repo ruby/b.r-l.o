@@ -198,7 +198,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sq_mini_racer (0.2.3.sqreen4)
-    sqreen (1.15.0)
+    sqreen (1.15.1)
       sq_mini_racer (~> 0.2.2.sqreen1)
     test_after_commit (0.4.2)
       activerecord (>= 3.2)
@@ -259,7 +259,7 @@ DEPENDENCIES
   yard
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.5.3p105
 
 BUNDLED WITH
    1.17.1
