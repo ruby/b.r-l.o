@@ -773,6 +773,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_csv_should_not_change_selected_columns
+    get :index, :params => {
+        :set_filter => 1,
+        :c => ["subject", "due_date"],
+        :project_id => "ecookbook"
+      }
+    assert_response :success
+    assert_equal [:subject, :due_date], session[:issue_query][:column_names]
+
+    get :index, :params => {
+        :set_filter => 1,
+        :c =>["all_inline"],
+        :project_id => "ecookbook",
+        :format => 'csv'
+      }
+    assert_response :success
+    assert_equal [:subject, :due_date], session[:issue_query][:column_names]
+  end
+
   def test_index_pdf
     ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
       with_settings :default_language => lang do
@@ -1754,6 +1773,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
   end
 
+  def test_show_should_format_related_issues_dates
+    with_settings :date_format => '%d/%m/%Y' do
+      issue = Issue.generate!(:start_date => '2018-11-29', :due_date => '2018-12-01')
+      IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => issue, :relation_type => 'relates')
+  
+      get :show, :params => {
+          :id => 1
+        }
+      assert_response :success
+  
+      assert_select '#relations td.start_date', :text => '29/11/2018'
+      assert_select '#relations td.due_date', :text => '01/12/2018'
+    end
+  end
+
   def test_show_should_not_disclose_relations_to_invisible_issues
     Setting.cross_project_issue_relations = '1'
     IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => 'relates')
@@ -2091,6 +2125,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     # long text custom field should be render under description field
     assert_select "div.description ~ div.attribute.cf_#{field.id} p strong", :text => 'Long text'
     assert_select "div.description ~ div.attribute.cf_#{field.id} div.value", :text => 'This is a long text'
+  end
+
+  def test_show_custom_fields_with_full_text_formatting_should_be_rendered_using_wiki_class
+    half_field = IssueCustomField.create!(:name => 'Half width field', :field_format => 'text', :tracker_ids => [1],
+      :is_for_all => true, :text_formatting => 'full')
+    full_field = IssueCustomField.create!(:name => 'Full width field', :field_format => 'text', :full_width_layout => '1',
+      :tracker_ids => [1], :is_for_all => true, :text_formatting => 'full')
+
+    issue = Issue.find(1)
+    issue.custom_field_values = {full_field.id => 'This is a long text', half_field.id => 'This is a short text'}
+    issue.save!
+
+    get :show, :params => {
+        :id => 1
+      }
+    assert_response :success
+
+    assert_select "div.attribute.cf_#{half_field.id} div.value div.wiki", 1
+    assert_select "div.attribute.cf_#{full_field.id} div.value div.wiki", 1
   end
 
   def test_show_with_multi_user_custom_field
