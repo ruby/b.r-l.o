@@ -90,6 +90,9 @@ class ApplicationController < ActionController::Base
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
+
+    Sqreen.identify(email: User.current.mail) if User.current.logged?
+
     logger.info("  Current user: " + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})" : "anonymous")) if logger
   end
 

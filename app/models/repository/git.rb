@@ -80,6 +80,10 @@ class Repository::Git < Repository
     scm.tags
   end
 
+  def fetch
+    scm.fetch
+  end
+
   def default_branch
     scm.default_branch
   rescue Exception => e
@@ -128,6 +132,8 @@ class Repository::Git < Repository
   # The repository can still be fully reloaded by calling #clear_changesets
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
+    fetch
+
     scm_brs = branches
     return if scm_brs.nil? || scm_brs.empty?
 

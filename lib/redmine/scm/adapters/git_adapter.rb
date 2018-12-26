@@ -379,6 +379,18 @@ module Redmine
           nil
         end
 
+        def fetch
+          cmd_args = %w|fetch origin refs/heads/*:refs/heads/*|
+          out = nil
+          git_cmd(cmd_args) do |io|
+            io.binmode
+            out = io.read
+          end
+          out
+        rescue ScmCommandAborted
+          nil
+        end
+
         class Revision < Redmine::Scm::Adapters::Revision
           # Returns the readable identifier
           def format_identifier
