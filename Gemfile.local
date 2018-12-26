@@ -2,6 +2,8 @@ ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 2.5.3'
 
 gem 'puma'
 gem 'rack-protection'
+gem 'sidekiq'
+gem 'hiredis'
 
 group :development do
   gem 'pry-rails'
@@ -9,8 +11,6 @@ group :development do
 end
 
 group :production do
-  gem 'redis-rails'
-  gem 'hiredis'
   gem 'newrelic_rpm'
   gem 'airbrake'
   gem 'sqreen'
