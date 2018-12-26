@@ -521,7 +521,6 @@ module ApplicationHelper
 
   def authoring(created, author, options={})
     author_label = link_to_user(author)
-    author_label += " (#{author.reputation} karma)" if Redmine::Configuration['karma'] && User.current.admin? && author.is_a?(User)
     l(options[:label] || :label_added_time_by, :author => author_label, :age => time_tag(created)).html_safe
   end
 

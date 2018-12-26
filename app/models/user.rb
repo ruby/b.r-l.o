@@ -284,15 +284,6 @@ class User < Principal
     end
   end
 
-  def reputation
-    Rails.cache.fetch("reputation_cache_#{login}") do
-      events = Redmine::Activity::Fetcher.new(User.current, :author => self).events
-      ignored_issue = [12004]
-      events = events.select{|event| event.class == Journal && !event.journalized_id.in?(ignored_issue)}
-      events.count
-    end
-  end
-
   def active?
     self.status == STATUS_ACTIVE
   end
@@ -957,7 +948,6 @@ class AnonymousUser < User
   def logged?; false end
   def admin; false end
   def name(*args); I18n.t(:label_user_anonymous) end
-  def reputation; 0 end
   def mail=(*args); nil end
   def mail; nil end
   def time_zone; nil end
