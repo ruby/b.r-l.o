@@ -1,6 +1,8 @@
 module RedmineS3
   module ApplicationHelperPatch
-    def self.included(base) # :nodoc:
+    extend ActiveSupport::Concern
+
+    included do # :nodoc:
       base.prepend S3Thumbnail
     end
 
