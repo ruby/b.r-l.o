@@ -1,17 +1,11 @@
 module RedmineS3
   module ApplicationHelperPatch
     def self.included(base) # :nodoc:
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-        unloadable # Send unloadable so it will not be unloaded in development
-
-        alias_method_chain :thumbnail_tag, :s3_patch
-      end
+      base.prepend S3Thumbnail
     end
 
-    module InstanceMethods
-      def thumbnail_tag_with_s3_patch(attachment)
+    module S3Thumbnail
+      def thumbnail_tag(attachment)
         link_to image_tag(attachment.thumbnail_s3, data: {thumbnail: thumbnail_path(attachment)}),
                 RedmineS3::Connection.object_url(attachment.disk_filename_s3),
                 title: attachment.filename
