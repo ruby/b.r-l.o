@@ -3,7 +3,7 @@ module RedmineS3
     extend ActiveSupport::Concern
 
     included do # :nodoc:
-      base.prepend S3Thumbnail
+      prepend S3Thumbnail
     end
 
     module S3Thumbnail
