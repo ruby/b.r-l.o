@@ -1,43 +1,39 @@
-MailHandler.class_eval do
+module MailingListIntegrationMailHandler
   private
-  def receive_with_mailing_list_integration(email, options = {})
+  def receive(email, options = {})
     if cycled?(email)
       @email = email
       receive_cycled
     else
-      receive_without_mailing_list_integration(email, options)
+      super(email, options)
     end
   end
-  alias_method_chain :receive, :mailing_list_integration
 
-  def dispatch_to_default_with_mailing_list_integration
+  def dispatch_to_default
     case
     when parent_message
       receive_issue_reply(parent_message.issue_id)
     when email.in_reply_to
       dispatch_to_chiken_and_egg
     else
-      dispatch_to_default_without_mailing_list_integration
+      super
     end
   end
-  alias_method_chain :dispatch_to_default, :mailing_list_integration
 
-  def receive_issue_with_mailing_list_integration
-    issue = receive_issue_without_mailing_list_integration
+  def receive_issue
+    issue = super
     record_message(issue.id)
     issue
   end
-  alias_method_chain :receive_issue, :mailing_list_integration
 
-  def receive_issue_reply_with_mailing_list_integration(issue_id, from_journal=nil)
-    journal = receive_issue_reply_without_mailing_list_integration(issue_id, from_journal)
+  def receive_issue_reply(issue_id, from_journal=nil)
+    journal = super(issue_id, from_journal)
     record_message(issue_id, journal.id)
     journal
   end
-  alias_method_chain :receive_issue_reply, :mailing_list_integration
 
-  def target_project_with_mailing_list_integration
-    target_project_without_mailing_list_integration
+  def target_project
+    super
   rescue MailHandler::MissingInformation
     if parent_message and parent_message.issue
       return parent_message.issue.project
@@ -47,11 +43,10 @@ MailHandler.class_eval do
       raise
     end
   end
-  alias_method_chain :target_project, :mailing_list_integration
 
   # override this method to do what you want for mails which has an unknown parent
   def dispatch_to_chiken_and_egg
-    dispatch_to_default_without_mailing_list_integration
+    super
   end
 
   def cycled?(email)
@@ -111,3 +106,5 @@ MailHandler.class_eval do
     end
   end
 end
+
+MailHandler.prepend MailingListIntegrationMailHandler

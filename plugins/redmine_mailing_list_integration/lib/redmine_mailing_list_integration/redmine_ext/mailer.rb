@@ -1,4 +1,4 @@
-Mailer.class_eval do
+module MailingListIntegrationMailer
   class << self
     def deliver_issue_add(issue)
       unless issue.originates_from_mail?
@@ -24,24 +24,23 @@ Mailer.class_eval do
     end
   end
 
-  def issue_add_with_mailing_list_integration(issue, to_users, cc_users)
+  def issue_add(issue, to_users, cc_users)
     mailing_lists = issue.project.mail_routes_for_issue(issue)
     record_message(issue, nil, mailing_lists)
 
-    m = issue_add_without_mailing_list_integration(issue, to_users, cc_users)
+    m = super(issue, to_users, cc_users)
 
     m.header[:to] = mailing_lists.map(&:address)
     m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
-  alias_method_chain :issue_add, :mailing_list_integration
 
-  def issue_edit_with_mailing_list_integration(journal, to_users, cc_users)
+  def issue_edit(journal, to_users, cc_users)
     issue = journal.issue
     mailing_lists = issue.project.mail_routes_for_issue(issue)
     record_message(issue, journal, mailing_lists)
 
-    m = issue_edit_without_mailing_list_integration(journal, to_users, cc_users)
+    m = super(journal, to_users, cc_users)
 
     s = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}]"
     s << "[#{issue.status.name}]" if journal.new_value_for('status_id')
@@ -51,17 +50,15 @@ Mailer.class_eval do
     m.header[:subject] = s
     m
   end
-  alias_method_chain :issue_edit, :mailing_list_integration
 
-  def attachments_added_with_mailing_list_integration(attachments)
-    m = attachments_added_without_mailing_list_integration(attachments)
+  def attachments_added(attachments)
+    m = super(attachments)
 
     mailing_lists = attatchments.first.container.project.mail_routes_for_attachments(attachments)
     m.header[:to] = mailing_lists.map(&:address)
     m.header[:subject] = "[#{container.project.name}] #{l(:label_attachment_new)}"
     m
   end
-  alias_method_chain :attachments_added, :mailing_list_integration
 
   private
 
@@ -77,3 +74,5 @@ Mailer.class_eval do
     headers['X-Redmine-MailingListIntegration-Message-Ids'] = message_record_ids.join(",")
   end
 end
+
+Mailer.prepend MailingListIntegrationMailer
