@@ -1,5 +1,5 @@
-MailHandler.class_eval do
-  def dispatch_with_ruby_lang_mailing_list_customization
+module RubyLangMailingListCustomizationMailHandler
+  def dispatch
     if charset = email.header.charset and charset.downcase != 'utf-8'
       email.body = email.body.encode("UTF-8", charset) rescue nil
       email.subject = email.subject.encode("UTF-8", charset) rescue nil
@@ -22,26 +22,25 @@ MailHandler.class_eval do
           end
       end
     end
-    dispatch_without_ruby_lang_mailing_list_customization
+    super
   end
-  alias_method_chain :dispatch, :ruby_lang_mailing_list_customization
 
   unless instance_methods.grep('dispatch_to_chicken_and_egg')
     raise "mailing_list_integration plugin must have defined MailHandler#dispatch_to_chicken_and_egg"
   end
+
   def dispatch_to_chicken_and_egg
     # TODO queue
     false
   end
 
-  def cleaned_up_text_body_with_ruby_lang_mailing_list_customization
-    text = cleaned_up_text_body_without_ruby_lang_mailing_list_customization
+  def cleaned_up_text_body
+    text = super
     text.gsub(/^/, ' ')
   end
-  alias_method_chain :cleaned_up_text_body, :ruby_lang_mailing_list_customization
 
-  def extract_keyword_with_ruby_lang_mailing_list_customization!(text, attr, format=nil)
-    value = extract_keyword_without_ruby_lang_mailing_list_customization!(text, attr, format)
+  def extract_keyword(text, attr, format=nil)
+    value = super(text, attr, format)
     return value if value
 
     case attr
@@ -53,7 +52,6 @@ MailHandler.class_eval do
       text[/ruby \d\.\d\.\d(?:p\d+) (\d{4}-\d{1,2}-\d{1,2} (?:revision|patchlevel|trunk) \d+) \[/] || nil
     end
   end
-  alias_method_chain :extract_keyword!, :ruby_lang_mailing_list_customization
 
   private
   def subject_tag_re
@@ -61,3 +59,5 @@ MailHandler.class_eval do
     /\[(#{trackers})(?::([^\]]+))?\]/i
   end
 end
+
+MailHandler.prepend RubyLangMailingListCustomizationMailHandler

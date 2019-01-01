@@ -1,5 +1,5 @@
-ApplicationHelper.class_eval do
-  def textilizable_with_ruby_lang_mailing_list_customization(*args)
+module RubyLangMailingListCustomizationApplicationHelper
+  def textilizable(*args)
     if args.last.is_a?(Hash)
       options = args.last
     else
@@ -14,7 +14,7 @@ ApplicationHelper.class_eval do
                      true
                    end
     options[:force_simple] = force_simple
-    text = textilizable_without_ruby_lang_mailing_list_customization(*args)
+    text = super(*args)
 
     text.gsub(/\[([\w-]+):(\d+)\]/) do
       orig, name, number = $&, $1, $2.to_i
@@ -33,5 +33,6 @@ ApplicationHelper.class_eval do
       end
     end.html_safe
   end
-  alias_method_chain :textilizable, :ruby_lang_mailing_list_customization
 end
+
+ApplicationHelper.prepend RubyLangMailingListCustomizationApplicationHelper
