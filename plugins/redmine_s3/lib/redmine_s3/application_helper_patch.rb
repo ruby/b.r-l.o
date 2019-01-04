@@ -3,6 +3,8 @@ module RedmineS3
     extend ActiveSupport::Concern
 
     included do # :nodoc:
+      unloadable # Send unloadable so it will not be unloaded in development
+
       prepend S3Thumbnail
     end
 
