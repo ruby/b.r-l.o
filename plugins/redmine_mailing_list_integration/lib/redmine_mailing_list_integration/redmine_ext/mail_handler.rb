@@ -107,4 +107,6 @@ module MailingListIntegrationMailHandler
   end
 end
 
-MailHandler.prepend MailingListIntegrationMailHandler
+MailHandler.class_eval do
+  prepend MailingListIntegrationMailHandler
+end

@@ -75,4 +75,6 @@ module MailingListIntegrationMailer
   end
 end
 
-Mailer.prepend MailingListIntegrationMailer
+Mailer.class_eval do
+  prepend MailingListIntegrationMailer
+end

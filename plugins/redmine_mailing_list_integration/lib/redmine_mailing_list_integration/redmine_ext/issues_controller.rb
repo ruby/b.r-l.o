@@ -8,4 +8,6 @@ module MailingListIntegrationIssuesController
   end
 end
 
-IssuesController.prepend MailingListIntegrationIssuesController
+IssuesController.class_eval do
+  prepend MailingListIntegrationIssuesController
+end
