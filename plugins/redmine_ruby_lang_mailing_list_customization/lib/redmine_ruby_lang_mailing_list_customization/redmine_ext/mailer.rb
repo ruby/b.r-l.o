@@ -21,4 +21,6 @@ module RubyLangMailingListCustomizationMailer
   end
 end
 
-Mailer.prepend RubyLangMailingListCustomizationMailer
+Mailer.class_eval do
+  prepend RubyLangMailingListCustomizationMailer
+end

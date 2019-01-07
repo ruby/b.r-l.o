@@ -60,4 +60,6 @@ module RubyLangMailingListCustomizationMailHandler
   end
 end
 
-MailHandler.prepend RubyLangMailingListCustomizationMailHandler
+MailHandler.class_eval do
+  prepend RubyLangMailingListCustomizationMailHandler
+end

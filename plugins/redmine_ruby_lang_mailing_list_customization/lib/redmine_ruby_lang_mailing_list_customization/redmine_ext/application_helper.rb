@@ -35,4 +35,6 @@ module RubyLangMailingListCustomizationApplicationHelper
   end
 end
 
-ApplicationHelper.prepend RubyLangMailingListCustomizationApplicationHelper
+ApplicationHelper.class_eval do
+  prepend RubyLangMailingListCustomizationApplicationHelper
+end

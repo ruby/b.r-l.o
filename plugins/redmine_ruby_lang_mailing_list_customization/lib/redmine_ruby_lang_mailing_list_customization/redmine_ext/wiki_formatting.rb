@@ -7,4 +7,6 @@ module RubyLangMailingListCustomizationWikiFormatting
   end
 end
 
-Redmine::WikiFormatting.prepend RubyLangMailingListCustomizationWikiFormatting
+Redmine::WikiFormatting.class_eval do
+  prepend RubyLangMailingListCustomizationWikiFormatting
+end
