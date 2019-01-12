@@ -218,6 +218,7 @@ DEPENDENCIES
   actionpack-xml_parser
   airbrake
   aws-sdk (~> 1)
+  bundler (>= 1.5.0, < 2.0.0)
   capybara (~> 2.13)
   coderay (~> 1.1.1)
   dotenv-rails
@@ -262,4 +263,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.17.2
+   1.17.3
