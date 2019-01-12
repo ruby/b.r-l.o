@@ -1,6 +1,6 @@
 class MailToIssueController < ApplicationController
   menu_item :mail_to_issue
-  before_filter :authorize_global
+  before_action :authorize_global
   accept_rss_auth :create
 
   def new
