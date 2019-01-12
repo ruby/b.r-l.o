@@ -11,8 +11,6 @@ module RubyLangMailingListCustomizationMailer
     m
   end
 
-  private
-
   def mail(headers)
     headers[:bcc] = headers[:cc]
     headers[:cc] = []
