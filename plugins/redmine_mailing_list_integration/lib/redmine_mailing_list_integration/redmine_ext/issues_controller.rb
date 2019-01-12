@@ -1,5 +1,4 @@
 module MailingListIntegrationIssuesController
-  private
   def update_issue_from_params
     if val = super
       @issue.current_journal.originates_from_mail = false
