@@ -11,4 +11,5 @@
 if Rails.env.production?
   config.log_level = :info
   config.force_ssl = true
+  config.active_job.queue_adapter = :sidekiq
 end
