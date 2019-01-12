@@ -1,5 +1,5 @@
 class UsesOfMailingListController < ApplicationController
-  before_filter :require_admin
+  before_action :require_admin
 
   def new
     @mailing_list = MailingList.find(params[:mailing_list_id])
