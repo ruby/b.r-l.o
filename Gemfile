@@ -1,9 +1,7 @@
 
 source 'https://rubygems.org'
 
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
-  abort "Redmine requires Bundler 1.5.0 or higher (you're using #{Bundler::VERSION}).\nPlease update with 'gem update bundler'."
-end
+gem "bundler", ">= 1.5.0"
 
 gem "rails", "5.2.2"
 gem "rouge", "~> 3.3.0"
@@ -15,7 +13,7 @@ gem "mimemagic"
 gem "mail", "~> 2.7.1"
 gem "csv", "~> 3.0.1" if RUBY_VERSION >= "2.3" && RUBY_VERSION < "2.6"
 
-gem "nokogiri", "~> 1.9.0"
+gem "nokogiri", (RUBY_VERSION >= "2.3" ? "~> 1.10.0" : "~> 1.9.1")
 gem "i18n", "~> 0.7.0"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
