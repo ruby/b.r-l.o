@@ -1,5 +1,4 @@
 module MailingListIntegrationMailHandler
-  private
   def receive(email, options = {})
     if cycled?(email)
       @email = email
