@@ -38,7 +38,7 @@ class MailingListsController < ApplicationController
   end
 
   def create
-    @mailing_list = MailingList.new(params[:mailing_list])
+    @mailing_list = MailingList.new(mailing_list_params)
     respond_to do |format|
       if @mailing_list.save
         flash[:notice] = l(:notice_successful_create)
@@ -60,7 +60,7 @@ class MailingListsController < ApplicationController
   def update
     edit
     respond_to do |format|
-      if @mailing_list.update_attributes(params[:mailing_list])
+      if @mailing_list.update_attributes(mailing_list_params)
         flash[:notice] = l(:notice_successful_update)
         format.html { redirect_to(action: 'edit', id: @mailing_list) }
         format.xml  { head :ok }
@@ -80,4 +80,11 @@ class MailingListsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+  def mailing_list_params
+    params.require(:mailing_list).permit(:identifier, :address, :driver_name, :driver_data, :description)
+  end
+
 end

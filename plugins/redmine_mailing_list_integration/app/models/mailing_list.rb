@@ -7,8 +7,6 @@ class MailingList < ActiveRecord::Base
   validates_presence_of :identifier, :address, :driver_name
   validates_uniqueness_of :identifier
 
-  attr_protected :id
-
   def driver_for(email)
     driver_class.new(email, self)
   end
