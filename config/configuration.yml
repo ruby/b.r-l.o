@@ -201,7 +201,6 @@ default:
 # specific configuration options for production environment
 # that overrides the default ones
 production:
-  karma: false
   email_delivery:
     delivery_method: :smtp
     smtp_settings:
@@ -212,9 +211,6 @@ production:
       port: 587
       authentication: :plain
       enable_starttls_auto: true
-  elasticsearch:
-    log: true
-    request_timeout: 180
 
 # specific configuration options for development environment
 # that overrides the default ones
