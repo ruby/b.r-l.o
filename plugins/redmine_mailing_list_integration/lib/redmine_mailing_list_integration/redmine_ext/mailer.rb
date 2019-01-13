@@ -27,8 +27,8 @@ module MailingListIntegrationMailer
     m
   end
 
-  def attachments_added(attachments)
-    m = super(attachments)
+  def attachments_added(user, attachments)
+    m = super(user, attachments)
 
     mailing_lists = attatchments.first.container.project.mail_routes_for_attachments(attachments)
     m.header[:to] = mailing_lists.map(&:address)
@@ -63,6 +63,18 @@ Mailer.class_eval do
       unless journal.originates_from_mail?
         issue_edit(journal.author, journal).deliver_later
       end
+    end
+
+    def deliver_attachments_added(attachments)
+      container = attachments.first.container
+      case container.class.name
+      when 'Project', 'Version'
+        user = container.project.notified_users.first
+      when 'Document'
+        user = container.notified_users.fisrt
+      end
+
+      attachments_added(user, attachments).deliver_later
     end
   end
 
