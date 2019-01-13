@@ -24,23 +24,23 @@ module MailingListIntegrationMailer
     end
   end
 
-  def issue_add(issue, to_users, cc_users)
+  def issue_add(user, issue)
     mailing_lists = issue.project.mail_routes_for_issue(issue)
     record_message(issue, nil, mailing_lists)
 
-    m = super(issue, to_users, cc_users)
+    m = super(user, issue)
 
     m.header[:to] = mailing_lists.map(&:address)
     m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
 
-  def issue_edit(journal, to_users, cc_users)
+  def issue_edit(user, journal)
     issue = journal.issue
     mailing_lists = issue.project.mail_routes_for_issue(issue)
     record_message(issue, journal, mailing_lists)
 
-    m = super(journal, to_users, cc_users)
+    m = super(user, journal)
 
     s = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}]"
     s << "[#{issue.status.name}]" if journal.new_value_for('status_id')
