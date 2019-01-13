@@ -106,7 +106,7 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.10.0)
       mini_portile2 (~> 2.4.0)
-    pg (1.0.0)
+    pg (1.1.4)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -219,7 +219,7 @@ DEPENDENCIES
   net-ldap (~> 0.16.0)
   newrelic_rpm
   nokogiri (~> 1.10.0)
-  pg (~> 1.0.0)
+  pg
   pry-rails
   puma
   rack-openid

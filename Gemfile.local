@@ -1,6 +1,7 @@
 ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 2.5.3'
 
 gem 'puma'
+gem 'pg'
 gem 'rack-protection'
 gem 'sidekiq'
 gem 'hiredis'
