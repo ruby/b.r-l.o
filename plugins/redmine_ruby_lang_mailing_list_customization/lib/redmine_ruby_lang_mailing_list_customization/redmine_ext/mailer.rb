@@ -13,8 +13,8 @@ module RubyLangMailingListCustomizationMailer
     m
   end
 
-  def mail(headers)
-    headers[:bcc] = headers[:cc]
+  def mail(headers={}, &block)
+    headers[:bcc] = headers[:bcc].concat(headers[:cc])
     headers[:cc] = []
     locale = headers[:to].to_s.include?('ruby-dev') ? :ja : :en
     I18n.with_locale(locale) { super(headers) }
