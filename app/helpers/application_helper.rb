@@ -520,8 +520,7 @@ module ApplicationHelper
   end
 
   def authoring(created, author, options={})
-    author_label = link_to_user(author)
-    l(options[:label] || :label_added_time_by, :author => author_label, :age => time_tag(created)).html_safe
+    l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created)).html_safe
   end
 
   def time_tag(time)
