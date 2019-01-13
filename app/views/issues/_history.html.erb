@@ -5,11 +5,11 @@
     <div class="contextual">
       <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
       <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
-    </div>
-    <h4>
       <% if m = MailingListMessage.find_by_journal_id(journal.id) and m.mail_number %>
          <%= link_to(m.identifier, m.archive_url, :class => 'journal-link', :style => 'padding-right: 0.5em') %>
       <% end %>
+    </div>
+    <h4>
       <%= avatar(journal.user, :size => "24") %>
       <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
       <%= render_private_notes_indicator(journal) %>
