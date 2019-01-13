@@ -66,15 +66,7 @@ Mailer.class_eval do
     end
 
     def deliver_attachments_added(attachments)
-      container = attachments.first.container
-      case container.class.name
-      when 'Project', 'Version'
-        user = container.project.notified_users.first
-      when 'Document'
-        user = container.notified_users.fisrt
-      end
-
-      attachments_added(user, attachments).deliver_later
+      attachments_added(attachments.first.author, attachments).deliver_later
     end
   end
 
