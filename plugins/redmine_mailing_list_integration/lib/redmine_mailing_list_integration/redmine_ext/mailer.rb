@@ -2,6 +2,7 @@ module MailingListIntegrationMailer
 
   def issue_add(user, issue)
     mailing_lists = issue.project.mail_routes_for_issue(issue)
+
     record_message(issue, nil, mailing_lists)
 
     m = super(user, issue)
@@ -14,6 +15,7 @@ module MailingListIntegrationMailer
   def issue_edit(user, journal)
     issue = journal.issue
     mailing_lists = issue.project.mail_routes_for_issue(issue)
+
     record_message(issue, journal, mailing_lists)
 
     m = super(user, journal)
@@ -24,11 +26,11 @@ module MailingListIntegrationMailer
   end
 
   def attachments_added(user, attachments)
+    mailing_lists = attatchments.first.container.project.mail_routes_for_attachments(attachments)
+
     m = super(user, attachments)
 
-    mailing_lists = attatchments.first.container.project.mail_routes_for_attachments(attachments)
     m.header[:to] = mailing_lists.map(&:address)
-    m.header[:subject] = "[#{container.project.name}] #{l(:label_attachment_new)}"
     m
   end
 
