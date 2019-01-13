@@ -1,13 +1,13 @@
 module RubyLangMailingListCustomizationMailer
   def issue_add(*args)
     m = super(*args)
-    m.header[:from] = args[0].author.mail # args[0] == issue
+    m.header[:from] = args[1].author.mail # args[1] == issue
     m
   end
 
   def issue_edit(*args)
     m = super(*args)
-    m.header[:from] = args[0].user.mail # args[0] == journal
+    m.header[:from] = args[1].user.mail # args[1] == journal
     m
   end
 
