@@ -3,6 +3,7 @@
 /.loadpath
 /.powrc
 /.rvmrc
+/config/database.yml
 /config/email.yml
 /config/secrets.yml
 /config/initializers/session_store.rb
