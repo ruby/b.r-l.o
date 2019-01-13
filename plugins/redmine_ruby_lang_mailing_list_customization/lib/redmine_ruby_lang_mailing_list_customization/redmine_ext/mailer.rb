@@ -7,7 +7,7 @@ module RubyLangMailingListCustomizationMailer
   end
 
   def issue_edit(user, journal)
-    m = super(*args)
+    m = super(user, journal)
 
     m.header[:from] = journal.user.mail
     m
