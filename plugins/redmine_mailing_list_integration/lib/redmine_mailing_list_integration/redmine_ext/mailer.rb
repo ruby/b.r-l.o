@@ -61,7 +61,7 @@ Mailer.class_eval do
 
     def deliver_issue_edit(journal)
       unless journal.originates_from_mail?
-        issue_edit(journal.author, journal).deliver_later
+        issue_edit(journal.user, journal).deliver_later
       end
     end
 
