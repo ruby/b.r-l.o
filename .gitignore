@@ -3,6 +3,7 @@
 /.loadpath
 /.powrc
 /.rvmrc
+/.ruby-version
 /config/database.yml
 /config/email.yml
 /config/secrets.yml
