@@ -109,6 +109,7 @@ module Redmine
 
       # Add the plugin directories to rails autoload paths
       engine_cfg = Rails::Engine::Configuration.new(p.directory)
+      engine_cfg.paths.add 'lib', eager_load: true
       Rails.application.config.eager_load_paths += engine_cfg.eager_load_paths
       Rails.application.config.autoload_once_paths += engine_cfg.autoload_once_paths
       Rails.application.config.autoload_paths += engine_cfg.autoload_paths
@@ -268,7 +269,11 @@ module Redmine
       arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
-      plugin = Plugin.find(plugin_name)
+      begin
+        plugin = Plugin.find(plugin_name)
+      rescue PluginNotFound
+        raise PluginRequirementError.new("#{id} plugin requires the #{plugin_name} plugin")
+      end
       current = plugin.version.split('.').collect(&:to_i)
 
       arg.each do |k, v|
