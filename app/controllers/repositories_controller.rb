@@ -222,7 +222,10 @@ class RepositoriesController < ApplicationController
     end
 
     if @issue
+      p changeset: @changeset, issue: @issue
       @changeset.issues << @issue
+    else
+      p changeset: @changeset, issue: issue, added: false
     end
 
     respond_to do |format|
