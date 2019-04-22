@@ -216,6 +216,7 @@ class RepositoriesController < ApplicationController
       @issue = nil
     end
 
+    p changeset: @changeset, issue: @issue, at_issue: issue
     if @issue
       @changeset.issues << @issue
     end
@@ -226,7 +227,7 @@ class RepositoriesController < ApplicationController
         status =
           @issue ? 201 :
           !issue.visible? ? 403 :
-          @changeset.issues.include?(issue) ? 409 :
+          issue ? 409 :
           404
         render :text => %[{"status":#{status}}'], :status => status
       end
