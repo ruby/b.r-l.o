@@ -222,10 +222,8 @@ class RepositoriesController < ApplicationController
     end
 
     if @issue
-      p changeset: @changeset, issue: @issue
       @changeset.issues << @issue
     else
-      p changeset: @changeset, issue: issue, added: false
     end
 
     respond_to do |format|
@@ -236,7 +234,7 @@ class RepositoriesController < ApplicationController
           !issue.visible? ? 403 :
           issue ? 409 : # @changeset.issues.include?(issue)
           404
-        render :text => %[{"status":#{status}}'], :status => status
+        render :plain => %[{"status":#{status}}'], :status => status
       end
     end
   end
