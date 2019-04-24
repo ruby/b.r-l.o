@@ -1,3 +1,0 @@
-[submodule "plugins/redmine_s3"]
-	path = plugins/redmine_s3
-	url = https://github.com/ruby/redmine_s3.git
