@@ -4,6 +4,3 @@
 [submodule "plugins/redmine_ruby_lang_mailing_list_customization"]
 	path = plugins/redmine_ruby_lang_mailing_list_customization
 	url = https://github.com/ruby/redmine_ruby_lang_mailing_list_customization.git
-[submodule "plugins/redmine_mailing_list_integration_imap_supplement"]
-	path = plugins/redmine_mailing_list_integration_imap_supplement
-	url = https://github.com/ruby/redmine_mailing_list_integration_imap_supplement.git
