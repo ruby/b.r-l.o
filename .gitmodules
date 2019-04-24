@@ -10,6 +10,3 @@
 [submodule "plugins/redmine_mailing_list_integration"]
 	path = plugins/redmine_mailing_list_integration
 	url = https://github.com/ruby/redmine_mailing_list_integration.git
-[submodule "plugins/redmine_link_to_root"]
-	path = plugins/redmine_link_to_root
-	url = https://github.com/ruby/redmine_link_to_root.git
