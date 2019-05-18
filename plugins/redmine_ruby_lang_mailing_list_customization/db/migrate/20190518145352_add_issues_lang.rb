@@ -1,4 +1,4 @@
-class AddIssuesClosedOn < ActiveRecord::Migration[5.2]
+class AddIssuesLang < ActiveRecord::Migration[5.2]
   def up
     add_column :issues, :lang, :string, :limit => 8, :default => "en"
   end
