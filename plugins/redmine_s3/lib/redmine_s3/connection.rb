@@ -1,4 +1,4 @@
-require 'aws-sdk'
+require 'aws-sdk-s3'
 
 AWS.config(:ssl_verify_peer => false)
 
@@ -37,7 +37,7 @@ module RedmineS3
         options[:s3_endpoint] = self.endpoint unless self.endpoint.nil?
         options[:s3_port] = self.port unless self.port.nil?
         options[:use_ssl] = self.ssl unless self.ssl.nil?
-        @conn = AWS::S3.new(options)
+        @conn = Aws::S3::Resource.new(options)
       end
 
       def conn
@@ -50,8 +50,8 @@ module RedmineS3
       end
 
       def create_bucket
-        bucket = self.conn.buckets[self.bucket]
-        self.conn.buckets.create(self.bucket) unless bucket.exists?
+        bucket = self.conn.bucket(self.bucket)
+        self.conn.create_bucket({bucket: self.bucket}) unless bucket.exists?
       end
 
       def folder
@@ -101,8 +101,8 @@ module RedmineS3
       end
 
       def object(filename, target_folder = self.folder)
-        bucket = self.conn.buckets[self.bucket]
-        bucket.objects[target_folder + filename]
+        bucket = self.conn.bucket(self.bucket)
+        bucket.object(target_folder + filename)
       end
 
       def put(disk_filename, original_filename, data, content_type='application/octet-stream', target_folder = self.folder)
@@ -111,7 +111,7 @@ module RedmineS3
         options[:acl] = :public_read unless self.private?
         options[:content_type] = content_type if content_type
         options[:content_disposition] = "inline; filename=#{ERB::Util.url_encode(original_filename)}"
-        object.write(data, options)
+        object.put({body: data}.merge(options))
       end
 
       def delete(filename, target_folder = self.folder)
@@ -122,17 +122,17 @@ module RedmineS3
       def object_url(filename, target_folder = self.folder)
         object = self.object(filename, target_folder)
         if self.private?
-          options = {:secure => self.secure?}
-          options[:expires] = self.expires unless self.expires.nil?
-          object.url_for(:read, options).to_s
+          options = {}
+          options[:expire_in] = self.expires unless self.expires.nil?
+          object.presigned_url(:get, options)
         else
-          object.public_url(:secure => self.secure?).to_s
+          object.public_url
         end
       end
 
       def get(filename, target_folder = self.folder)
         object = self.object(filename, target_folder)
-        object.read
+        object.get.body.read
       end
     end
   end
