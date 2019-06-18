@@ -1,7 +1,5 @@
 require 'aws-sdk-s3'
 
-AWS.config(:ssl_verify_peer => false)
-
 module RedmineS3
   class Connection
     @@conn = nil
