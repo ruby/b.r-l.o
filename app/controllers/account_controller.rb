@@ -27,9 +27,9 @@ class AccountController < ApplicationController
   # Overrides ApplicationController#verify_authenticity_token to disable
   # token verification on openid callbacks
   def verify_authenticity_token
-    unless using_open_id?
+    #unless using_open_id?
       super
-    end
+    #end
   end
 
   # Login request and validation
@@ -206,11 +206,11 @@ class AccountController < ApplicationController
   private
 
   def authenticate_user
-    if Setting.openid? && using_open_id?
-      open_id_authenticate(params[:openid_url])
-    else
+    #if Setting.openid? && using_open_id?
+    #  open_id_authenticate(params[:openid_url])
+    #else
       password_authentication
-    end
+    #end
   end
 
   def password_authentication
