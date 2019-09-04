@@ -4,22 +4,25 @@ module RubyLangMailingListCustomizationMailHandler
       email.body = email.body.encode("UTF-8", charset) rescue nil
       email.subject = email.subject.encode("UTF-8", charset) rescue nil
     end
-    email.subject = email.subject.sub(/\[#{Regexp.escape driver.mailing_list.identifier}:\d+\]/, '')
-    if subject_tag_re =~ email.subject
-      email.subject = email.subject.sub(subject_tag_re, '')
-      if %w[ ruby-core ruby-dev ].include? driver.mailing_list.identifier
-        tracker_name, proj_name = $1, $2
-        @ruby_lang_tracker_name = Tracker.where(['LOWER(trackers.name) = LOWER(?)', tracker_name]).first&.name
-        @ruby_lang_project_name =
-          case proj_name
-          when 'trunk'             then 'ruby-trunk'
-          when /\A1\.([89])\z/     then "ruby-1#{$1}"
-          when /\A1\.8\.([6-9])\z/ then "ruby-18#{$1}"
-          when /\A1\.9\.([1-9])\z/ then "ruby-19#{$1}"
-          when /\A2\.0\.([0-9])\z/ then "ruby-20#{$1}"
-          when /\A2\.1\.([0-9])\z/ then "ruby-21"
-          else 'ruby'
-          end
+    begin
+      email.subject = email.subject.sub(/\[#{Regexp.escape driver.mailing_list.identifier}:\d+\]/, '')
+    rescue MailHandler::MissingInformation
+      if subject_tag_re =~ email.subject
+        email.subject = email.subject.sub(subject_tag_re, '')
+        if %w[ ruby-core ruby-dev ].include? driver.mailing_list.identifier
+          tracker_name, proj_name = $1, $2
+          @ruby_lang_tracker_name = Tracker.where(['LOWER(trackers.name) = LOWER(?)', tracker_name]).first&.name
+          @ruby_lang_project_name =
+            case proj_name
+            when 'trunk'             then 'ruby-trunk'
+            when /\A1\.([89])\z/     then "ruby-1#{$1}"
+            when /\A1\.8\.([6-9])\z/ then "ruby-18#{$1}"
+            when /\A1\.9\.([1-9])\z/ then "ruby-19#{$1}"
+            when /\A2\.0\.([0-9])\z/ then "ruby-20#{$1}"
+            when /\A2\.1\.([0-9])\z/ then "ruby-21"
+            else 'ruby'
+            end
+        end
       end
     end
     super
