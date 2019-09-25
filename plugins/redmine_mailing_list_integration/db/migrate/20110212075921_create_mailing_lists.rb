@@ -1,4 +1,4 @@
-class CreateMailingLists < ActiveRecord::Migration
+class CreateMailingLists < ActiveRecord::Migration[5.2]
   def self.up
     create_table :mailing_lists do |t|
       t.string :identifier, null: false, unique: true
