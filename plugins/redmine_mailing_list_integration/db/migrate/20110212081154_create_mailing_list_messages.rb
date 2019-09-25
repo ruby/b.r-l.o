@@ -1,4 +1,4 @@
-class CreateMailingListMessages < ActiveRecord::Migration
+class CreateMailingListMessages < ActiveRecord::Migration[5.2]
   def self.up
     create_table :mailing_list_messages do |t|
       t.string :message_id

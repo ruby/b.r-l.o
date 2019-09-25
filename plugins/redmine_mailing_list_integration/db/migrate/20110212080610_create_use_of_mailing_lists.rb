@@ -1,4 +1,4 @@
-class CreateUseOfMailingLists < ActiveRecord::Migration
+class CreateUseOfMailingLists < ActiveRecord::Migration[5.2]
   def self.up
     create_table :uses_of_mailing_list do |t|
       t.string :receptor_name, null: false
