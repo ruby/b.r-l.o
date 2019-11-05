@@ -1,0 +1,41 @@
+<h3 class="title"><%= l(:label_add_tags) %></h3>
+
+<% if @is_bulk_editing %>
+  <h3><%= l(:label_bulk_edit_selected_issues) %></h3>
+  <ul>
+    <% @issues.each do |issue| %>
+        <%= content_tag 'li', link_to_issue(issue) %>
+    <% end %>
+  </ul>
+<% else %>
+    <h3><%= content_tag 'span', link_to_issue(@issues.first) %></h3>
+<% end %>
+
+
+<%= form_tag(update_issue_tags_path(:ids => @issue_ids),
+             :method => :post,
+             :id => 'edit-issue-tags-form') do %>
+
+    <fieldset class="box">
+      <legend><%= l(:tags) %></legend>
+      <div id="issue_tags">
+        <%= select2_tag 'issue[tag_list]',
+                        options_for_select(@issue_tags.map{ |tag| [tag, tag] }, @issue_tags),
+                        :multiple => true,
+                        :style => 'width: 100%;',
+                        :url => auto_complete_redmine_tags_path,
+                        :placeholder => @is_bulk_editing ? t(:label_no_change_option) : '+ add tag',
+                        :tags => User.current.allowed_to?(:create_tags, @project) %>
+      </div>
+
+      <p class="most_used_tags">
+        <%= safe_join(@most_used_tags.collect { |t| content_tag('span', t.name, :class => 'most_used_tag') }, ', ') %>
+      </p>
+      <%= javascript_tag "var mostUsedTags = #{@most_used_tags.map(&:name)}" %>
+    </fieldset>
+
+    <div class="buttons">
+      <%= submit_tag l(:button_add), :name => nil %>
+      <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+    </div>
+<% end %>

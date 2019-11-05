@@ -1,0 +1,68 @@
+# project_1:
+#   issue_1:
+#     tags: [second, third]
+#   issue_2:
+#     tags: [second, third]
+#   issue_8:
+#     tags: [first, second]
+#
+# project_3:
+#   issue_5:
+#     tags: [second, third]
+
+---
+# Relation with closed issue from project with id 1
+tagging_1:
+  tag_id: 1
+  taggable_id: 8
+  taggable_type: Issue
+  created_at: "2017-12-04 00:0:00"
+
+# Relation with opened issue from project with id 1
+tagging_2:
+  tag_id: 2
+  taggable_id: 1
+  taggable_type: Issue
+  created_at: "2017-12-04 01:00:00"
+
+# Relation with opened issue from project with id 1
+tagging_3:
+  tag_id: 2
+  taggable_id: 2
+  taggable_type: Issue
+  created_at: "2017-12-04 02:00:00"
+
+# Relation with closed issue from project with id 1
+tagging_4:
+  tag_id: 2
+  taggable_id: 8
+  taggable_type: Issue
+  created_at: "2017-12-04 03:00:00"
+
+# Relation with opened issue from project with id 3
+tagging_5:
+  tag_id: 2
+  taggable_id: 5
+  taggable_type: Issue
+  created_at: "2017-12-04 04:00:00"
+
+# Relation with opened issue from project with id 1
+tagging_6:
+  tag_id: 3
+  taggable_id: 1
+  taggable_type: Issue
+  created_at: "2017-12-04 05:00:00"
+
+# Relation with opened issue from project with id 1
+tagging_7:
+  tag_id: 3
+  taggable_id: 2
+  taggable_type: Issue
+  created_at: "2017-12-04 06:00:00"
+
+# Relation with closed issue from project with id 3
+tagging_8:
+  tag_id: 3
+  taggable_id: 5
+  taggable_type: Issue
+  created_at: "2017-12-04 07:00:00"

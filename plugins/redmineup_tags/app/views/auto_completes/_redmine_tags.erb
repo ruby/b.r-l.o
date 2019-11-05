@@ -1,0 +1,6 @@
+<%= raw @redmine_tags.map { |redmine_tag| {
+        'id' => redmine_tag.name,
+        'text' => redmine_tag.name
+      }
+    }.to_json
+%>
