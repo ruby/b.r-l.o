@@ -30,11 +30,10 @@ group :ldap do
 end
 
 # Optional gem for OpenID authentication
-#group :openid do
-#  # 2.7.0 has vulnerability: https://github.com/openid/ruby-openid/issues/122
-#  gem "ruby-openid", "~> 2.8.0", :require => "openid"
-#  gem "rack-openid"
-#end
+group :openid do
+  gem "ruby-openid", "~> 2.7.0", :require => "openid"
+  gem "rack-openid"
+end
 
 platforms :mri, :mingw, :x64_mingw do
   # Optional gem for exporting the gantt to a PNG file, not supported with jruby
