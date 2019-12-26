@@ -49,11 +49,11 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrake (9.5.5)
       airbrake-ruby (~> 4.8)
-    airbrake-ruby (4.10.1)
+    airbrake-ruby (4.11.1)
       rbtree3 (~> 0.5)
     arel (9.0.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.258.0)
+    aws-partitions (1.260.0)
     aws-sdk-core (3.86.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -115,7 +115,7 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
-    pg (1.1.4)
+    pg (1.2.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -178,7 +178,7 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sidekiq (6.0.3)
+    sidekiq (6.0.4)
       connection_pool (>= 2.2.2)
       rack (>= 2.0.0)
       rack-protection (>= 2.0.0)
@@ -201,7 +201,7 @@ GEM
       sq_mini_racer (~> 0.2.4.sqreen2)
     thor (1.0.1)
     thread_safe (0.3.6)
-    tzinfo (1.2.5)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
@@ -255,4 +255,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.1
+   2.1.2
