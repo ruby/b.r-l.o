@@ -17,6 +17,12 @@ This plugin integrates mailing lists with Redmine.
 
 This plugin adds a IMAP support for Redmine Mailing List Integration plugin.
 
+# ruby_lang_mailing_list_customization
+
+This is an enhancement for RedmineMailingListIntegration plugin. It adds some ruby-lang.org specific features
+
+This plugin is worth for only bugs.ruby-lang.org
+
 ## Installation
 
 Add this repository into your redmine's plugin folder.

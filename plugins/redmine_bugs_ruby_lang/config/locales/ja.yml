@@ -9,3 +9,4 @@ ja:
   label_confirm_destroy: 本当に削除しますか?
   field_mail_number: メール番号
   label_mail_to_issue: メールをチケットにする
+  field_mailing_list: "報告先 (言語)"

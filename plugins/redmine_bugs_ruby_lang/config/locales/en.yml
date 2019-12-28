@@ -9,3 +9,4 @@ en:
   label_confirm_destroy: Are you sure?
   field_mail_number: mail number
   label_mail_to_issue: Mail to issue
+  field_mailing_list: "Preferred language"
