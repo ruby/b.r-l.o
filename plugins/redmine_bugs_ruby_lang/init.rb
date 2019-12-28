@@ -1,13 +1,12 @@
 require 'redmine'
-require 'redmine_link_to_root'
+
 require "redmine_mailing_list_integration"
 require "redmine_mailing_list_integration/configuration"
-require "redmine_mailing_list_integration/hooks"
-require 'redmine_mailing_list_integration/redmine_ext'
-require 'redmine_mailing_list_integration_imap_supplement/imap'
 require 'redmine_ruby_lang_mailing_list_customization/ruby_core_or_ruby_dev_receptor'
-require "redmine_ruby_lang_mailing_list_customization/hooks"
-require 'redmine_ruby_lang_mailing_list_customization/redmine_ext'
+
+class Redmine::Plugin
+  include RedmineMailingListIntegration::Configuration
+end
 
 Redmine::Plugin.register :redmine_bugs_ruby_lang do
   name 'Redmine for bugs.ruby-lang.org'
@@ -41,9 +40,12 @@ Redmine::Plugin.register :redmine_bugs_ruby_lang do
   end
 end
 
-class Redmine::Plugin
-  include RedmineMailingListIntegration::Configuration
-end
+require 'redmine_link_to_root'
+require "redmine_mailing_list_integration/hooks"
+require 'redmine_mailing_list_integration/redmine_ext'
+require 'redmine_mailing_list_integration_imap_supplement/imap'
+require "redmine_ruby_lang_mailing_list_customization/hooks"
+require 'redmine_ruby_lang_mailing_list_customization/redmine_ext'
 
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :mailing_lists, {controller: 'mailing_lists'}, caption: :label_mailing_list_plural

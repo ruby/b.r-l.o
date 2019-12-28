@@ -1,5 +1,3 @@
-require 'based_on_mail'
-
 module RedmineMailingListIntegration
   module RedmineExt
     module IssueExt
