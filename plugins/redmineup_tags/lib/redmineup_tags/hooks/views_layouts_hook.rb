@@ -22,11 +22,11 @@ module RedmineupTags
     class ViewsLayoutsHook < Redmine::Hook::ViewListener
 
       def view_layouts_base_html_head(context = {})
-        stylesheet_link_tag "redmine_tags.js", :plugin => 'redmineup_tags'
-        javascript_include_tag "redmine_tags.css", :plugin => 'redmineup_tags'
+        javascript_include_tag "redmine_tags", :plugin => 'redmineup_tags'
         javascript_include_tag 'select2', plugin: 'redmine_crm'
-        stylesheet_link_tag 'select2', plugin: 'redmine_crm'
         javascript_include_tag 'select2_helpers', plugin: 'redmine_crm'
+        stylesheet_link_tag "redmine_tags", :plugin => 'redmineup_tags'
+        stylesheet_link_tag 'select2', plugin: 'redmine_crm'
       end
 
       def view_layouts_base_body_bottom(context = {})
