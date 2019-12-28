@@ -17,24 +17,23 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'redmine_crm/helpers/external_assets_helper'
-require 'redmine_crm/helpers/form_tag_helper'
-
 module RedmineupTags
   module Hooks
     class ViewsLayoutsHook < Redmine::Hook::ViewListener
-      include RedmineCrm::ExternalAssetsHelper
-      include RedmineCrm::FormTagHelper
 
       def view_layouts_base_html_head(context = {})
         stylesheet_link_tag "redmine_tags.js", :plugin => 'redmineup_tags'
         javascript_include_tag "redmine_tags.css", :plugin => 'redmineup_tags'
-        select2_assets
+        javascript_include_tag 'select2', plugin: 'redmine_crm'
+        stylesheet_link_tag 'select2', plugin: 'redmine_crm'
+        javascript_include_tag 'select2_helpers', plugin: 'redmine_crm'
       end
 
       def view_layouts_base_body_bottom(context = {})
-        transform_to_select2('issue_tags', url: auto_complete_redmine_tags_url)
+        options = {url: auto_complete_redmine_tags_url}
+        javascript_tag("setSelect2Filter('issue_tags', #{options.to_json});")
       end
+
     end
   end
 end
