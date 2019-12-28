@@ -10,7 +10,7 @@ require "redmine_ruby_lang_mailing_list_customization/hooks"
 require 'redmine_ruby_lang_mailing_list_customization/redmine_ext'
 
 Redmine::Plugin.register :redmine_bugs_ruby_lang do
-  name 'Redmine Link To Root plugin'
+  name 'Redmine for bugs.ruby-lang.org'
   author 'Yuki Sonoda (Yugui)'
   description <<-EOS.gsub(/^\s+/, '')
     This plugin makes the header title linked to the root of site when it is not associated with any particular project.
