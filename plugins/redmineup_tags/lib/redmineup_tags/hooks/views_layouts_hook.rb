@@ -20,8 +20,15 @@
 module RedmineupTags
   module Hooks
     class ViewsLayoutsHook < Redmine::Hook::ViewListener
-      render_on :view_layouts_base_html_head, partial: 'tags/additional_assets'
-      render_on :view_layouts_base_body_bottom, partial: 'tags/select2_transformation_rules'
+      def view_layouts_base_html_head(context = {})
+        stylesheet_link_tag "redmine_tags.js", :plugin => 'redmineup_tags'
+        javascript_include_tag "redmine_tags.css", :plugin => 'redmineup_tags'
+        select2_assets
+      end
+
+      def view_layouts_base_body_bottom(context = {})
+        transform_to_select2('issue_tags', url: auto_complete_redmine_tags_url)
+      end
     end
   end
 end
