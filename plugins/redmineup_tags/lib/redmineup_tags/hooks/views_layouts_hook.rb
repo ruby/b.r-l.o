@@ -17,9 +17,13 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'redmine_crm/helpers/external_assets_helper'
+
 module RedmineupTags
   module Hooks
     class ViewsLayoutsHook < Redmine::Hook::ViewListener
+      include RedmineCrm::ExternalAssetsHelper
+
       def view_layouts_base_html_head(context = {})
         stylesheet_link_tag "redmine_tags.js", :plugin => 'redmineup_tags'
         javascript_include_tag "redmine_tags.css", :plugin => 'redmineup_tags'
