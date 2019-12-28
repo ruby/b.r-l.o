@@ -7,3 +7,5 @@ ja:
   field_driver_data: ドライバオプション
   label_destroy: 削除
   label_confirm_destroy: 本当に削除しますか?
+  field_mail_number: メール番号
+  label_mail_to_issue: メールをチケットにする

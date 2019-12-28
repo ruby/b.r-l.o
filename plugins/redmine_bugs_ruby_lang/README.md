@@ -13,6 +13,10 @@ This plugin integrates mailing lists with Redmine.
 * Transports issue_add, issue_edit mails to the correct mailing list.
 * Adds a hyperlink to the corresponding message into issue page
 
+## RedmineMailingListIntegrationImapSupplement
+
+This plugin adds a IMAP support for Redmine Mailing List Integration plugin.
+
 ## Installation
 
 Add this repository into your redmine's plugin folder.
@@ -24,3 +28,9 @@ Add this repository into your redmine's plugin folder.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Copyright
+
+(c) 2011 Yuki Sonoda (Yugui)
+
+This plugin is distributed under GPL 2 or later.
