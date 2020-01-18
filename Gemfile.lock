@@ -47,14 +47,14 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    airbrake (9.5.5)
-      airbrake-ruby (~> 4.8)
-    airbrake-ruby (4.11.1)
+    airbrake (10.0.0)
+      airbrake-ruby (~> 4.12)
+    airbrake-ruby (4.12.0)
       rbtree3 (~> 0.5)
     arel (9.0.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.260.0)
-    aws-sdk-core (3.86.0)
+    aws-partitions (1.266.0)
+    aws-sdk-core (3.89.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -80,7 +80,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
-    crass (1.0.5)
+    crass (1.0.6)
     css_parser (1.7.1)
       addressable
     docile (1.1.5)
@@ -109,27 +109,27 @@ GEM
     mimemagic (0.3.3)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.13.0)
-    mocha (1.11.1)
+    minitest (5.14.0)
+    mocha (1.11.2)
     net-ldap (0.16.2)
-    newrelic_rpm (6.7.0.359)
+    newrelic_rpm (6.8.0.360)
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
-    pg (1.2.0)
+    pg (1.2.2)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (4.0.2)
+    public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
-    rack (2.0.8)
+    rack (2.1.1)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
-    rack-protection (2.0.7)
+    rack-protection (2.0.8.1)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -212,7 +212,7 @@ GEM
     websocket-extensions (0.1.4)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.20)
+    yard (0.9.24)
 
 PLATFORMS
   ruby
@@ -260,4 +260,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
