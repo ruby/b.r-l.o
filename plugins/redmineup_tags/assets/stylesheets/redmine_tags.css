@@ -1,0 +1,43 @@
+#admin-menu a.tags { background-image: url(../images/tag-icon.png);}
+
+#sidebar ul.tags-cloud { list-style: none; padding: 0px; }
+#sidebar ul.tags-cloud li { margin: .25em 0px; }
+
+div.tags-cloud { text-align: center; }
+.tag-label-color {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  padding: 2px 4px;
+  display: inline-block;
+  font-size: 10px;
+  margin: 0px 0px 5px 2px;
+  color: white;
+}
+
+table.list tr.issue .tag-label-color a, .tag-label-color a { color: white; }
+
+tr.issue td.tags,
+table.list tr td.tags {text-align: left; white-space: normal;}
+
+div.tags-cloud .tag-nube-1 { font-size: .8em; }
+div.tags-cloud .tag-nube-2 { font-size: .9em; }
+div.tags-cloud .tag-nube-3 { font-size: 1em; }
+div.tags-cloud .tag-nube-4 { font-size: 1.1em; }
+div.tags-cloud .tag-nube-5 { font-size: 1.2em; }
+div.tags-cloud .tag-nube-6 { font-size: 1.3em; }
+div.tags-cloud .tag-nube-7 { font-size: 1.4em; }
+div.tags-cloud .tag-nube-8 { font-size: 1.5em; }
+
+.tag-label .tag-count,
+.tag-label-color .tag-count { font-size: .75em; margin-left: .5em; }
+
+
+#sidebar ul.tags-cloud li.letter { border-bottom: 1px dotted; margin: 10px 30px 10px 0px; font-weight: bold; }
+
+#tr_tags .select2-selection { background: initial; }
+#tr_tags .select2-selection__rendered { padding-left: 8px; }
+
+.icon-tags { background-image: url(../images/tag-icon.png);}
+
+.most_used_tag { cursor: pointer; color: #169; }
+.most_used_tag:hover { text-decoration: underline;}

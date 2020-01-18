@@ -1,0 +1,57 @@
+== Redmine Tags plugin changelog
+
+Redmine Tags plugin - Tags board plugin for redmine
+Copyright (C) 2011-2019 RedmineUP
+http://www.redmineup.com/
+
+== 2019-06-14 v2.0.8
+
+* Tags report for issues summary
+
+== 2019-06-14 v2.0.7
+
+* Agile plugin compatibility fixes
+
+== 2019-05-16 v2.0.6
+
+* Added tags to Time entries report
+* Added tags to Agile Versions board 
+* Updated german translation (Werner Maier)
+* Fixed Agile plugin compatibility bug
+* Fixed adding tags context menu permissions
+* Fixed bulk edit issue tags form permissions
+
+== 2019-04-08 v2.0.5
+
+ * Changed tags filter by condition AND
+ * Fixed tags field on issues bulk edit form
+ 
+== 2018-09-25 v2.0.4
+
+* Fixed bug with Agile board view
+
+== 2018-08-10 v2.0.3
+
+* Fixed issues export to CSV, PDF tags field
+* select2 behaviour fixes
+
+== 2018-03-21 v2.0.2
+
+* Redmine 4 support
+* Adding tags from issue's context menu
+* Added new permissions for Add and Create new tags in a project
+* Suggestion order setting for tags autocomplete (Name, Last created, Most used)
+* Prevent adding commas
+* Fixed issues list tags column formating
+
+== 2017-09-21 v2.0.1
+
+* Fixed issue import error
+
+== 2017-07-24 v2.0.0
+
+* select2 control
+* redmine_crm gem for tags
+* Admin settings link
+* Alphabet sorting view for list
+* Merging tags fixes

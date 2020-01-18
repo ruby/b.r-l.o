@@ -1,0 +1,5 @@
+<% if issue.tag_list.present? %>
+  <%= issue_fields_rows do |rows|
+    rows.left l(:tags), safe_join(issue.tag_counts.collect{ |t| render_issue_tag_link(t, :show_count => false, :open_only => RedmineupTags.settings['issues_open_only'].to_i > 0 ) }, RedmineupTags.settings['issues_use_colors'].to_i > 0 ? ' ' : ', ')
+  end %>
+<% end %>

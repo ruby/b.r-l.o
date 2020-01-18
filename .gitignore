@@ -21,12 +21,16 @@
 /log/*.log*
 /log/mongrel_debug
 /plugins/*
+!/plugins/redmine_bugs_ruby_lang
+!/plugins/redmine_s3
+!/plugins/redmineup_tags
 !/plugins/README
 /public/dispatch.*
 /public/plugin_assets/*
 /public/themes/*
 !/public/themes/alternate
 !/public/themes/classic
+!/public/themes/ruby-lang
 !/public/themes/README
 /tmp/*
 /tmp/cache/*
