@@ -69,6 +69,11 @@ class User < Principal
         :order => %w(login id),
         :setting_order => 8
       },
+    :login_with_fl => {
+        :string => '#{login} (#{firstname} #{lastname})',
+        :order => %w(login id),
+        :setting_order => 9
+    },
   }
 
   MAIL_NOTIFICATION_OPTIONS = [

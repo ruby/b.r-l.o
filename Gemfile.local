@@ -1,0 +1,18 @@
+ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 2.6.5'
+
+gem 'puma'
+gem 'pg'
+gem 'rack-protection'
+gem 'sidekiq'
+gem 'hiredis'
+
+group :development do
+  gem 'pry-rails'
+  gem 'dotenv-rails'
+end
+
+group :production do
+  gem 'newrelic_rpm'
+  gem 'airbrake'
+  gem 'sqreen'
+end

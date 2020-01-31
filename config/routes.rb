@@ -55,6 +55,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/projects/ruby-trunk:path', to: redirect('/projects/ruby-master%{path}'), constraints: { path: %r{(|/.*)} }
+
   get '/projects/:project_id/issues/gantt', :to => 'gantts#show', :as => 'project_gantt'
   get '/issues/gantt', :to => 'gantts#show'
 

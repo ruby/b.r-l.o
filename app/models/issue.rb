@@ -47,7 +47,7 @@ class Issue < ActiveRecord::Base
                      :preload => [:project, :status, :tracker],
                      :scope => lambda {|options| options[:open_issues] ? self.open : self.all}
 
-  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
+  acts_as_event :title => Proc.new {|o| "#{o.tracker&.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? '-closed' : '') }
 
