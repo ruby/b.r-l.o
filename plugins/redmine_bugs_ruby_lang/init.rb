@@ -25,6 +25,9 @@ Redmine::Plugin.register :redmine_bugs_ruby_lang do
   requires_redmine version_or_higher: '1.1.0'
 
   menu :project_menu, :mail_to_issue, {controller: 'mail_to_issue', action: 'new'}
+
+  menu :admin_menu, :mailing_lists, { controller: 'mailing_lists'}, caption: :label_mailing_list_plural, html: { class: 'icon'}
+
   project_module :mail_to_issue do
     permission :mail_to_issue, mail_to_issue: %w[ new create ]
   end
@@ -46,10 +49,6 @@ require 'redmine_mailing_list_integration/redmine_ext'
 require 'redmine_mailing_list_integration_imap_supplement/imap'
 require "redmine_ruby_lang_mailing_list_customization/hooks"
 require 'redmine_ruby_lang_mailing_list_customization/redmine_ext'
-
-Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :mailing_lists, {controller: 'mailing_lists'}, caption: :label_mailing_list_plural
-end
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'use_of_mailng_list', 'uses_of_mailing_list'
