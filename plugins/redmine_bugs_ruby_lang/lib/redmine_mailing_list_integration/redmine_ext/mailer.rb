@@ -59,12 +59,14 @@ Mailer.class_eval do
 
     def deliver_issue_edit(journal)
       unless journal.originates_from_mail?
-        issue_edit(journal.user, journal).deliver_later
+        issue_edit(journal.issue.author, journal).deliver_later
       end
     end
 
     def deliver_attachments_added(attachments)
-      attachments_added(attachments.first.author, attachments).deliver_later
+      attachment = attachments.first
+      return unless attachment.container_type == 'Issue'
+      attachments_added(attachment.container.author, attachments).deliver_later
     end
   end
 
