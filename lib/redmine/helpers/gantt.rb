@@ -631,7 +631,7 @@ module Redmine
             coords[:bar_start] = 0
           end
           if end_date < self.date_to
-            coords[:end] = end_date - self.date_from
+            coords[:end] = end_date - self.date_from + 1
             coords[:bar_end] = end_date - self.date_from + 1
           else
             coords[:bar_end] = self.date_to - self.date_from + 1
@@ -897,7 +897,7 @@ module Redmine
           if coords[:end]
             style = +""
             style << "top:#{params[:top]}px;"
-            style << "left:#{coords[:end] + params[:zoom]}px;"
+            style << "left:#{coords[:end]}px;"
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
@@ -945,21 +945,24 @@ module Redmine
         height /= 2 if markers
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
+          width = [1, coords[:bar_end] - coords[:bar_start]].max
           params[:pdf].SetY(params[:top] + 1.5)
           params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
           params[:pdf].SetFillColor(200, 200, 200)
-          params[:pdf].RDMCell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          params[:pdf].RDMCell(width, height, "", 0, 0, "", 1)
           if coords[:bar_late_end]
+            width = [1, coords[:bar_late_end] - coords[:bar_start]].max
             params[:pdf].SetY(params[:top] + 1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(255, 100, 100)
-            params[:pdf].RDMCell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(width, height, "", 0, 0, "", 1)
           end
           if coords[:bar_progress_end]
+            width = [1, coords[:bar_progress_end] - coords[:bar_start]].max
             params[:pdf].SetY(params[:top] + 1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(90, 200, 90)
-            params[:pdf].RDMCell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(width, height, "", 0, 0, "", 1)
           end
         end
         # Renders the markers
@@ -1031,7 +1034,7 @@ module Redmine
             ])
           end
           if coords[:end]
-            x = params[:subject_width] + coords[:end] + params[:zoom]
+            x = params[:subject_width] + coords[:end]
             y = params[:top] - height / 2
             params[:image].fill('blue')
             params[:image].draw('polygon %d,%d %d,%d %d,%d %d,%d' % [
