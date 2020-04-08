@@ -1638,12 +1638,12 @@ class QueryTest < ActiveSupport::TestCase
   def test_sort_criteria_should_have_only_first_three_elements
     q = IssueQuery.new
     q.sort_criteria = [['priority', 'desc'], ['tracker', 'asc'], ['priority', 'asc'], ['id', 'asc'], ['project', 'asc'], ['subject', 'asc']]
-    assert_equal [['priority', 'desc'], ['tracker', 'asc'], ['priority', 'asc']], q.sort_criteria
+    assert_equal [['priority', 'desc'], ['tracker', 'asc'], ['id', 'asc']], q.sort_criteria
   end
 
-  def test_sort_criteria_should_remove_blank_keys
+  def test_sort_criteria_should_remove_blank_or_duplicate_keys
     q = IssueQuery.new
-    q.sort_criteria = [['priority', 'desc'], [nil, 'desc'], ['', 'asc'], ['project', 'asc']]
+    q.sort_criteria = [['priority', 'desc'], [nil, 'desc'], ['', 'asc'], ['priority', 'asc'], ['project', 'asc']]
     assert_equal [['priority', 'desc'], ['project', 'asc']], q.sort_criteria
   end
 
@@ -1701,6 +1701,34 @@ class QueryTest < ActiveSupport::TestCase
     values = issues.collect {|i| begin; Kernel.Float(i.custom_value_for(c.custom_field).to_s); rescue; nil; end}.compact
     assert !values.empty?
     assert_equal values.sort, values
+  end
+
+  def test_sort_with_group_by_timestamp_query_column_should_sort_after_date_value
+    User.current = User.find(1)
+
+    # Touch Issue#10 in order to be the last updated issue
+    Issue.find(10).update_attribute(:updated_on, Issue.find(10).updated_on + 1)
+
+    q = IssueQuery.new(
+      :name => '_',
+      :filters => { 'updated_on' => {:operator => 't', :values => ['']} },
+      :group_by => 'updated_on',
+      :sort_criteria => [['subject', 'asc']]
+    )
+
+    # The following 3 issues are updated today (ordered by updated_on):
+    #   Issue#10: Issue Doing the Blocking
+    #   Issue#9: Blocked Issue
+    #   Issue#6: Issue of a private subproject
+
+    # When we group by a timestamp query column, all the issues in the group have the same date value (today)
+    # and the time of the value should not be taken into consideration when sorting
+    #
+    # For the same issues after subject ascending should return the following:
+    # Issue#9: Blocked Issue
+    # Issue#10: Issue Doing the Blocking
+    # Issue#6: Issue of a private subproject
+    assert_equal [9, 10, 6], q.issues.map(&:id)
   end
 
   def test_sort_by_total_for_estimated_hours
