@@ -46,6 +46,8 @@ class TimelogControllerTest < Redmine::ControllerTest
       # blank option for project
       assert_select 'option[value=""]'
     end
+    assert_select 'label[for=?]', 'time_entry_user_id', 0
+    assert_select 'select[name=?]', 'time_entry[user_id]', 0
   end
 
   def test_new_with_project_id
@@ -150,6 +152,11 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'form[action=?]', '/time_entries/2'
+
+    # Time entry user should be shown as text
+    # for user without permission to log time for other users
+    assert_select 'label[for=?]', 'time_entry_user_id', 1
+    assert_select 'a.user.active', :text => 'Redmine Admin'
   end
 
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
@@ -171,6 +178,56 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'select[name=?]', 'time_entry[project_id]'
+  end
+
+  def test_get_edit_should_validate_back_url
+    @request.session[:user_id] = 2
+
+    get :edit, :params => {:id => 2, :project_id => nil, :back_url => '/valid'}
+    assert_response :success
+    assert_select 'a[href=?]', '/valid', {:text => 'Cancel'}
+
+    get :edit, :params => {:id => 2, :project_id => nil, :back_url => 'invalid'}
+    assert_response :success
+    assert_select 'a[href=?]', 'invalid', {:text => 'Cancel', :count => 0}
+    assert_select 'a[href=?]', '/projects/ecookbook/time_entries', {:text => 'Cancel'}
+  end
+
+  def test_get_edit_with_an_existing_time_entry_with_locked_user
+    user = User.find(3)
+    entry = TimeEntry.generate!(:user_id => user.id, :comments => "Time entry on a future locked user")
+    entry.save!
+
+    user.status = User::STATUS_LOCKED
+    user.save!
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+    @request.session[:user_id] = 2
+
+    get :edit, :params => {
+      :id => entry.id
+    }
+
+    assert_response :success
+
+    assert_select 'select[name=?]', 'time_entry[user_id]' do
+      # User with id 3 should be selected even if it's locked
+      assert_select 'option[value="3"][selected=selected]'
+    end
+  end
+
+  def test_get_edit_for_other_user
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+    @request.session[:user_id] = 2
+
+    get :edit, :params => {
+      :id => 1
+    }
+
+    assert_response :success
+
+    assert_select 'select[name=?]', 'time_entry[user_id]' do
+      assert_select 'option[value="2"][selected=selected]'
+    end
   end
 
   def test_post_create
@@ -326,7 +383,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal 2, t.author_id
   end
 
-  def test_create_for_other_user_should_deny_for_user_without_permission
+  def test_create_for_other_user_should_fail_without_permission
     Role.find_by_name('Manager').remove_permission! :log_time_for_other_users
     @request.session[:user_id] = 2
 
@@ -342,8 +399,8 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     }
 
-    assert_response 403
-    assert_select 'p[id=?]', 'errorExplanation', :text => I18n.t(:error_not_allowed_to_log_time_for_other_users)
+    assert_response :success
+    assert_select_error /User is invalid/
   end
 
   def test_create_and_continue_at_project_level
@@ -611,7 +668,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select_error /Issue is invalid/
   end
 
-  def test_update_should_deny_changing_user_for_user_without_permission
+  def test_update_should_fail_when_changing_user_without_permission
     Role.find_by_name('Manager').remove_permission! :log_time_for_other_users
     @request.session[:user_id] = 2
 
@@ -622,8 +679,28 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     }
 
-    assert_response 403
-    assert_select 'p[id=?]', 'errorExplanation', :text => I18n.t(:error_not_allowed_to_log_time_for_other_users)
+    assert_response :success
+    assert_select_error /User is invalid/
+  end
+
+  def test_update_should_allow_updating_existing_entry_logged_on_a_locked_user
+    entry = TimeEntry.generate!(:user_id => 2, :hours => 4, :comments => "Time entry on a future locked user")
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+    @request.session[:user_id] = 2
+
+    put :update, :params => {
+      :id => entry.id,
+      :time_entry => {
+        :hours => '6'
+      }
+    }
+
+    assert_response :redirect
+
+    entry.reload
+    # Ensure user didn't change
+    assert_equal 2, entry.user_id
+    assert_equal 6.0, entry.hours
   end
 
   def test_get_bulk_edit
@@ -634,7 +711,7 @@ class TimelogControllerTest < Redmine::ControllerTest
 
     assert_select 'ul#bulk-selection' do
       assert_select 'li', 2
-      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours'
+      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours (John Smith)'
     end
 
     assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do
@@ -1405,6 +1482,19 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_include "#{issue.tracker} #1: #{issue.subject}", line
   end
 
+  def test_index_csv_should_fill_issue_column_with_issue_id_if_issue_that_is_not_visible
+    @request.session[:user_id] = 3
+    issue = Issue.generate!(:author_id => 1, :is_private => true)
+    entry = TimeEntry.generate!(:issue => issue, :comments => "Issue column content test")
+
+    get :index, :params => {:format => 'csv'}
+    assert_not issue.visible?
+    line = response.body.split("\n").detect {|l| l.include?(entry.comments)}
+    assert_not_nil line
+    assert_not_include "#{issue.tracker} ##{issue.id}: #{issue.subject}", line
+    assert_include "##{issue.id}", line
+  end
+
   def test_index_grouped_by_created_on
     skip unless TimeEntryQuery.new.groupable_columns.detect {|c| c.name == :created_on}
 
@@ -1432,20 +1522,5 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     assert_response :success
     assert_select "td.issue_cf_#{field.id}", :text => 'This is a long text'
-  end
-
-  def test_edit_for_other_user
-    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
-    @request.session[:user_id] = 2
-
-    get :edit, :params => {
-      :id => 1
-    }
-
-    assert_response :success
-
-    assert_select 'select[name=?]', 'time_entry[user_id]' do
-      assert_select 'option[value="2"][selected=selected]'
-    end
   end
 end
