@@ -13,8 +13,6 @@ class CreateMailingListMessages < ActiveRecord::Migration[5.2]
     end
 
     add_index :mailing_list_messages, :message_id
-    add_index :mailing_list_messages, :issue_id
-    add_index :mailing_list_messages, :journal_id
     add_index :mailing_list_messages, [:issue_id, :journal_id]
     add_index :mailing_list_messages, [:mailing_list_id, :message_id]
     add_index :mailing_list_messages, [:mailing_list_id, :mail_number]
