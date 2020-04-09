@@ -1,27 +1,21 @@
 module MailingListIntegrationMailer
 
-  def issue_add(user, issue)
+  def issue_add_mailing_list(user, issue)
     mailing_lists = issue.project.mail_routes_for_issue(issue)
-
     record_message(issue, nil, mailing_lists)
-
-    m = super(user, issue)
+    m = issue_add(user, issue)
 
     m.header[:to] = mailing_lists.map(&:address)
-    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
 
-  def issue_edit(user, journal)
+  def issue_edit_mailing_list(user, journal)
     issue = journal.issue
     mailing_lists = issue.project.mail_routes_for_issue(issue)
-
     record_message(issue, journal, mailing_lists)
-
-    m = super(user, journal)
+    m = issue_edit(user, journal)
 
     m.header[:to] = mailing_lists.map(&:address)
-    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
 
@@ -49,26 +43,29 @@ module MailingListIntegrationMailer
   end
 end
 
-Mailer.class_eval do
-  class << self
-    def deliver_issue_add(issue)
-      unless issue.originates_from_mail?
-        issue_add(issue.author, issue).deliver_later
-      end
-    end
-
-    def deliver_issue_edit(journal)
-      unless journal.originates_from_mail?
-        issue_edit(journal.issue.author, journal).deliver_later
-      end
-    end
-
-    def deliver_attachments_added(attachments)
-      attachment = attachments.first
-      return unless attachment.container_type == 'Issue'
-      attachments_added(attachment.container.author, attachments).deliver_later
+module MailingListIntegrationMailerClass
+  def deliver_issue_add(issue)
+    unless issue.originates_from_mail?
+      super
+      issue_add_mailing_list(issue.author, issue).deliver_later
     end
   end
 
+  def deliver_issue_edit(journal)
+    unless journal.originates_from_mail?
+      super
+      issue_edit_mailing_list(journal.issue.author, journal).deliver_later
+    end
+  end
+
+  def deliver_attachments_added(attachments)
+    attachment = attachments.first
+    return unless attachment.container_type == 'Issue'
+    attachments_added(attachment.container.author, attachments).deliver_later
+  end
+end
+
+Mailer.class_eval do
   prepend MailingListIntegrationMailer
+  singleton_class.prepend MailingListIntegrationMailerClass
 end
