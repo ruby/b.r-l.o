@@ -224,7 +224,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sq_mini_racer (0.2.5.0.1.beta3)
-    sqreen (1.21.0)
+    sqreen (1.20.4)
       libsqreen (~> 0.6.1.0.0)
       sq_mini_racer (~> 0.2.4.sqreen2)
       sqreen-backport (~> 0.1.0)
@@ -286,7 +286,7 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   simplecov (~> 0.17.0)
-  sqreen
+  sqreen (~> 1.20.3)
   tzinfo-data
   yard
 

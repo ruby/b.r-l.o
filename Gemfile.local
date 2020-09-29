@@ -14,5 +14,5 @@ end
 group :production do
   gem 'newrelic_rpm'
   gem 'airbrake'
-  gem 'sqreen'
+  gem 'sqreen', '~> 1.20.3'
 end
