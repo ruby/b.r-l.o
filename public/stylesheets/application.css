@@ -8,7 +8,7 @@ h2, .wiki h1 {font-size: 20px;}
 h3, .wiki h2 {font-size: 16px;}
 h4, .wiki h3 {font-size: 13px;}
 h4 {border-bottom: 1px solid #ccc; font-weight:normal;}
-pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
+pre, code, a.changeset {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 /***** Layout *****/
 div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
