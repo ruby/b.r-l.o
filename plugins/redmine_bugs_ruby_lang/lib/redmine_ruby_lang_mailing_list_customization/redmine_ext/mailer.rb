@@ -3,13 +3,16 @@ module RubyLangMailingListCustomizationMailer
     m = super(user, issue)
 
     m.header[:from] = issue.author.mail
+    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
 
   def issue_edit(user, journal)
+    issue = journal.issue
     m = super(user, journal)
 
     m.header[:from] = journal.user.mail
+    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
     m
   end
 
