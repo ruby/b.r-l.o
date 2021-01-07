@@ -1,74 +1,49 @@
-module MailingListIntegrationMailer
+Mailer.after_action do
+  if params && (mailing_lists = params[:mailing_lists])
+    if @issue
+      records = mailing_lists.map do |mailing_list|
+        MailingListMessage.create!(mailing_list: mailing_list, issue: @issue, journal: @journal)
+      end
+      headers["X-Redmine-MailingListIntegration-Message-Ids"] = records.map(&:id).join(",")
+    end
+    headers[:to] = mailing_lists.map(&:address)
+  end
+end
 
-  def issue_add(user, issue)
-    mailing_lists = issue.project.mail_routes_for_issue(issue)
-
-    record_message(issue, nil, mailing_lists)
-
-    m = super(user, issue)
-
-    m.header[:to] = mailing_lists.map(&:address)
-    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
-    m
+module MailingListIntegration
+  def deliver_issue_add(issue)
+    deliver_issue_add_to_mailing_lists(issue) unless issue.originates_from_mail?
+    super
   end
 
-  def issue_edit(user, journal)
-    issue = journal.issue
-    mailing_lists = issue.project.mail_routes_for_issue(issue)
-
-    record_message(issue, journal, mailing_lists)
-
-    m = super(user, journal)
-
-    m.header[:to] = mailing_lists.map(&:address)
-    m.header[:subject] = "[#{issue.project.name} #{issue.tracker.name}##{issue.id}] #{issue.subject}"
-    m
+  def deliver_issue_edit(journal)
+    deliver_issue_edit_to_mailing_lists(journal) unless journal.originates_from_mail?
+    super
   end
 
-  def attachments_added(user, attachments)
-    mailing_lists = attatchments.first.container.project.mail_routes_for_attachments(attachments)
-
-    m = super(user, attachments)
-
-    m.header[:to] = mailing_lists.map(&:address)
-    m
+  def deliver_attachments_added(attachments)
+    deliver_attachments_added_to_mailing_lists(attachments) if attachments.first.container_type == "Issue"
+    super
   end
 
   private
 
-  def record_message(issue, journal, mailing_lists)
-    message_record_ids = mailing_lists.map {|ml|
-      record = MailingListMessage.create!(
-        mailing_list: ml,
-        issue: issue,
-        journal: journal
-      )
-      record.id
-    }
-    headers['X-Redmine-MailingListIntegration-Message-Ids'] = message_record_ids.join(",")
+  def deliver_issue_add_to_mailing_lists(issue)
+    mailing_lists = issue.project.mail_routes_for_issue(issue)
+    with(mailing_lists: mailing_lists).issue_add(issue.author, issue).deliver_later
+  end
+
+  def deliver_issue_edit_to_mailing_lists(journal)
+    issue = journal.issue
+    mailing_lists = issue.project.mail_routes_for_issue(issue)
+    with(mailing_lists: mailing_lists).issue_edit(issue.author, journal).deliver_later
+  end
+
+  def deliver_attachments_added_to_mailing_lists(attachments)
+    container = attachments.first.container
+    mailing_lists = container.project.mail_routes_for_attachments(attachments)
+    with(mailing_lists: mailing_lists).attachments_added(container.author, attachments).deliver_later
   end
 end
 
-Mailer.class_eval do
-  class << self
-    def deliver_issue_add(issue)
-      unless issue.originates_from_mail?
-        issue_add(issue.author, issue).deliver_later
-      end
-    end
-
-    def deliver_issue_edit(journal)
-      unless journal.originates_from_mail?
-        issue_edit(journal.issue.author, journal).deliver_later
-      end
-    end
-
-    def deliver_attachments_added(attachments)
-      attachment = attachments.first
-      return unless attachment.container_type == 'Issue'
-      attachments_added(attachment.container.author, attachments).deliver_later
-    end
-  end
-
-  prepend MailingListIntegrationMailer
-end
+Mailer.singleton_class.prepend MailingListIntegration
