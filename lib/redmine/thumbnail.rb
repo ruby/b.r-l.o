@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'fileutils'
-require 'mimemagic'
 
 module Redmine
   module Thumbnail
@@ -33,15 +32,11 @@ module Redmine
       return nil unless convert_available?
       return nil if is_pdf && !gs_available?
       unless File.exists?(target)
-        mime_type = File.open(source) {|f| MimeMagic.by_magic(f).try(:type) }
-        return nil if mime_type.nil?
+        # Make sure we only invoke Imagemagick if the file type is allowed
+        mime_type = File.open(source) {|f| Marcel::MimeType.for(f)}
         return nil if !ALLOWED_TYPES.include? mime_type
         return nil if is_pdf && mime_type != "application/pdf"
 
-        # Make sure we only invoke Imagemagick if the file type is allowed
-        unless File.open(source) {|f| ALLOWED_TYPES.include? MimeMagic.by_magic(f).try(:type) }
-          return nil
-        end
         directory = File.dirname(target)
         unless File.exists?(directory)
           FileUtils.mkdir_p directory
