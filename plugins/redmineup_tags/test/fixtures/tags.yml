@@ -1,0 +1,12 @@
+---
+tag_1:
+  id: 1
+  name: first
+
+tag_2:
+  id: 2
+  name: second
+
+tag_3:
+  id: 3
+  name: third

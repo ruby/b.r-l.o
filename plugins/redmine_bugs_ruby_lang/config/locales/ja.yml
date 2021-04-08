@@ -1,0 +1,12 @@
+# English strings go here for Rails i18n
+ja:
+  label_mailing_list_plural: メーリングリスト
+  label_mailing_list: メーリングリスト
+  label_mailing_list_new: 新しいメーリングリスト
+  field_driver_name: ドライバ名
+  field_driver_data: ドライバオプション
+  label_destroy: 削除
+  label_confirm_destroy: 本当に削除しますか?
+  field_mail_number: メール番号
+  label_mail_to_issue: メールをチケットにする
+  field_mailing_list: "報告先 (言語)"

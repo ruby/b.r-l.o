@@ -88,7 +88,7 @@ group :test do
   gem 'simplecov', '~> 0.18.5', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma'
+  # gem 'puma'
   gem 'capybara', '~> 3.31.0'
   gem "selenium-webdriver"
   gem 'webdrivers', '~> 4.4', require: false
