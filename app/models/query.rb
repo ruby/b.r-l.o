@@ -179,7 +179,7 @@ class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
   def initialize(association, custom_field, options={})
     super(custom_field, options)
     self.name = "#{association}.cf_#{custom_field.id}".to_sym
-    # TODO: support sorting/grouping by association custom field
+    # TODO: support sorting by association custom field
     self.sortable = false
     self.groupable = false
     @association = association
@@ -193,6 +193,11 @@ class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
 
   def css_classes
     @css_classes ||= "#{@association}_cf_#{@cf.id} #{@cf.field_format}"
+  end
+
+  # TODO: support grouping by association custom field
+  def groupable?
+    false
   end
 end
 
@@ -526,7 +531,7 @@ class Query < ActiveRecord::Base
       if has_filter?(field) || !filter.remote
         options[:values] = filter.values
         if options[:values] && values_for(field)
-          missing = Array(values_for(field)).select(&:present?) - options[:values].map(&:last)
+          missing = Array(values_for(field)).select(&:present?) - options[:values].map{|v| v[1]}
           if missing.any? && respond_to?(method = "find_#{field}_filter_values")
             options[:values] += send(method, missing)
           end
