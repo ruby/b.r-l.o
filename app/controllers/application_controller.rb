@@ -59,6 +59,8 @@ class ApplicationController < ActionController::Base
   before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change, :check_twofa_activation
   after_action :record_project_usage
 
+  skip_after_action :verify_same_origin_request, if: -> { request.format == 'json' }
+
   rescue_from ::Unauthorized, :with => :deny_access
   rescue_from ::ActionView::MissingTemplate, :with => :missing_template
 
