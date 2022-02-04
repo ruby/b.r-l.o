@@ -101,7 +101,6 @@ GEM
       concurrent-ruby (~> 1.0)
     jmespath (1.5.0)
     libsqreen (1.0.4.0.0)
-    libv8-node (16.10.0.0)
     liquid (2.6.3)
     loofah (2.13.0)
       crass (~> 1.0.2)
@@ -113,8 +112,6 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.0.3)
     mini_portile2 (2.5.3)
-    mini_racer (0.6.2)
-      libv8-node (~> 16.10.0.0)
     minitest (5.15.0)
     mocha (1.13.0)
     net-ldap (0.17.0)
@@ -237,9 +234,10 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqreen (1.25.0)
+    sq_mini_racer (0.3.1.0.6)
+    sqreen (1.24.3)
       libsqreen (~> 1.0)
-      mini_racer (>= 0.4.0)
+      sq_mini_racer (~> 0.2, < 0.5.a)
       sqreen-backport (~> 0.1.0)
       sqreen-kit (~> 0.2.4)
     sqreen-backport (0.1.0)
@@ -309,7 +307,7 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   simplecov (~> 0.18.5)
-  sqreen
+  sqreen (< 1.25.0)
   tzinfo-data
   webdrivers (~> 4.4)
   yard
