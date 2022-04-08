@@ -13,3 +13,9 @@ if Rails.env.production?
   config.force_ssl = true
   config.active_job.queue_adapter = :sidekiq
 end
+
+Dir.glob(Rails.root.join("plugins/*/lib").to_s).each do |path|
+  $LOAD_PATH << path
+  config.autoload_paths << path
+  config.eager_load_paths << path
+end
