@@ -1,0 +1,9 @@
+<%= error_messages_for 'mailing_list' %>
+
+<div class="box tabular">
+  <h3><%=l(:label_information_plural)%></h3>
+  <p><%= f.text_field :identifier, :required => true, :size => 25, :label => l(:field_name) %></p>
+  <p><%= f.text_field :address, :required => true, :label => l(:field_mail) %></p>
+  <p><%= f.select 'driver_name', RedmineMailingListIntegration::Drivers.registered_driver_names, :required => true %></p>
+  <p><%= f.text_field :driver_data, :required => false, :label => l(:field_driver_data) %></p>
+</div>
