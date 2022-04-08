@@ -1,6 +1,6 @@
 module RedmineMailingListIntegration
   module RedmineExt
-    module IssueExt
+    module Issue
       extend ActiveSupport::Concern
 
       included do
@@ -10,6 +10,6 @@ module RedmineMailingListIntegration
   end
 end
 Issue.class_eval do
-  include RedmineMailingListIntegration::RedmineExt::IssueExt
+  include RedmineMailingListIntegration::RedmineExt::Issue
   include BasedOnMail
 end
