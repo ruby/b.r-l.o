@@ -127,7 +127,8 @@ GEM
       concurrent-ruby (~> 1.0)
     jmespath (1.6.1)
     libsqreen (1.0.4.0.0)
-    libv8-node (16.10.0.0)
+    libv8-node (16.10.0.0-arm64-darwin)
+    libv8-node (16.10.0.0-x86_64-linux)
     liquid (2.6.3)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -142,7 +143,6 @@ GEM
     method_source (1.0.0)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
     minitest (5.15.0)
@@ -164,8 +164,9 @@ GEM
       timeout
     newrelic_rpm (8.6.0)
     nio4r (2.5.8)
-    nokogiri (1.13.3)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.13.3-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     parallel (1.22.1)
     parser (3.1.1.0)
@@ -315,7 +316,8 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
-  ruby
+  arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   actionpack-xml_parser
