@@ -19,7 +19,7 @@
 
 module RedmineupTags
   module Hooks
-    class ViewsContextMenuesHook < Redmine::Hook::ViewListener
+    class ViewsContextMenusHook < Redmine::Hook::ViewListener
       render_on :view_issues_context_menu_end, partial: 'context_menus/issues_tags'
     end
   end
