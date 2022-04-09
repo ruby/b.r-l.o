@@ -3,3 +3,9 @@ production:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   bucket: bugs.r-l.o.attachments
   proxy: true
+
+development:
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  bucket: bugs.r-l.o.attachments
+  proxy: true
