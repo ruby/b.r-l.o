@@ -1,6 +1,6 @@
 module RedmineMailingListIntegration
   module RedmineExt
-    module ProjectExt
+    module Project
       def self.included(klass)
         klass.class_eval do
           has_many :uses_of_mailing_list, class_name: 'UseOfMailingList'
@@ -21,5 +21,5 @@ module RedmineMailingListIntegration
   end
 end
 Project.class_eval do
-  include RedmineMailingListIntegration::RedmineExt::ProjectExt
+  include RedmineMailingListIntegration::RedmineExt::Project
 end
