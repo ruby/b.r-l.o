@@ -1,8 +1,30 @@
 == Redmine Tags plugin changelog
 
 Redmine Tags plugin - Tags board plugin for redmine
-Copyright (C) 2011-2019 RedmineUP
+Copyright (C) 2011-2021 RedmineUP
 http://www.redmineup.com/
+
+== 2021-06-14 v2.0.11
+
+* Fixed global issue list bug
+
+== 2021-06-04 v2.0.10
+
+* Fixed patches typo
+
+== 2021-05-31 v2.0.9
+
+* Added Redmine 4.2 compatibility
+* Changed path to url for autocomplete
+* Updated br locale
+* Updated zh locale
+* Fixed production load error
+* Fixed tags column bug
+* Fixed copy tags bug
+* Fixed global spent time bug
+* Fixed tags count bug
+* Fixed bulk edit issue tags bug
+* Fixed tags link
 
 == 2019-06-14 v2.0.8
 

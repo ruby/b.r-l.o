@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
@@ -17,10 +19,21 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-module RedmineupTags
-  module Hooks
-    class ViewsReportsHook < Redmine::Hook::ViewListener
-      render_on :view_reports_issue_report_split_content_right, partial: 'tags_simple'
-    end
+require File.expand_path('../../test_helper', __FILE__)
+
+class AgileBoardsControllerTest < ActionController::TestCase
+  fixtures :projects,
+           :users
+
+  def setup
+    @request.session[:user_id] = 1
+  end
+
+  def test_get_index_with_filters
+    return unless Redmine::Plugin.installed?(:redmine_agile) && AGILE_VERSION_TYPE == 'PRO version'
+
+    compatible_request :get, :index
+    assert_response :success
+    assert response.body.match /issue_tags/
   end
 end

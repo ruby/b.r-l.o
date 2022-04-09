@@ -38,6 +38,7 @@ div.tags-cloud .tag-nube-8 { font-size: 1.5em; }
 #tr_tags .select2-selection__rendered { padding-left: 8px; }
 
 .icon-tags { background-image: url(../images/tag-icon.png);}
+.icon-add-tags { background-image: url(../images/tag_blue_add.png);}
 
 .most_used_tag { cursor: pointer; color: #169; }
 .most_used_tag:hover { text-decoration: underline;}

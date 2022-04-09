@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -20,20 +20,8 @@
 module RedmineupTags
   module Hooks
     class ViewsLayoutsHook < Redmine::Hook::ViewListener
-
-      def view_layouts_base_html_head(context = {})
-        javascript_include_tag("redmine_tags", plugin: 'redmineup_tags') +
-        javascript_include_tag("select2", plugin: 'redmine_crm') +
-        javascript_include_tag("select2_helpers", plugin: 'redmine_crm') +
-        stylesheet_link_tag("redmine_tags", plugin: 'redmineup_tags') +
-        stylesheet_link_tag("select2", plugin: 'redmine_crm')
-      end
-
-      def view_layouts_base_body_bottom(context = {})
-        options = {url: auto_complete_redmine_tags_url}
-        javascript_tag("setSelect2Filter('issue_tags', #{options.to_json});")
-      end
-
+      render_on :view_layouts_base_html_head, partial: 'tags/additional_assets'
+      render_on :view_layouts_base_body_bottom, partial: 'tags/select2_transformation_rules'
     end
   end
 end

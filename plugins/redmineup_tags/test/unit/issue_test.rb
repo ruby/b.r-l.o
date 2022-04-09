@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RedmineupTags::Patches::IssueTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :issues, :issue_statuses, :enumerations, :trackers
+  fixtures :users, :projects, :issues, :issue_statuses, :enumerations, :trackers, :enabled_modules
 
   def setup
     # run as the admin

@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -243,7 +243,7 @@ class IssuesControllerTest < ActionController::TestCase
     compatible_request :get, :edit, id: 1, issue: { project_id: 2 }
     assert_select '#issue_tags', 0
   end
-  
+
   def test_edit_tags_permission
     # User(id: 2) has role Manager in Project(id: 1) and Project(id: 1) contains Issue(id: 1)
     @request.session[:user_id] = 2
@@ -302,5 +302,10 @@ class IssuesControllerTest < ActionController::TestCase
     compatible_request :get, :index, project_id: 1, set_filter: 1, f: ['issue_tags', ''], op: { issue_tags: '!' }, v: { issue_tags: tags }
     assert_response :success
     issues_in_list.each { |issue| assert_not_equal (tags & issue.tag_list), tags }
+  end
+
+  def test_get_index_without_project
+    compatible_request(:get, :index)
+    assert_response :success
   end
 end

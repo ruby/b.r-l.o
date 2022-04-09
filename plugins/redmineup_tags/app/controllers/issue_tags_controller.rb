@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ class IssueTagsController < ApplicationController
     return unless User.current.allowed_to?(:edit_tags, @projects.first)
     @issue_ids = params[:ids]
     @is_bulk_editing = @issue_ids.size > 1
-    @issue_tags = @is_bulk_editing ? @issues.map(&:tag_list).flatten.uniq : @issues.first.tag_list
     @most_used_tags = Issue.all_tags(sort_by: 'count', order: 'DESC').limit(10)
   end
 
@@ -39,13 +38,11 @@ class IssueTagsController < ApplicationController
         return
       end
 
-      Issue.transaction do
-        @issues.each do |issue|
-          issue.tag_list = tags
-          issue.save!
-        end
+      if update_tags(@issues, tags)
+        flash[:notice] = t(:notice_tags_added)
+      else
+        flash[:error] = t(:notice_failed_to_add_tags)
       end
-      flash[:notice] = t(:notice_tags_added)
     else
       flash[:error] = t(:notice_failed_to_add_tags)
     end
@@ -54,5 +51,39 @@ class IssueTagsController < ApplicationController
     flash[:error] = t(:notice_failed_to_add_tags)
   ensure
     redirect_to_referer_or { render text: 'Tags updated.', layout: true }
+  end
+
+  private
+
+  def update_tags(issues, tags)
+    if tags.present? && issues.size > 1
+      add_issues_tags(issues, tags)
+    else
+      update_issues_tags(issues, tags)
+    end
+  end
+
+  def add_issues_tags(issues, tags)
+    saved = true
+    Issue.transaction do
+      issues.each do |issue|
+        issue.tag_list = (issue.tag_list + tags).uniq
+        saved &&= issue.save
+        raise ActiveRecord::Rollback unless saved
+      end
+    end
+    saved
+  end
+
+  def update_issues_tags(issues, tags)
+    saved = true
+    Issue.transaction do
+      issues.each do |issue|
+        issue.tag_list = tags
+        saved &&= issue.save
+        raise ActiveRecord::Rollback unless saved
+      end
+    end
+    saved
   end
 end

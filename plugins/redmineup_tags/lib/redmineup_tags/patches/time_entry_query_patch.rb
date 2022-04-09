@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -16,8 +16,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
-
-require_dependency 'time_entry_query'
 
 module RedmineupTags
   module Patches
@@ -82,6 +80,7 @@ module RedmineupTags
   end
 end
 
-unless TimeEntryQuery.included_modules.include?(RedmineupTags::Patches::TimeEntryQueryPatch)
+if (ActiveRecord::Base.connection.tables.include?('queries') rescue false) &&
+   TimeEntryQuery.included_modules.exclude?(RedmineupTags::Patches::TimeEntryQueryPatch)
   TimeEntryQuery.send(:include, RedmineupTags::Patches::TimeEntryQueryPatch)
 end

@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -32,10 +32,14 @@ def plugin_fixtures(*fixtures)
       fixtures.flatten.map { |n| n.to_s }
     end
 
+  create_fixtures(fixtures_directory, fixture_names, class_names = {})
+end
+
+def create_fixtures(fixtures_directory, table_names, class_names = {})
   if ActiveRecord::VERSION::MAJOR >= 4
-    ActiveRecord::FixtureSet.create_fixtures fixtures_directory, fixture_names
+    ActiveRecord::FixtureSet.create_fixtures(fixtures_directory, table_names, class_names)
   else
-    ActiveRecord::Fixtures.create_fixtures fixtures_directory, fixture_names
+    ActiveRecord::Fixtures.create_fixtures(fixtures_directory, table_names, class_names)
   end
 end
 

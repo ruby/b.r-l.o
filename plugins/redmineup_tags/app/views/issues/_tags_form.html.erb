@@ -10,7 +10,7 @@
                         :multiple => true,
                         :include_hidden => (params[:action] != 'bulk_edit'),
                         :style => 'width: 100%;',
-                        :url => auto_complete_redmine_tags_path,
+                        :url => auto_complete_redmine_tags_url,
                         :placeholder => params[:action] == 'bulk_edit' ? t(:label_no_change_option) : '+ add tag',
                         :tags => User.current.allowed_to?(:create_tags, @projects || @project) %>
 

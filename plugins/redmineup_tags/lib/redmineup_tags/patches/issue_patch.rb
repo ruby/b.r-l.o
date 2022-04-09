@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2019 RedmineUP
+# Copyright (C) 2011-2021 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -44,6 +44,9 @@ module RedmineupTags
               alias_method :count_and_group_by, :count_and_group_by_with_redmine_tags
             end
           end
+
+          alias_method :copy_from_without_redmine_tags, :copy_from
+          alias_method :copy_from, :copy_from_with_redmine_tags
 
           scope :on_project, lambda { |project|
             project = project.id if project.is_a? Project
@@ -132,7 +135,7 @@ module RedmineupTags
 
       module InstanceMethods
         def safe_attributes_with_safe_tags=(attrs, user = User.current)
-          self.safe_attributes_without_safe_tags = attrs
+          self.send(:safe_attributes_without_safe_tags=, attrs, user)
           if attrs && attrs[:tag_list] && user.allowed_to?(:edit_tags, project)
             tags = attrs[:tag_list].reject(&:empty?)
             if user.allowed_to?(:create_tags, project) || Issue.allowed_tags?(tags)
@@ -143,6 +146,13 @@ module RedmineupTags
 
         def tags_relations
           TagsRelations.new(self, tags.to_a)
+        end
+
+        def copy_from_with_redmine_tags(arg, options={})
+          original_issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
+          copied_issue = copy_from_without_redmine_tags(original_issue, options)
+          copied_issue.tags = original_issue.tags
+          copied_issue
         end
       end
     end

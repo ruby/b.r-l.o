@@ -18,9 +18,31 @@
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
 module RedmineupTags
-  module Hooks
-    class ViewsReportsHook < Redmine::Hook::ViewListener
-      render_on :view_reports_issue_report_split_content_right, partial: 'tags_simple'
+  module Patches
+    module TimeEntryPatch
+
+      def self.included(base)
+        base.class_eval do
+          include InstanceMethods
+        end
+      end
+
+      # Class used to represent the tags relations of an issue
+      class TagsRelations < IssueRelation::Relations
+        def to_s(*args)
+          map(&:name).join(', ')
+        end
+      end
+
+      module InstanceMethods
+        def tags_relations
+          TagsRelations.new(self, issue ? issue.tags.to_a : [])
+        end
+      end
     end
   end
+end
+
+unless TimeEntry.included_modules.include?(RedmineupTags::Patches::TimeEntryPatch)
+  TimeEntry.send(:include, RedmineupTags::Patches::TimeEntryPatch)
 end
