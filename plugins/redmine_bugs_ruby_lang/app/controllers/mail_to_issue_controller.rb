@@ -1,7 +1,7 @@
 class MailToIssueController < ApplicationController
   menu_item :mail_to_issue
   before_action :authorize_global
-  accept_rss_auth :create
+  accept_atom_auth :create
 
   def new
     @project = Project.find_by(identifier: params[:id])
