@@ -68,5 +68,6 @@ if Redmine::Plugin.installed?(:redmine_agile) &&
   unless AgileQuery.included_modules.include?(RedmineupTags::Patches::AgileQueryPatch)
     AgileQuery.send(:include, RedmineupTags::Patches::AgileQueryPatch)
   end
-
+else
+  module RedmineupTags; module Patches; module AgileQueryPatch; end; end; end
 end
