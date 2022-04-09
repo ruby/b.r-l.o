@@ -43,7 +43,29 @@ Redmine::Plugin.register :redmine_bugs_ruby_lang do
   end
 end
 
-require 'redmine_link_to_root'
+require Rails.root.join('app', 'helpers', 'application_helper')
+
+module ActionViewPatch
+  include ApplicationHelper
+  extend ActiveSupport::Concern
+
+  included do
+    prepend RedmineLinkToRoot
+  end
+
+  module RedmineLinkToRoot
+    def page_header_title
+      if @project.nil? || @project.new_record?
+        link_to(Setting.app_title, home_path)
+      else
+        super
+      end
+    end
+  end
+end
+
+ActionView::Base.include ActionViewPatch
+
 require "redmine_mailing_list_integration/hooks"
 require 'redmine_mailing_list_integration/redmine_ext'
 require 'redmine_mailing_list_integration_imap_supplement/imap'
