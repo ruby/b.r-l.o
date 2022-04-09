@@ -1,6 +1,6 @@
 module RedmineMailingListIntegration
   module Drivers
-    class QwikDriver < QuickMLDriver
+    class QwikDriver < QuickMlDriver
       include TypicalDriver
 
       def archive_url

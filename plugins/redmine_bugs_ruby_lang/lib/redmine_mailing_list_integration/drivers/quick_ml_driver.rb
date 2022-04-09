@@ -1,6 +1,6 @@
 module RedmineMailingListIntegration
   module Drivers
-    class QuickMLDriver
+    class QuickMlDriver
       include TypicalDriver
 
       def likelihood

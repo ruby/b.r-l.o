@@ -35,7 +35,7 @@ Redmine::Plugin.register :redmine_bugs_ruby_lang do
   mailing_list_integration do
     driver :fml, RedmineMailingListIntegration::Drivers::FmlDriver
     driver :mailman, RedmineMailingListIntegration::Drivers::MailmanDriver
-    driver :quickml, RedmineMailingListIntegration::Drivers::QuickMLDriver
+    driver :quickml, RedmineMailingListIntegration::Drivers::QuickMlDriver
     driver :qwik, RedmineMailingListIntegration::Drivers::QwikDriver
     receptor :dumb, RedmineMailingListIntegration::Receptors::DumbReceptor
     receptor :default, RedmineMailingListIntegration::Receptors::DefaultReceptor
