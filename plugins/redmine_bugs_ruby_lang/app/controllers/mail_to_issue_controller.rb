@@ -17,7 +17,7 @@ class MailToIssueController < ApplicationController
     if @mail_to_issue.valid?
       ml = @mail_to_issue.mailing_list
       query = ml.driver_class.imap_query_for_mail_number(ml, @mail_to_issue.mail_number)
-      msgs = RedmineMailingListIntegrationIMAPSupplement::IMAP.fetch(ml.identifier, query)
+      msgs = RedmineMailingListIntegrationImapSupplement::IMAP.fetch(ml.identifier, query)
 
       number = "[#{ml.identifier}:#{@mail_to_issue.mail_number}]"
       if msgs.empty?

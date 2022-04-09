@@ -1,7 +1,7 @@
 require 'net/imap'
 require 'yaml'
 
-module RedmineMailingListIntegrationIMAPSupplement
+module RedmineMailingListIntegrationImapSupplement
   module IMAP
     module_function
     def config
