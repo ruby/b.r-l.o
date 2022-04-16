@@ -126,9 +126,6 @@ GEM
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     jmespath (1.6.1)
-    libsqreen (1.0.4.0.0)
-    libv8-node (16.10.0.0-arm64-darwin)
-    libv8-node (16.10.0.0-x86_64-linux)
     liquid (2.6.3)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -143,8 +140,6 @@ GEM
     method_source (1.0.0)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_racer (0.6.2)
-      libv8-node (~> 16.10.0.0)
     minitest (5.15.0)
     mocha (1.13.0)
     net-imap (0.2.3)
@@ -287,14 +282,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqreen (1.25.1)
-      libsqreen (~> 1.0)
-      mini_racer (>= 0.4.0)
-      sqreen-backport (~> 0.1.0)
-      sqreen-kit (~> 0.2.4)
-    sqreen-backport (0.1.0)
-    sqreen-kit (0.2.4)
-      sqreen-backport (~> 0.1.0)
     strscan (3.0.1)
     thor (1.2.1)
     timeout (0.2.0)
@@ -368,7 +355,6 @@ DEPENDENCIES
   selenium-webdriver (~> 3.142.7)
   sidekiq
   simplecov (~> 0.21.2)
-  sqreen
   tzinfo-data
   webdrivers (= 4.6.1)
   yard
