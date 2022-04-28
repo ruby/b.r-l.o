@@ -19,7 +19,6 @@
 /log/mongrel_debug
 /plugins/*
 !/plugins/redmine_bugs_ruby_lang
-!/plugins/redmine_s3
 !/plugins/redmica_s3
 !/plugins/redmineup_tags
 !/plugins/README
