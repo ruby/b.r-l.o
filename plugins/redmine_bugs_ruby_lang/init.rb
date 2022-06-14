@@ -1,3 +1,6 @@
+# Workaround for Redmine 5.0
+require "rexml/document"
+
 require 'redmine'
 
 require "redmine_mailing_list_integration"

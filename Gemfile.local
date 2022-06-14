@@ -5,6 +5,7 @@ gem 'pg'
 gem 'rack-protection'
 gem 'sidekiq'
 gem 'hiredis'
+gem "rexml"
 
 group :development do
   gem 'pry-rails'
