@@ -948,6 +948,36 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal issue1, result.first
   end
 
+  def test_filter_on_chained_user_custom_field
+    user = User.find(2)
+    User.current = user
+
+    user_cf = UserCustomField.find(4)
+    user_cf.update! is_filter: true
+
+    issue_cf = IssueCustomField.create!(:field_format => 'user', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])
+    issue1 = Issue.create!(:project_id => 1, :tracker_id => 1, :custom_field_values => {issue_cf.id.to_s => '2'}, :subject => 'Test', :author_id => 1)
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {"cf_#{issue_cf.id}.cf_#{user_cf.id}" => {:operator => '~', :values => ['01 42']}}
+    result = query.issues
+
+    assert_equal 1, result.size
+    assert_equal issue1, result.first
+  end
+
+  def test_filter_on_chained_user_custom_field_of_type_float
+    user_cf = UserCustomField.find(5)
+    user_cf.update! is_filter: true
+
+    issue_cf = IssueCustomField.create!(:field_format => 'user', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])
+    issue1 = Issue.create!(:project_id => 1, :tracker_id => 1, :custom_field_values => {issue_cf.id.to_s => '2'}, :subject => 'Test', :author_id => 1)
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {"cf_#{issue_cf.id}.cf_#{user_cf.id}" => {:operator => '=', :values => ["30.1"]}}
+
+    assert query.issues
+  end
+
   def test_filter_on_me_by_anonymous_user
     User.current = nil
     query =
@@ -1129,14 +1159,15 @@ class QueryTest < ActiveSupport::TestCase
   def test_filter_on_custom_field_should_ignore_projects_with_field_disabled
     field =
       IssueCustomField.generate!(
-        :trackers => Tracker.all, :project_ids => [1, 3, 4],
+        :trackers => Tracker.all, :project_ids => [1, 3, 5],
         :is_for_all => false, :is_filter => true
       )
     Issue.generate!(:project_id => 3, :tracker_id => 2,
                     :custom_field_values => {field.id.to_s => 'Foo'})
-    Issue.generate!(:project_id => 4, :tracker_id => 2,
+    Issue.generate!(:project_id => 5, :tracker_id => 2,
                     :custom_field_values => {field.id.to_s => 'Foo'})
 
+    User.current = User.find(1)
     query = IssueQuery.new(:name => '_', :project => Project.find(1))
     query.filters = {"cf_#{field.id}" => {:operator => '=', :values => ['Foo']}}
     assert_equal 2, find_issues_with_query(query).size

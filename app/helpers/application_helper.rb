@@ -295,6 +295,7 @@ module ApplicationHelper
         object.filename
       end
     when 'CustomValue', 'CustomFieldValue'
+      return "" unless object.customized&.visible?
       if object.custom_field
         f = object.custom_field.format.formatted_custom_value(self, object, html)
         if f.nil? || f.is_a?(String)
@@ -1725,7 +1726,7 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
     tags = javascript_include_tag(
-      'jquery-3.6.0-ui-1.12.1-ujs-6.1.3.1',
+      'jquery-3.6.0-ui-1.13.1-ujs-6.1.3.1',
       'tribute-5.1.3.min',
       'tablesort-5.2.1.min.js',
       'tablesort-5.2.1.number.min.js',
