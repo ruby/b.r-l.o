@@ -264,7 +264,7 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sidekiq (6.5.4)
+    sidekiq (6.5.3)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.5.0)
@@ -352,7 +352,7 @@ DEPENDENCIES
   rubyzip (~> 2.3.0)
   sanitize (~> 6.0)
   selenium-webdriver (~> 3.142.7)
-  sidekiq
+  sidekiq (= 6.5.3)
   simplecov (~> 0.21.2)
   tzinfo-data
   webdrivers (= 4.6.1)
