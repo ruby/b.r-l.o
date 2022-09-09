@@ -4,6 +4,7 @@ gem 'puma'
 gem 'pg'
 gem 'rack-protection'
 gem 'sidekiq', '6.5.3' # uninitialized constant Sidekiq::Component with airbrake
+gem "redis", "< 5.0.0"
 
 group :development do
   gem 'pry-rails'
