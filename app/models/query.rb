@@ -1159,13 +1159,12 @@ class Query < ActiveRecord::Base
     if /[<>]/.match?(operator)
       where = "(#{where}) AND #{db_table}.#{db_field} <> ''"
     end
-    "#{not_in} EXISTS (" \
-      "SELECT * FROM #{customized_class.table_name} i" \
+    "#{queried_table_name}.#{customized_key} #{not_in} IN (" \
+      "SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name}" \
       " LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}'" \
       " AND #{db_table}.customized_id=#{customized_class.table_name}.id" \
       " AND #{db_table}.custom_field_id=#{custom_field_id}" \
-      " WHERE #{queried_table_name}.#{customized_key} = i.id AND " \
-      "  (#{where}) AND (#{filter[:field].visibility_by_project_condition}))"
+      " WHERE (#{where}) AND (#{filter[:field].visibility_by_project_condition}))"
   end
 
   def sql_for_chained_custom_field(field, operator, value, custom_field_id, chained_custom_field_id)
