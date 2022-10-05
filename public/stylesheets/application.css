@@ -45,6 +45,10 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 #quick-search {float:right;}
 #quick-search #q {width:130px; height:24px; box-sizing:border-box; vertical-align:middle; border:1px solid #ccc; border-radius:3px;}
+#quick-search form {float:left; margin-right:3px;}
+#quick-search form input {margin-top:0; margin-bottom:0;}
+#quick-search form label {vertical-align:middle;}
+#quick-search #project-jump {float:left;}
 
 #main-menu {position: absolute;  bottom: 0px;  left: 10px; margin-right: -500px; width: 100%;}
 #main-menu ul {margin: 0;  padding: 0; width: 100%; white-space: nowrap;}
@@ -567,9 +571,12 @@ body.controller-issues h2.inline-flex {padding-right: 0}
   overflow: hidden;
 }
 #issue_tree .issue > td.subject, #relations .issue > td.subject {
-  width: 100%; /* let subject have one full width column */
+  width: 50%;
   word-break: break-word; /* break word if subject is too long */
   padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
+}
+#issue_tree .issue > td.assigned_to, #relations .issue > td.assigned_to {
+  white-space: nowrap;
 }
 #trackers_description {display:none;}
 #trackers_description dt {font-weight: bold; text-decoration: underline;}
