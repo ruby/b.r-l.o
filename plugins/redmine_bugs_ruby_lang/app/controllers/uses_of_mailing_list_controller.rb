@@ -33,7 +33,7 @@ class UsesOfMailingListController < ApplicationController
   def update
     @mailing_list = MailingList.find(params[:mailing_list_id])
     @use = @mailing_list.uses_of_mailing_list.find(params[:id])
-    if @use.update_attributes(use_of_mailing_lists_params)
+    if @use.update(use_of_mailing_lists_params)
       flash[:notice] = l(:notice_successful_update)
       respond_to do |format|
         format.html { redirect_to controller: 'mailing_lists', action: 'edit', id: @mailing_list, tab: 'use' }

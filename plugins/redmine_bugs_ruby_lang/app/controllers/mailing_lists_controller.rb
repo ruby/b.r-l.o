@@ -60,7 +60,7 @@ class MailingListsController < ApplicationController
   def update
     edit
     respond_to do |format|
-      if @mailing_list.update_attributes(mailing_list_params)
+      if @mailing_list.update(mailing_list_params)
         flash[:notice] = l(:notice_successful_update)
         format.html { redirect_to(action: 'edit', id: @mailing_list) }
         format.xml  { head :ok }
