@@ -6,12 +6,14 @@ class MailToIssueController < ApplicationController
   def new
     @project = Project.find_by(identifier: params[:id])
     raise ActiveRecord::RecordNotFound unless @project
+
     @mail_to_issue = MailToIssue.new
   end
 
   def create
     @project = Project.find_by(identifier: params[:id])
     raise ActiveRecord::RecordNotFound unless @project
+
     @mail_to_issue = MailToIssue.new(params[:mail_to_issue])
 
     if @mail_to_issue.valid?
@@ -27,7 +29,7 @@ class MailToIssueController < ApplicationController
         msg = msgs.first.attr['RFC822']
         tracker = @mail_to_issue.tracker
         issue = MailHandler.receive(msg, issue: {project: @project.identifier, tracker: tracker.name}, unknown_user: 'accept', no_permission_check: '1')
-        if issue.kind_of?(Issue)
+        if issue.is_a?(Issue)
           redirect_to controller: 'issues', action: 'show', id: issue.id
         else
           @mail_to_issue.errors[:base] << "failed to process mail: #{number} to project: #{@project.identifier} tracker: #{tracker.name}"

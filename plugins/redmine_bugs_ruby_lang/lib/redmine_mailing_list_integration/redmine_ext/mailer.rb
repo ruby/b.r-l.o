@@ -5,30 +5,30 @@ module RedmineMailingListIntegration
         deliver_issue_add_to_mailing_lists(issue) unless issue.originates_from_mail?
         super
       end
-    
+
       def deliver_issue_edit(journal)
         deliver_issue_edit_to_mailing_lists(journal) unless journal.originates_from_mail?
         super
       end
-    
+
       def deliver_attachments_added(attachments)
         deliver_attachments_added_to_mailing_lists(attachments) if attachments.first.container_type == "Issue"
         super
       end
-    
+
       private
-    
+
       def deliver_issue_add_to_mailing_lists(issue)
         mailing_lists = issue.project.mail_routes_for_issue(issue)
         with(mailing_lists: mailing_lists).issue_add(issue.author, issue).deliver_later
       end
-    
+
       def deliver_issue_edit_to_mailing_lists(journal)
         issue = journal.issue
         mailing_lists = issue.project.mail_routes_for_issue(issue)
         with(mailing_lists: mailing_lists).issue_edit(issue.author, journal).deliver_later
       end
-    
+
       def deliver_attachments_added_to_mailing_lists(attachments)
         container = attachments.first.container
         mailing_lists = container.project.mail_routes_for_attachments(attachments)

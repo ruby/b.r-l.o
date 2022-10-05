@@ -14,12 +14,10 @@ module RedmineRubyLangMailingListCustomization
       if issue.mailing_list_message
         ml = issue.mailing_list_message.mailing_list
         return ml == @mailing_list
+      elsif issue.lang == 'ja'
+        return @mailing_list.identifier == 'ruby-dev'
       else
-        if issue.lang == 'ja'
-          return @mailing_list.identifier == 'ruby-dev'
-        else
-          return @mailing_list.identifier == 'ruby-core'
-        end
+        return @mailing_list.identifier == 'ruby-core'
       end
     end
   end

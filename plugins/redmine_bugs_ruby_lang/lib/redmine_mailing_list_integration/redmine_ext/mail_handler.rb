@@ -11,10 +11,9 @@ module RedmineMailingListIntegration
       end
 
       def dispatch_to_default
-        case
-        when parent_message
+        if parent_message
           receive_issue_reply(parent_message.issue_id)
-        when email.in_reply_to
+        elsif email.in_reply_to
           dispatch_to_chiken_and_egg
         else
           super
@@ -64,6 +63,7 @@ module RedmineMailingListIntegration
               if msg.mailing_list != driver.mailing_list or msg.issue_id.to_s != issue_id
                 raise ArgumentError, "header mismatch"
               end
+
               msg.in_reply_to = (email[:in_reply_to] && email[:in_reply_to].message_ids.join(','))
               msg.references = (email[:references] && email[:references].message_ids.join(','))
               msg.mail_number = driver.mail_number
@@ -88,21 +88,28 @@ module RedmineMailingListIntegration
       def parent_message
         @parent_message ||= begin
           headers = [email.in_reply_to, email.references].flatten.map(&:to_s).compact.uniq
-          headers.detect {|h|
+          headers.detect do |h|
             msg = MailingListMessage.find_by(message_id: h)
             break msg if msg
-          }
+          end
         end
       end
 
       def driver
         @driver ||= begin
-          chosen = MailingList.all.map{|ml|
+          chosen = MailingList.all.map do |ml|
             ml.driver_for(email)
-          }.reject{|c|
+          end.reject do |c|
             c.likelihood <= RedmineMailingListIntegration::Drivers::NOT_MATCHED
-          }.sort_by(&:likelihood).last
-          raise MailHandler::MissingInformation, "Unable to determine driver #{email.subject rescue nil}" unless chosen
+          end.sort_by(&:likelihood).last
+          unless chosen
+            raise MailHandler::MissingInformation, "Unable to determine driver #{begin
+              email.subject
+            rescue
+              nil
+            end}"
+          end
+
           chosen
         end
       end

@@ -5,7 +5,7 @@ module RedmineMailingListIntegration
 
       def likelihood
         if @email.header["X-QuickML"].to_s == 'true' and
-          @email.header["X-ML-Address"].to_s == @mailing_list.address then
+          @email.header["X-ML-Address"].to_s == @mailing_list.address
           EXACTLY_MATCHED
         else
           NOT_MATCHED
@@ -18,4 +18,3 @@ module RedmineMailingListIntegration
     end
   end
 end
-

@@ -18,13 +18,13 @@ class MailingListsController < ApplicationController
     @mailing_list_pages = Paginator.new self, @mailing_list_count, per_page_option, params['page']
 
     respond_to do |format|
-      format.html {
+      format.html do
         if request.xhr?
           render layout: false, action: 'list'
         else
           render action: 'list'
         end
-      }
+      end
       format.xml  { render xml: @mailing_lists }
     end
   end
@@ -41,7 +41,7 @@ class MailingListsController < ApplicationController
     @mailing_list = MailingList.new(mailing_list_params)
     respond_to do |format|
       if @mailing_list.save
-        flash[:notice] = l(:notice_successful_create)
+        flash.now[:notice] = l(:notice_successful_create)
         format.html { redirect_to(action: 'index') }
         format.xml  { render xml: @mailing_list, status: :created, location: @mailing_list }
       else
@@ -86,5 +86,4 @@ class MailingListsController < ApplicationController
   def mailing_list_params
     params.require(:mailing_list).permit(:identifier, :address, :driver_name, :driver_data, :description)
   end
-
 end

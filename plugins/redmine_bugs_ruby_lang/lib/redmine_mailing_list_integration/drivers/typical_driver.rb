@@ -30,7 +30,7 @@ module RedmineMailingListIntegration
       module ClassMethods
         def archive_url_for(ml, number)
           hint = ml.driver_data
-          hint % [ number ] if hint.present?
+          sprintf(hint, number) if hint.present?
         end
       end
 

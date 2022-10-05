@@ -4,17 +4,17 @@ module RedmineMailingListIntegration
       def self.included(klass)
         klass.class_eval do
           has_many :uses_of_mailing_list, class_name: 'UseOfMailingList'
-          has_many :mailing_lists, through: :'uses_of_mailing_list'
+          has_many :mailing_lists, through: :uses_of_mailing_list
         end
       end
 
       Receptors::KNOWN_TYPES.each do |type|
         define_method("mail_routes_for_#{type}") do |obj|
-          uses_of_mailing_list.select {|use|
+          uses_of_mailing_list.select do |use|
             use.send("#{type}_receive?", obj)
-          }.map{|use|
+          end.map do |use|
             use.mailing_list
-          }.uniq
+          end.uniq
         end
       end
     end

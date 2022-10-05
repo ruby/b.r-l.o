@@ -10,11 +10,11 @@ module RedmineRubyLangMailingListCustomization
         end
 
         force_simple = case params[:controller].to_s
-                      when 'issues', 'journals', 'projects', 'previews', 'welcome', 'wiki'
-                        false
-                      else
-                        true
-                      end
+                       when 'issues', 'journals', 'projects', 'previews', 'welcome', 'wiki'
+                         false
+                       else
+                         true
+                       end
         options[:force_simple] = force_simple
         text = super(*args)
 

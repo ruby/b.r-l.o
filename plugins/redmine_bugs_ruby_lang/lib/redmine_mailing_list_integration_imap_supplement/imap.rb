@@ -4,13 +4,15 @@ require 'yaml'
 module RedmineMailingListIntegrationImapSupplement
   module IMAP
     module_function
+
     def config
-      @@config ||= YAML.load(ERB.new(File.read(Rails.root.join("config/imap.yml"))).result)
+      @@config ||= YAML.load(ERB.new(Rails.root.join("config/imap.yml").read).result)
     end
 
     def with_connection(name)
       config = self.config[name]
       raise ArgumentError, "no such configuration: '#{name}'" if config.nil?
+
       config = config.with_indifferent_access
       host = config[:host] || '127.0.0.1'
       port = config[:port] || '143'
@@ -28,11 +30,11 @@ module RedmineMailingListIntegrationImapSupplement
 
     def fetch(storage_name, query, session = nil)
       if session.nil?
-        with_connection(storage_name){|session,config|
+        with_connection(storage_name) do |session, config|
           session.search(query).map do |seqno|
             session.fetch(seqno, 'RFC822')[0]
           end
-        }
+        end
       else
         session.search(query).map do |seqno|
           session.fetch(seqno, 'RFC822')[0]
@@ -41,7 +43,7 @@ module RedmineMailingListIntegrationImapSupplement
     end
 
     def receive(storage_name, query)
-      with_connection(storage_name){|session,config|
+      with_connection(storage_name) do |session, config|
         fetch(storage_name, query, session).each do |data|
           msg = data.attr['RFC822']
           seqno = data.seqno
@@ -53,7 +55,7 @@ module RedmineMailingListIntegrationImapSupplement
             session.store(seqno, "+FLAGS", [:Seen, :Flagged])
           end
         end
-      }
+      end
     end
 
     def check(storage_name = nil)

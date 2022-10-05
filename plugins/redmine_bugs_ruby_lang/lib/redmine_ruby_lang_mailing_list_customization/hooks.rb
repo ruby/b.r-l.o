@@ -1,17 +1,16 @@
-# -*- coding: utf-8 -*-
 module RedmineRubyLangMailingListCustomization
   class Hooks < Redmine::Hook::ViewListener
     def view_issues_form_details_bottom(context = {})
       issue, form, project = context[:issue], context[:form], context[:project]
       return unless issue.new_record?
-      return unless project and project.mailing_lists.any?{|ml| %w[ ruby-core ruby-dev ].include?(ml.identifier) }
+      return unless project and project.mailing_lists.any?{|ml| %w[ruby-core ruby-dev].include?(ml.identifier) }
 
       options = [
         ["ruby-core in English", 'en'],
         ["ruby-dev in Japanese (日本語)", 'ja'],
       ]
 
-      selected = [current_language.to_s, Setting.default_language].find{|lang| %w[ en ja ].include?(lang) }
+      selected = [current_language.to_s, Setting.default_language].find{|lang| %w[en ja].include?(lang) }
       return "<p>%s</p>" % form.select(:lang, options, required: true, selected: selected, label: l(:field_mailing_list))
     end
 

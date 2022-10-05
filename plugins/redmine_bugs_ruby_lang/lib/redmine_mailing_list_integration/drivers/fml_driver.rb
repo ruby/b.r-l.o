@@ -5,7 +5,7 @@ module RedmineMailingListIntegration
 
       def likelihood
         if /\Afml / =~ @email.header["List-Software"].to_s and
-          @email.header["X-ML-Name"].to_s == @mailing_list.identifier then
+          @email.header["X-ML-Name"].to_s == @mailing_list.identifier
           EXACTLY_MATCHED
         else
           NOT_MATCHED

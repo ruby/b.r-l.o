@@ -8,9 +8,9 @@ class MailingListMessage < ActiveRecord::Base
 
   def identifier
     if mail_number && mailing_list
-      '[%s:%s]' % [mailing_list.identifier, mail_number]
+      sprintf('[%s:%s]', mailing_list.identifier, mail_number)
     elsif mailing_list
-      '[%s:<unknown>]' % [mailing_list.identifier]
+      sprintf('[%s:<unknown>]', mailing_list.identifier)
     else
       '[<unknown>:<unknown>]'
     end

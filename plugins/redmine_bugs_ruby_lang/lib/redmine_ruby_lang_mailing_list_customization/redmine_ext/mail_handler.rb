@@ -3,15 +3,23 @@ module RedmineRubyLangMailingListCustomization
     module MailHandler
       def dispatch
         if charset = email.header.charset and charset.downcase != 'utf-8'
-          email.body = email.body.encode("UTF-8", charset) rescue nil
-          email.subject = email.subject.encode("UTF-8", charset) rescue nil
+          email.body = begin
+            email.body.encode("UTF-8", charset)
+          rescue
+            nil
+          end
+          email.subject = begin
+            email.subject.encode("UTF-8", charset)
+          rescue
+            nil
+          end
         end
         begin
           email.subject = email.subject.sub(/\[#{Regexp.escape driver.mailing_list.identifier}:\d+\]/, '')
         rescue MailHandler::MissingInformation
           if subject_tag_re =~ email.subject
             email.subject = email.subject.sub(subject_tag_re, '')
-            if %w[ ruby-core ruby-dev ].include? driver.mailing_list.identifier
+            if %w[ruby-core ruby-dev].include? driver.mailing_list.identifier
               tracker_name, proj_name = $1, $2
               @ruby_lang_tracker_name = Tracker.where(['LOWER(trackers.name) = LOWER(?)', tracker_name]).first&.name
               @ruby_lang_project_name =
@@ -35,7 +43,7 @@ module RedmineRubyLangMailingListCustomization
       end
 
       def dispatch_to_chicken_and_egg
-        # TODO queue
+        # TODO: queue
         false
       end
 
@@ -59,6 +67,7 @@ module RedmineRubyLangMailingListCustomization
       end
 
       private
+
       def subject_tag_re
         trackers = Tracker.all.map{|t| Regexp.escape(t.name) }.join('|')
         /\[(#{trackers})(?::([^\]]+))?\]/i

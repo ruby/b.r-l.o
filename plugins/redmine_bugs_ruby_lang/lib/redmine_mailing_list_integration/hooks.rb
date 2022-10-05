@@ -4,7 +4,7 @@ module RedmineMailingListIntegration
       message = context[:issue].mailing_list_message
       if message
         if message.archive_url
-          '<a href="%2$s">%1$s</a>' % [ message.identifier, message.archive_url ]
+          sprintf('<a href="%2$s">%1$s</a>', message.identifier, message.archive_url)
         else
           h(message.identifier)
         end

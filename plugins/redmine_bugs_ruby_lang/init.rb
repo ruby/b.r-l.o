@@ -32,7 +32,7 @@ Redmine::Plugin.register :redmine_bugs_ruby_lang do
   menu :admin_menu, :mailing_lists, { controller: 'mailing_lists'}, caption: :label_mailing_list_plural, html: { class: 'icon'}
 
   project_module :mail_to_issue do
-    permission :mail_to_issue, mail_to_issue: %w[ new create ]
+    permission :mail_to_issue, mail_to_issue: %w[new create]
   end
 
   mailing_list_integration do
