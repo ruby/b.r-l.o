@@ -8,7 +8,6 @@ system "git -C /app/repos/git/ruby fetch origin refs/heads/*:refs/heads/*" rescu
 
 preload_app!
 
-rackup      DefaultRackup
 port        ENV['PORT']     || 3000
 environment ENV['RACK_ENV'] || 'development'
 
