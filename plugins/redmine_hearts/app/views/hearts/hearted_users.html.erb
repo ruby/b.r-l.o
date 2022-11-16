@@ -1,0 +1,13 @@
+<%# frozen_string_literal: true %>
+<% @heartables.each do |heartable| %>
+  <h2><%= link_to_heartable heartable %></h2>
+  <h3><%=t :hearts_count_label, :count => heartable.hearted_users.size %></h3>
+  <%= content_tag :ul do %>
+    <% heartable.hearts.preload(:user => :email_address).each do |heart| %>
+      <%= content_tag :li, :class => "user-#{heart.user.id}" do %>
+        <%= avatar(heart.user, :size => 16).to_s %>
+        <%= authoring heart.created_at, heart.user, :label => :label_hearted_time_by %>
+      <% end %>
+    <% end %>
+  <% end if heartable.hearted_users.size > 0 %>
+<% end %>
