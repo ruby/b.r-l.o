@@ -5,7 +5,9 @@ module RedmineMailingListIntegration
 
       def likelihood
         list_id = @email.header["List-Id"].match(/\<(.*)\.ml\.ruby\-lang\.org\>/)
+        Rails.logger.debug "list_id: #{list_id}"
         ml_name = list_id && list_id[1]
+        Rails.logger.debug "ml_name: #{ml_name}"
         if /\A\d/ =~ @email.header["X-Mailman-Version"].to_s && ml_name == @mailing_list.identifier
           EXACTLY_MATCHED
         else
@@ -15,6 +17,7 @@ module RedmineMailingListIntegration
 
       def mail_number
         mail_count = @email.header["Subject"].match(/\[#{ml_name}:(\d+)\].*/)
+        Rails.logger.debug "mail_count: #{mail_count}"
         mail_count && mail_count[1]
       end
 

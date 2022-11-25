@@ -51,7 +51,7 @@ module RedmineMailingListIntegrationImapSupplement
             logger.debug "Message #{seqno} successfully received" if logger && logger.debug?
             session.store(seqno, "+FLAGS", [:Seen])
           else
-            logger.debug "Message #{seqno} can not be processed" if logger && logger.debug?
+            logger.debug "Message #{seqno} can not be processed #{msg}" if logger && logger.debug?
             session.store(seqno, "+FLAGS", [:Seen, :Flagged])
           end
         end
