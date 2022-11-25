@@ -34,8 +34,9 @@ module RedmineMailingListIntegration
       end
 
       def self.imap_query_for_mail_number(mailing_list, number)
-        query = "#{mailing_list.identifier}:#{number}"
-        ['HEADER', ml_name, mailing_list.identifier, 'HEADER', 'Subject', query]
+        list_id = "<#{mailing_list.identifier}.ml.ruby-lang.org>"
+        subject = "#{mailing_list.identifier}:#{number}"
+        ['HEADER', "List-Id", list_id, 'HEADER', 'Subject', subject]
       end
     end
   end
