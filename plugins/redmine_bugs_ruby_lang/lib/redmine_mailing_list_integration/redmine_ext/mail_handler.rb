@@ -103,7 +103,7 @@ module RedmineMailingListIntegration
             c.likelihood <= RedmineMailingListIntegration::Drivers::NOT_MATCHED
           end.sort_by(&:likelihood).last
           unless chosen
-            raise MailHandler::MissingInformation, "Unable to determine driver #{begin
+            raise ::MailHandler::MissingInformation, "Unable to determine driver #{begin
               email.subject
             rescue
               nil
