@@ -28,7 +28,7 @@ module RedmineMailingListIntegration
           @email.header["X-ML-Name"].to_s
         else
           # for mailman3
-          list_id = @email.header["List-Id"].match(/\<(.*)\.ruby\-lang\.org\>/)
+          list_id = @email.header["List-Id"].match(/\<(.*)\.ml\.ruby\-lang\.org\>/)
           list_id && list_id[1]
         end
       end
