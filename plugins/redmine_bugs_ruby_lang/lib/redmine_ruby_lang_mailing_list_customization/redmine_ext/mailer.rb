@@ -19,6 +19,7 @@ module RedmineRubyLangMailingListCustomization
       def mail(headers={}, &block)
         headers[:bcc] = (headers[:bcc] || []).concat((headers[:cc] || []))
         headers[:cc] = []
+        headers[:charset] = "utf-8"
         locale = headers[:to].to_s.include?('ruby-dev') ? :ja : :en
         I18n.with_locale(locale) { super(headers) }
       end
