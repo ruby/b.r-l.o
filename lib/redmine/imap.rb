@@ -66,7 +66,7 @@ module Redmine
         m = Mail.new(msg)
         list_name = m.header['List-Id'].to_s.match(/\<(.*)\.ml\.ruby\-lang\.org\>/)
         list_name = list_name && list_name[1]
-        post_id = m.header["Subject"].to_s.match(/\[#{ml_name}:(\d+)\].*/)
+        post_id = m.header["Subject"].to_s.match(/\[#{list_name}:(\d+)\].*/)
         post_id = post_id && post_id[1]
 
         from = begin
