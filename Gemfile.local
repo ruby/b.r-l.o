@@ -3,7 +3,7 @@ ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 3.2.0'
 gem 'puma'
 gem 'pg'
 gem 'rack-protection'
-gem 'sidekiq', "< 7"
+gem 'sidekiq'
 
 group :development do
   gem 'pry-rails'

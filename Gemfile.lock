@@ -218,7 +218,8 @@ GEM
     rbpdf-font (1.19.1)
     rbtree3 (0.7.0)
     redcarpet (3.5.1)
-    redis (4.8.0)
+    redis-client (0.11.2)
+      connection_pool
     redmine_crm (0.0.58)
       liquid (< 2.6.4)
       rails
@@ -266,10 +267,11 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sidekiq (6.5.8)
-      connection_pool (>= 2.2.5, < 3)
-      rack (~> 2.0)
-      redis (>= 4.5.0, < 5)
+    sidekiq (7.0.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.11.0)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -356,7 +358,7 @@ DEPENDENCIES
   rubyzip (~> 2.3.0)
   sanitize (~> 6.0)
   selenium-webdriver (~> 3.142.7)
-  sidekiq (< 7)
+  sidekiq
   simplecov (~> 0.21.2)
   tzinfo-data
   webdrivers (= 4.6.1)
