@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '>= 2.5.0', '< 3.2.0'
 gem 'bundler', '>= 1.12.0'
 
-gem 'rails', '6.1.7.1'
+gem 'rails', '6.1.7.2'
 gem 'globalid', '~> 0.4.2' if Gem.ruby_version < Gem::Version.new('2.6.0')
 gem 'rouge', '~> 3.28.0'
 gem 'request_store', '~> 1.5.0'
@@ -49,7 +49,7 @@ gem 'redcarpet', '~> 3.5.1', groups: [:markdown, :common_mark]
 # Optional CommonMark support, not for JRuby
 group :common_mark do
   gem "html-pipeline", "~> 2.13.2"
-  gem "commonmarker", (Gem.ruby_version < Gem::Version.new('2.6.0') ? '0.21.0' : '0.23.4')
+  gem "commonmarker", (Gem.ruby_version < Gem::Version.new('2.6.0') ? '0.21.0' : '~> 0.23.8')
   gem "sanitize", "~> 6.0"
   gem 'deckar01-task_list', '2.3.2'
 end
