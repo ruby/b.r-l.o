@@ -1,4 +1,4 @@
-ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 3.2.0'
+ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 3.2.1'
 
 gem 'puma'
 gem 'pg'
