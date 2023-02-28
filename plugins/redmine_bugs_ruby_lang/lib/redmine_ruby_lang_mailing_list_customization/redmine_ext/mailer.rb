@@ -1,3 +1,5 @@
+require "mail"
+
 module RedmineRubyLangMailingListCustomization
   module RedmineExt
     module Mailer
@@ -17,6 +19,12 @@ module RedmineRubyLangMailingListCustomization
       end
 
       def mail(headers={}, &block)
+        from_addr = headers[:to].to_s.include?('ruby-dev') ? "ruby-dev@ml.ruby-lang.org" : "ruby-core@ml.ruby-lang.org"
+        mail_from = Mail::Address.new(from_addr)
+        if mail_from.display_name.blank? && mail_from.comments.blank?
+          mail_from.display_name = @author&.logged? ? @author.name : Setting.app_title
+        end
+        headers[:from] = mail_from.format
         headers[:bcc] = (headers[:bcc] || []).concat((headers[:cc] || []))
         headers[:cc] = []
         headers[:charset] = "utf-8"
