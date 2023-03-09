@@ -49,8 +49,9 @@ module RedmineMailingListIntegrationImapSupplement
       with_connection(storage_name) do |session, config|
         fetch(storage_name, query, session).each do |data|
           msg = data.attr['RFC822']
+          record_s3(msg)
           seqno = data.seqno
-          if MailHandler.receive(msg, unknown_user: "accept", no_permission_check: '1') && record_s3(msg)
+          if MailHandler.receive(msg, unknown_user: "accept", no_permission_check: '1')
             logger.debug "Message #{seqno} successfully received" if logger && logger.debug?
             session.store(seqno, "+FLAGS", [:Seen])
           else
