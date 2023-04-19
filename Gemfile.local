@@ -1,9 +1,9 @@
 ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 3.2.2'
 
 gem 'puma'
+gem 'good_job'
 gem 'pg'
 gem 'rack-protection'
-gem 'sidekiq'
 
 group :development do
   gem 'pry-rails'

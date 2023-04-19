@@ -11,7 +11,7 @@
 if Rails.env.production?
   config.log_level = :info
   config.force_ssl = true
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :good_job
 end
 
 Dir.glob(Rails.root.join("plugins/*/lib").to_s).each do |path|
