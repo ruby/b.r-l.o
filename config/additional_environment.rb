@@ -8,6 +8,7 @@
 #   ...
 #
 
+
 if Rails.env.production?
   config.log_level = :info
   config.force_ssl = true

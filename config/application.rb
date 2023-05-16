@@ -16,6 +16,8 @@ require 'action_cable/engine'
 # require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
 
+require 'good_job/engine'
+
 Bundler.require(*Rails.groups)
 
 module RedmineApp
