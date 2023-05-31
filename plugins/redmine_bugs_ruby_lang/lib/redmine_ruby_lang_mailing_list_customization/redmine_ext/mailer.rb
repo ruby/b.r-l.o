@@ -19,11 +19,10 @@ module RedmineRubyLangMailingListCustomization
       end
 
       def mail(headers={}, &block)
-        from_addr = headers[:to].to_s
-        case from_addr
+        case headers[:to].to_s
         when "ruby-dev@ruby-lang.org" then from_addr = "ruby-dev@ml.ruby-lang.org"
         when "ruby-core@ruby-lang.org" then from_addr = "ruby-core@ml.ruby-lang.org"
-        # otherwise, keep it as is (e.g., "noreply@ruby-lang.org")
+        else from_addr = "noreply@ruby-lang.org"
         end
         mail_from = Mail::Address.new(from_addr)
         if mail_from.display_name.blank? && mail_from.comments.blank?
