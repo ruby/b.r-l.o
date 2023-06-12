@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 0b2f303f0167cce6e91c1e25c750a1711b736a6e
+  revision: 8798a6f2aa95e12f37993ba3c5a80fd0ac813dbb
   branch: 6-1-stable
   specs:
     actioncable (6.1.7.3)
@@ -98,17 +98,17 @@ GEM
       rbtree3 (~> 0.6)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.764.0)
-    aws-sdk-core (3.172.0)
+    aws-partitions (1.777.0)
+    aws-sdk-core (3.174.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.64.0)
-      aws-sdk-core (~> 3, >= 3.165.0)
+    aws-sdk-kms (1.66.0)
+      aws-sdk-core (~> 3, >= 3.174.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.122.0)
-      aws-sdk-core (~> 3, >= 3.165.0)
+    aws-sdk-s3 (1.123.1)
+      aws-sdk-core (~> 3, >= 3.174.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
@@ -149,7 +149,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    good_job (3.15.7)
+    good_job (3.15.12)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -179,7 +179,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     minitest (5.18.0)
-    mocha (2.0.2)
+    mocha (2.0.4)
       ruby2_keywords (>= 0.0.5)
     net-imap (0.2.3)
       digest
@@ -194,13 +194,14 @@ GEM
       net-protocol
     newrelic_rpm (9.2.2)
     nio4r (2.5.9)
-    nokogiri (1.14.4-arm64-darwin)
+    nokogiri (1.14.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.14.4-x86_64-linux)
+    nokogiri (1.14.5-x86_64-linux)
       racc (~> 1.4)
     parallel (1.23.0)
-    parser (3.2.2.1)
+    parser (3.2.2.3)
       ast (~> 2.4.1)
+      racc
     pg (1.5.3)
     pry (0.14.2)
       coderay (~> 1.1)
@@ -208,10 +209,10 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (5.0.1)
-    puma (6.2.2)
+    puma (6.3.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.6.2)
+    racc (1.7.0)
     rack (2.2.7)
     rack-protection (3.0.6)
       rack
@@ -220,8 +221,9 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.5.0)
-      loofah (~> 2.19, >= 2.19.1)
+    rails-html-sanitizer (1.6.0)
+      loofah (~> 2.21)
+      nokogiri (~> 1.14)
     rainbow (3.1.1)
     rake (13.0.6)
     rb-fsevent (0.11.2)
@@ -237,7 +239,7 @@ GEM
       liquid (< 2.6.4)
       rails
       rubyzip
-    regexp_parser (2.8.0)
+    regexp_parser (2.8.1)
     request_store (1.5.1)
       rack (>= 1.4)
     rexml (3.2.5)
@@ -249,7 +251,7 @@ GEM
       roadie (~> 5.0)
     rotp (6.2.2)
     rouge (3.28.0)
-    rqrcode (2.1.2)
+    rqrcode (2.2.0)
       chunky_png (~> 1.0)
       rqrcode_core (~> 1.0)
     rqrcode_core (1.2.0)
@@ -262,7 +264,7 @@ GEM
       rubocop-ast (>= 1.16.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.28.1)
+    rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
     rubocop-performance (1.13.3)
       rubocop (>= 1.7.0, < 2.0)
@@ -315,6 +317,7 @@ GEM
 PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
