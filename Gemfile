@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '>= 2.5.0', '< 3.2.0'
 gem 'bundler', '>= 1.12.0'
 
-# gem 'rails', '6.1.7.3'
+gem 'rails', '6.1.7.3'
 gem 'globalid', '~> 0.4.2' if Gem.ruby_version < Gem::Version.new('2.6.0')
 gem 'rouge', '~> 3.28.0'
 gem 'request_store', '~> 1.5.0'
@@ -13,7 +13,13 @@ gem 'roadie-rails', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 2.2.0' :
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', '~> 3.2.0'
-gem 'nokogiri', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 1.12.5' : '~> 1.14.0.rc1')
+gem 'nokogiri', (if Gem.ruby_version < Gem::Version.new('2.6.0')
+                   '~> 1.12.5'
+                 elsif Gem.ruby_version < Gem::Version.new('2.7.0')
+                   '~> 1.13.10'
+                 else
+                   '~> 1.15.2'
+                 end)
 gem "rexml", require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 gem 'i18n', '~> 1.10.0'
 gem 'rbpdf', '~> 1.21.0'
@@ -69,7 +75,7 @@ if File.exist?(database_file)
       when 'mysql2'
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
       when /postgresql/
-        # gem "pg", "~> 1.2.2", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "pg", "~> 1.2.2", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
         gem "sqlite3", "~> 1.4.0", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
@@ -97,7 +103,7 @@ group :test do
   gem 'simplecov', '~> 0.21.2', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  # gem 'puma', (Gem.ruby_version < Gem::Version.new('2.7') ? '< 6.0.0' : '>= 0')
+  gem 'puma', (Gem.ruby_version < Gem::Version.new('2.7') ? '< 6.0.0' : '>= 0')
   gem 'capybara', (if Gem.ruby_version < Gem::Version.new('2.6')
                      '~> 3.35.3'
                    elsif Gem.ruby_version < Gem::Version.new('2.7')
