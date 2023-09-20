@@ -98,8 +98,8 @@ GEM
       rbtree3 (~> 0.6)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.820.0)
-    aws-sdk-core (3.181.0)
+    aws-partitions (1.825.0)
+    aws-sdk-core (3.182.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
@@ -149,7 +149,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    good_job (3.18.2)
+    good_job (3.19.0)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -191,7 +191,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    newrelic_rpm (9.4.2)
+    newrelic_rpm (9.5.0)
     nio4r (2.5.9)
     nokogiri (1.15.4-arm64-darwin)
       racc (~> 1.4)
@@ -276,7 +276,7 @@ GEM
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    sanitize (6.0.2)
+    sanitize (6.1.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     selenium-webdriver (3.142.7)
@@ -339,7 +339,7 @@ DEPENDENCIES
   marcel
   mini_magick (~> 4.11.0)
   mini_mime (~> 1.1.0)
-  mocha (>= 1.4.0)
+  mocha (>= 2.0.1)
   net-imap (~> 0.2.2)
   net-ldap (~> 0.17.0)
   net-pop (~> 0.1.1)
@@ -376,4 +376,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.4.18
+   2.4.19
