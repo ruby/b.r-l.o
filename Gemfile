@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '>= 2.5.0', '< 3.2.0'
 gem 'bundler', '>= 1.12.0'
 
-# gem 'rails', '6.1.7.4'
+# gem 'rails', '6.1.7.6'
 gem 'globalid', '~> 0.4.2' if Gem.ruby_version < Gem::Version.new('2.6.0')
 gem 'rouge', '~> 3.28.0'
 gem 'request_store', '~> 1.5.0'
@@ -22,7 +22,7 @@ gem 'nokogiri', (if Gem.ruby_version < Gem::Version.new('2.6.0')
                  end)
 gem "rexml", require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 gem 'i18n', '~> 1.10.0'
-gem 'rbpdf', '~> 1.21.0'
+gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 gem 'net-smtp', '~> 0.3.0'
