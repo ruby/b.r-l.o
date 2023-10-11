@@ -1,4 +1,4 @@
-ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 3.1.4'
+ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 3.2.2'
 
 gem 'rails', github: 'rails/rails', branch: '6-1-stable'
 gem 'puma'
