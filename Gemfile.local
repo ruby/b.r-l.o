@@ -5,6 +5,7 @@ gem 'puma'
 gem 'good_job'
 gem 'pg'
 gem 'rack-protection'
+gem "rack-timeout"
 
 group :development do
   gem 'pry-rails'
