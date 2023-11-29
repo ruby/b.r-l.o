@@ -31,6 +31,10 @@ gem 'net-pop', '~> 0.1.1'
 # Rails 6.1.6.1 does not work with Pysch 3.0.2, which is installed by default with Ruby 2.5. See https://github.com/rails/rails/issues/45590
 gem 'psych', '>= 3.1.0' if Gem.ruby_version < Gem::Version.new('2.6.0')
 
+# Heroku Ruby Language Metrics
+# https://devcenter.heroku.com/articles/language-runtime-metrics-ruby#add-the-barnes-gem-to-your-application
+gem "barnes"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 
