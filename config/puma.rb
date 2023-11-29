@@ -4,7 +4,7 @@ threads threads_count, threads_count
 
 # Update git repository on heroku dyno restart
 # https://github.com/ruby/heroku-buildpack-bugs-ruby-lang/blob/master/bin/compile
-system "git -C /app/repos/git/ruby fetch origin refs/heads/*:refs/heads/*" rescue nil
+fork{ system "git -C /app/repos/git/ruby fetch origin refs/heads/*:refs/heads/*" rescue nil }
 
 preload_app!
 
