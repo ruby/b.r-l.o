@@ -4,6 +4,6 @@ require ::File.expand_path('../config/environment',  __FILE__)
 
 use Rack::Protection::HttpOrigin
 use Rack::Protection::FrameOptions
-use YJITStatsMiddleware if Rails.env.production?
+use YjitStatsMiddleware if Rails.env.production?
 
 run Rails.application

@@ -1,4 +1,4 @@
-class YJITStatsMiddleware
+class YjitStatsMiddleware
   CUSTOM_METRICS = [
     :code_region_size,
     :yjit_alloc_size,
