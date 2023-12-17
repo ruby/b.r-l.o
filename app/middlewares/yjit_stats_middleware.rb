@@ -28,33 +28,43 @@ class YjitStatsMiddleware
 
   def call(env)
     @count += 1
-    with_yjit_stats do
+    with_yjit_stats(@count) do
       @app.call(env)
     end
   end
 
   private
 
-  def with_yjit_stats
+  def with_yjit_stats(count)
     request_start_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond)
     yield
   ensure
     begin
+      # Emit time spent for every request
       group = using_yjit? ? 'yjit' : 'interp'
       if request_start_ms
         request_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond) - request_start_ms
         NewRelic::Agent.record_metric("Custom/Request/time_ms/#{group}", request_time_ms)
       end
-      NewRelic::Agent.record_metric("Custom/Request/count/#{group}", @count)
 
-      if using_yjit? && (@count % YJIT_STATS_REQUEST_INTERVAL) == 0
-        stats = RubyVM::YJIT.runtime_stats
-        CUSTOM_METRICS.each do |metric|
-          NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric]) if stats.key?(metric)
+      # Emit more stats for sampled requests
+      if (count % YJIT_STATS_REQUEST_INTERVAL) == 0
+        NewRelic::Agent.record_metric("Custom/Request/count/#{group}", count)
+        if ENV.key?('DYNO')
+          NewRelic::Agent.record_metric('Custom/Heroku/dyno', ENV['DYNO'].to_i)
+        end
+
+        if using_yjit?
+          stats = RubyVM::YJIT.runtime_stats
+          CUSTOM_METRICS.each do |metric|
+            NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric]) if stats.key?(metric)
+          end
         end
       end
-      if yjit_stats? && (@count % YJIT_STATS_STRING_REQUEST_INTERVAL) == 0
-        @logger.info("[request_count: #{@count}] #{RubyVM::YJIT.stats_string}")
+
+      # Log YJIT stats string once in a while
+      if yjit_stats? && (count % YJIT_STATS_STRING_REQUEST_INTERVAL) == 0
+        @logger.info("[request_count: #{count}] #{RubyVM::YJIT.stats_string}")
       end
     rescue => e
       @logger.error(e.full_message)
