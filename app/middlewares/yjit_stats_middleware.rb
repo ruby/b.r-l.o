@@ -12,6 +12,9 @@ class YjitStatsMiddleware
     :compiled_block_count,
     :compiled_branch_count,
     :cold_iseq_entry,
+
+    # --yjit-stats only
+    :ratio_in_yjit,
   ]
 
   def initialize(app, logger: Rails.logger)
@@ -44,7 +47,7 @@ class YjitStatsMiddleware
       if using_yjit? && (@count % YJIT_STATS_REQUEST_INTERVAL) == 0
         stats = RubyVM::YJIT.runtime_stats
         CUSTOM_METRICS.each do |metric|
-          NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric])
+          NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric]) if stats.key?(metric)
         end
       end
     rescue => e
