@@ -1,5 +1,5 @@
-workers Integer(ENV['WEB_CONCURRENCY'] || 2)
-threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
+workers 2
+threads_count = 5
 threads threads_count, threads_count
 
 # Update git repository on heroku dyno restart
@@ -10,6 +10,13 @@ preload_app!
 
 port        ENV['PORT']     || 3000
 environment ENV['RACK_ENV'] || 'development'
+
+after_worker_fork do |worker_index|
+  # Enable YJIT in a half of the workers
+  if defined?(RubyVM::YJIT) && worker_index.even?
+    RubyVM::YJIT.enable
+  end
+end
 
 on_worker_boot do
   # Worker specific setup for Rails 4.1+
