@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class YjitStatsMiddleware
-  YJIT_STATS_REQUEST_INTERVAL = 10
+  YJIT_STATS_REQUEST_INTERVAL = 100
+  YJIT_STATS_STRING_REQUEST_INTERVAL = 1000
+
   CUSTOM_METRICS = [
     # Always available
     :code_region_size,
@@ -50,6 +52,9 @@ class YjitStatsMiddleware
           NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric]) if stats.key?(metric)
         end
       end
+      if yjit_stats? && (@count % YJIT_STATS_STRING_REQUEST_INTERVAL) == 0
+        @logger.info(RubyVM::YJIT.stats_string)
+      end
     rescue => e
       @logger.error(e.full_message)
     end
@@ -57,5 +62,9 @@ class YjitStatsMiddleware
 
   def using_yjit?
     defined?(RubyVM::YJIT) && RubyVM::YJIT.enabled?
+  end
+
+  def yjit_stats?
+    using_yjit? && RubyVM::YJIT.stats_enabled?
   end
 end
