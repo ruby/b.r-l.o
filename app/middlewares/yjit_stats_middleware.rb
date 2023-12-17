@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 class YjitStatsMiddleware
-  YJIT_STATS_REQUEST_INTERVAL = 100
-  YJIT_STATS_STRING_REQUEST_INTERVAL = 1000
+  STAGING = ENV['NEW_RELIC_APP_NAME'] == 'staging-bugs-ruby-lang'
+  YJIT_STATS_REQUEST_INTERVAL = STAGING ? 1 : 10
+  YJIT_STATS_STRING_REQUEST_INTERVAL = STAGING ? 10 : 1000
 
   CUSTOM_METRICS = [
     # Always available
