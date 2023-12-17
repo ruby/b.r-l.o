@@ -54,7 +54,7 @@ class YjitStatsMiddleware
         end
       end
       if yjit_stats? && (@count % YJIT_STATS_STRING_REQUEST_INTERVAL) == 0
-        @logger.info(RubyVM::YJIT.stats_string)
+        @logger.info("[request_count: #{@count}] #{RubyVM::YJIT.stats_string}")
       end
     rescue => e
       @logger.error(e.full_message)
