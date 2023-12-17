@@ -1,15 +1,17 @@
+# frozen_string_literal: true
 class YjitStatsMiddleware
   YJIT_STATS_REQUEST_INTERVAL = 10
   CUSTOM_METRICS = [
+    # Always available
     :code_region_size,
     :yjit_alloc_size,
     :live_iseq_count,
-    :cold_iseq_entry,
     :compiled_iseq_entry,
     :compiled_iseq_count,
     :compiled_blockid_count,
     :compiled_block_count,
     :compiled_branch_count,
+    :cold_iseq_entry,
   ]
 
   def initialize(app, logger: Rails.logger)
@@ -32,11 +34,12 @@ class YjitStatsMiddleware
     yield
   ensure
     begin
+      group = using_yjit? ? 'yjit' : 'interp'
       if request_start_ms
         request_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond) - request_start_ms
-        NewRelic::Agent.record_metric('Custom/Unicorn/request_time_ms', request_time_ms)
+        NewRelic::Agent.record_metric("Custom/Request/time_ms/#{group}", request_time_ms)
       end
-      NewRelic::Agent.record_metric('Custom/Unicorn/request_count', @count)
+      NewRelic::Agent.record_metric("Custom/Request/count/#{group}", @count)
 
       if using_yjit? && (@count % YJIT_STATS_REQUEST_INTERVAL) == 0
         stats = RubyVM::YJIT.runtime_stats
