@@ -11,13 +11,6 @@ preload_app!
 port        ENV['PORT']     || 3000
 environment ENV['RACK_ENV'] || 'development'
 
-after_worker_fork do |worker_index|
-  # Enable YJIT in a half of the workers
-  if defined?(RubyVM::YJIT) && worker_index.odd?
-    RubyVM::YJIT.enable
-  end
-end
-
 on_worker_boot do
   # Worker specific setup for Rails 4.1+
   # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
