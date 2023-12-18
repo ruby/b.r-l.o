@@ -51,7 +51,7 @@ class YjitStatsMiddleware
       if (count % YJIT_STATS_REQUEST_INTERVAL) == 0
         NewRelic::Agent.record_metric("Custom/Request/count/#{group}", count)
         if ENV.key?('DYNO')
-          NewRelic::Agent.record_metric('Custom/Heroku/dyno', ENV['DYNO'].to_i)
+          NewRelic::Agent.record_metric('Custom/Heroku/dyno', Integer(ENV['DYNO'].delete_prefix('web.')))
         end
 
         if using_yjit?
