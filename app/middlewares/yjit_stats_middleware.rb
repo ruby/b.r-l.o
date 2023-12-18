@@ -40,19 +40,13 @@ class YjitStatsMiddleware
     yield
   ensure
     begin
-      group = if yjit_stats?
-        'stats'
-      elsif using_yjit?
-        'yjit'
-      else
-        'interp'
-      end
-
       # Emit time spent for every request
-      if request_start_ms
-        request_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond) - request_start_ms
-        NewRelic::Agent.record_metric("Custom/Request/time_ms/#{group}", request_time_ms)
-      end
+      request_time_ms = Process.clock_gettime(Process::CLOCK_MONOTONIC, :float_millisecond) - request_start_ms
+      group = if yjit_stats? then 'stats'
+              elsif using_yjit? then 'yjit'
+              else 'interp'
+              end
+      NewRelic::Agent.record_metric("Custom/Request/time_ms/#{group}", request_time_ms)
 
       # Emit more stats for sampled requests
       if (count % YJIT_STATS_REQUEST_INTERVAL) == 0
