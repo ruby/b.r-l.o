@@ -13,7 +13,7 @@ environment ENV['RACK_ENV'] || 'development'
 
 after_worker_fork do |worker_index|
   # Enable YJIT in a half of the workers
-  if defined?(RubyVM::YJIT) && worker_index.even?
+  if defined?(RubyVM::YJIT) && worker_index.odd?
     RubyVM::YJIT.enable
   end
 end
