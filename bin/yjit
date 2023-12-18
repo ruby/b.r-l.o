@@ -2,13 +2,12 @@
 
 if ENV.key?('DYNO')
   dyno_index = Integer(ENV['DYNO'].partition('.').last)
-  case dyno_index
-  when 1
-    rubyopt = '--yjit'
-  when 2
-    rubyopt = nil
-  else
+  if dyno_index == 3
     rubyopt = '--yjit-stats'
+  elsif dyno_index.odd?
+    rubyopt = '--yjit'
+  else
+    rubyopt = nil
   end
 else
   rubyopt = '--yjit'
