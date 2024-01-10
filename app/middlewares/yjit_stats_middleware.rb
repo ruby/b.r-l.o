@@ -55,16 +55,13 @@ class YjitStatsMiddleware
               end
       tags = ["group:#{group}"]
       StatsD.gauge('request.time_ms', request_time_ms, tags:)
-      NewRelic::Agent.record_metric("Custom/Request/time_ms/#{group}", request_time_ms)
 
       # Emit more stats for sampled requests
       if (count % YJIT_STATS_REQUEST_INTERVAL) == 0
         StatsD.gauge('request.count', count, tags:)
-        NewRelic::Agent.record_metric("Custom/Request/count/#{group}", count)
         if ENV.key?('DYNO')
           dyno = Integer(ENV['DYNO'].delete_prefix('web.'))
           StatsD.gauge('heroku.dyno', dyno)
-          NewRelic::Agent.record_metric('Custom/Heroku/dyno', dyno)
         end
 
         if using_yjit?
@@ -72,7 +69,6 @@ class YjitStatsMiddleware
           CUSTOM_METRICS.each do |metric|
             if stats.key?(metric)
               StatsD.gauge("yjit.#{metric}", stats[metric], tags:)
-              NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric])
             end
           end
         end
