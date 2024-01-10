@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+require 'datadog/statsd'
+
 class YjitStatsMiddleware
-  STAGING = ENV['NEW_RELIC_APP_NAME'] == 'staging-bugs-ruby-lang'
+  STAGING = ENV.fetch('NEW_RELIC_APP_NAME') == 'staging-bugs-ruby-lang'
   YJIT_STATS_REQUEST_INTERVAL = STAGING ? 1 : 10
   YJIT_STATS_STRING_REQUEST_INTERVAL = STAGING ? 10 : 1000
 
@@ -20,6 +22,12 @@ class YjitStatsMiddleware
     :ratio_in_yjit,
   ]
 
+  # https://docs.datadoghq.com/developers/dogstatsd/?tab=hostagent&code-lang=ruby
+  StatsD = Datadog::Statsd.new('localhost', 8125, tags: {
+    service: 'bugs-ruby-lang',
+    env: STAGING ? 'staging' : 'production',
+  }.map { "#{_1}:#{_2}" })
+
   def initialize(app, logger: Rails.logger)
     @app = app
     @count = 0
@@ -27,8 +35,7 @@ class YjitStatsMiddleware
   end
 
   def call(env)
-    @count += 1
-    with_yjit_stats(@count) do
+    with_yjit_stats(@count += 1) do
       @app.call(env)
     end
   end
@@ -46,19 +53,27 @@ class YjitStatsMiddleware
               elsif using_yjit? then 'yjit'
               else 'interp'
               end
+      tags = ["group:#{group}"]
+      StatsD.gauge('request.time_ms', request_time_ms, tags:)
       NewRelic::Agent.record_metric("Custom/Request/time_ms/#{group}", request_time_ms)
 
       # Emit more stats for sampled requests
       if (count % YJIT_STATS_REQUEST_INTERVAL) == 0
+        StatsD.gauge('request.count', count, tags:)
         NewRelic::Agent.record_metric("Custom/Request/count/#{group}", count)
         if ENV.key?('DYNO')
-          NewRelic::Agent.record_metric('Custom/Heroku/dyno', Integer(ENV['DYNO'].delete_prefix('web.')))
+          dyno = Integer(ENV['DYNO'].delete_prefix('web.'))
+          StatsD.gauge('heroku.dyno', dyno)
+          NewRelic::Agent.record_metric('Custom/Heroku/dyno', dyno)
         end
 
         if using_yjit?
           stats = RubyVM::YJIT.runtime_stats
           CUSTOM_METRICS.each do |metric|
-            NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric]) if stats.key?(metric)
+            if stats.key?(metric)
+              StatsD.gauge("yjit.#{metric}", stats[metric], tags:)
+              NewRelic::Agent.record_metric("Custom/YJIT/#{metric}", stats[metric])
+            end
           end
         end
       end
