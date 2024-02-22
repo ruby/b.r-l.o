@@ -25,7 +25,7 @@ Redmine::Plugin.register :redmine_hearts do
   name 'Redmine Hearts plugin'
   author '@cat_in_136'
   description 'provide intra-Redmine Like/Fav reactions'
-  version '2.1.1'
+  version '3.0.1'
   url 'https://github.com/cat-in-136/redmine_hearts'
   author_url 'https://github.com/cat-in-136/'
 
@@ -38,29 +38,29 @@ end
 if Rails.version > '6.0' && Rails.autoloaders.zeitwerk_enabled?
   Rails.application.config.after_initialize do
     IssueQuery.add_available_column(
-      QueryAssociationColumn.new(:hearts, :count,
-                                 :caption => :hearts_link_label,
-                                 :default_order => 'desc',
-                                 :sortable => lambda {
-                                   query_str = Heart.where(:heartable_type => Issue, :heartable_id => "9999").
-                                     select("COUNT(*)").
-                                     to_sql.sub("9999", "#{Issue.table_name}.id")
-                                   "(#{query_str})"
-                                 })
+      QueryColumn.new(:hearted_user_count,
+                      :caption => :hearts_link_label,
+                      :default_order => 'desc',
+                      :sortable => lambda {
+                        query_str = Heart.where(:heartable_type => Issue, :heartable_id => "9999").
+                          select("COUNT(*)").
+                          to_sql.sub("9999", "#{Issue.table_name}.id")
+                        "(#{query_str})"
+                      })
     )
   end
 else
   ActiveSupport::Reloader.to_prepare do
     IssueQuery.add_available_column(
-      QueryAssociationColumn.new(:hearts, :count,
-                                 :caption => :hearts_link_label,
-                                 :default_order => 'desc',
-                                 :sortable => lambda {
-                                   query_str = Heart.where(:heartable_type => Issue, :heartable_id => "9999").
-                                     select("COUNT(*)").
-                                     to_sql.sub("9999", "#{Issue.table_name}.id")
-                                   "(#{query_str})"
-                                 })
+      QueryColumn.new(:hearted_user_count,
+                      :caption => :hearts_link_label,
+                      :default_order => 'desc',
+                      :sortable => lambda {
+                        query_str = Heart.where(:heartable_type => Issue, :heartable_id => "9999").
+                          select("COUNT(*)").
+                          to_sql.sub("9999", "#{Issue.table_name}.id")
+                        "(#{query_str})"
+                      })
     )
   end
 end
