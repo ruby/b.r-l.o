@@ -3,15 +3,10 @@
 /.loadpath
 /.powrc
 /.rvmrc
-/.ruby-version
 /.byebug_history
-/config/additional_environment.rb
-/config/configuration.yml
-/config/database.yml
 /config/email.yml
 /config/secrets.yml
 /config/initializers/session_store.rb
-/config/initializers/secret_token.rb
 /coverage
 /db/*.db
 /db/*.sqlite3
@@ -23,12 +18,17 @@
 /log/*.log*
 /log/mongrel_debug
 /plugins/*
+!/plugins/redmine_bugs_ruby_lang
+!/plugins/redmica_s3
+!/plugins/redmineup_tags
+!/plugins/redmine_hearts
 !/plugins/README
 /public/dispatch.*
 /public/plugin_assets/*
 /public/themes/*
 !/public/themes/alternate
 !/public/themes/classic
+!/public/themes/ruby-lang
 !/public/themes/README
 /tmp/*
 /tmp/cache/*
@@ -41,8 +41,6 @@
 *.rbc
 
 /.bundle
-/Gemfile.lock
-/Gemfile.local
 
 /node_modules
 yarn-error.log

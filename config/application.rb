@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+GC::Profiler.enable
 require File.expand_path('../boot', __FILE__)
 
 require 'rails'
@@ -14,6 +15,8 @@ require 'action_view/railtie'
 require 'action_cable/engine'
 # require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
+
+require 'good_job/engine'
 
 Bundler.require(*Rails.groups)
 

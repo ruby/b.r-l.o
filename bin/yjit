@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+if ENV.key?('DYNO')
+  dyno_index = Integer(ENV['DYNO'].partition('.').last)
+  if dyno_index == 3
+    rubyopt = '--yjit-stats'
+  elsif dyno_index.odd?
+    rubyopt = '--yjit'
+  else
+    rubyopt = nil
+  end
+else
+  rubyopt = '--yjit'
+end
+
+rubyopts = [ENV['RUBYOPT'], rubyopt].compact
+unless rubyopts.empty?
+  ENV['RUBYOPT'] = rubyopts.join(' ')
+end
+
+exec *ARGV

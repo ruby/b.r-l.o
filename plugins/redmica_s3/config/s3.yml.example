@@ -1,0 +1,25 @@
+production:
+  access_key_id:
+  secret_access_key:
+  bucket:
+  folder:
+  endpoint:
+  thumb_folder:
+  import_folder:
+  region:
+
+development:
+  access_key_id:
+  secret_access_key:
+  bucket:
+  folder:
+  endpoint:
+  thumb_folder:
+  import_folder:
+  region:
+
+# Uncomment this to run plugin tests with standart redmine script
+# test:
+#   access_key_id:
+#   secret_access_key:
+#   bucket:

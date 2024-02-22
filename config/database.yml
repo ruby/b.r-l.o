@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  username: postgres
+
+development:
+  <<: *default
+  database: rubygems_development
+  host: localhost
+  password: devpassword
+  pool: 5
+  timeout: 5000
+
+test:
+  <<: *default
+  database: rubygems_test
+  host: localhost
+  min_messages: warning
+  password: testpassword
+  pool: 5
+  timeout: 5000

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0', '< 3.3.0'
 
-gem 'rails', '6.1.7.6'
+# gem 'rails', '6.1.7.6'
 gem 'rouge', '~> 4.2.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
@@ -22,6 +22,10 @@ gem 'net-imap', '~> 0.3.4'
 gem 'net-pop', '~> 0.1.2'
 gem 'net-smtp', '~> 0.3.3'
 gem 'rexml', require: false if Gem.ruby_version >= Gem::Version.new('3.0')
+
+# Heroku Ruby Language Metrics
+# https://devcenter.heroku.com/articles/language-runtime-metrics-ruby#add-the-barnes-gem-to-your-application
+gem "barnes"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
@@ -71,7 +75,7 @@ if File.exist?(database_file)
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
         gem "with_advisory_lock"
       when /postgresql/
-        gem 'pg', '~> 1.5.3', :platforms => [:mri, :mingw, :x64_mingw]
+        # gem 'pg', '~> 1.5.3', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
         gem 'sqlite3', '~> 1.6.0', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
@@ -99,7 +103,7 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma'
+  # gem 'puma'
   gem "capybara", ">= 3.39"
   if Gem.ruby_version < Gem::Version.new('3.0')
     gem "selenium-webdriver", "<= 4.9.0"

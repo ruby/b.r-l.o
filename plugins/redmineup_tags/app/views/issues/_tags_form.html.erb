@@ -1,0 +1,23 @@
+<% if User.current.allowed_to?(:edit_tags, (@issue && @issue.project) || @projects || @project) %>
+  <div class="<%= 'splitcontentleft' if defined? form %>">
+    <p id="issue_tags">
+      <label><%= l(:tags) %></label>
+      <% text_field_options = {:label => :tags, :size => 60, :class => 'hol'} %>
+      <% tags = defined?(form) ? form.object.tag_list : [] %>
+      <% if defined? form || defined? issues %>
+        <%= select2_tag 'issue[tag_list]',
+                        options_for_select(tags.map{ |tag| [tag, tag] }, tags),
+                        :multiple => true,
+                        :include_hidden => (params[:action] != 'bulk_edit'),
+                        :style => 'width: 100%;',
+                        :url => auto_complete_redmine_tags_url,
+                        :placeholder => params[:action] == 'bulk_edit' ? t(:label_no_change_option) : '+ add tag',
+                        :tags => User.current.allowed_to?(:create_tags, @projects || @project) %>
+
+      <% else %>
+        <%= label_tag :tags, nil, :for => :issue_tag_list %>
+        <%= text_field_tag 'issue[tag_list]', "", :class => text_field_options[:class], :size => text_field_options[:size], :id => :issue_tag_list %>
+      <% end %>
+    </p>
+  </div>
+<% end %>
