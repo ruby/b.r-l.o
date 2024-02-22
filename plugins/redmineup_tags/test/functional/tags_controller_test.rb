@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -57,14 +57,14 @@ class TagsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_edit
-    tag = RedmineCrm::Tag.find_by_name('a1')
+    tag = Redmineup::Tag.find_by_name('a1')
     compatible_request :get, :edit, id: tag.id
     assert_response :success
     assert_select "input#tag_name[value='#{tag.name}']", 1
   end
 
   def test_should_put_update
-    tag1 = RedmineCrm::Tag.find_by_name('a1')
+    tag1 = Redmineup::Tag.find_by_name('a1')
     new_name = 'updated main'
     compatible_request :put, :update, id: tag1.id, tag: { name: new_name }
     assert_redirected_to controller: 'settings', action: 'plugin', id: 'redmineup_tags', tab: 'manage_tags'
@@ -73,17 +73,17 @@ class TagsControllerTest < ActionController::TestCase
   end
 
   test 'should delete destroy' do
-    tag1 = RedmineCrm::Tag.find_by_name('a1')
-    assert_difference 'RedmineCrm::Tag.count', -1 do
+    tag1 = Redmineup::Tag.find_by_name('a1')
+    assert_difference 'Redmineup::Tag.count', -1 do
       compatible_request :post, :destroy, ids: tag1.id
       assert_response 302
     end
   end
 
   test 'should post merge' do
-    tag1 = RedmineCrm::Tag.find_by_name('a1')
-    tag2 = RedmineCrm::Tag.find_by_name('b8')
-    assert_difference 'RedmineCrm::Tag.count', -1 do
+    tag1 = Redmineup::Tag.find_by_name('a1')
+    tag2 = Redmineup::Tag.find_by_name('b8')
+    assert_difference 'Redmineup::Tag.count', -1 do
       compatible_request :post, :merge, ids: [tag1.id, tag2.id], tag: { name: 'a1' }
       assert_redirected_to controller: 'settings', action: 'plugin', id: 'redmineup_tags', tab: 'manage_tags'
     end

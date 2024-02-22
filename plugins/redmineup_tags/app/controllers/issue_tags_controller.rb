@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -18,8 +18,6 @@
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
 class IssueTagsController < ApplicationController
-  unloadable
-
   before_action :find_issues, only: [:edit, :update]
 
   def edit
@@ -56,7 +54,7 @@ class IssueTagsController < ApplicationController
   private
 
   def update_tags(issues, tags)
-    if tags.present? && issues.size > 1
+    if (tags.present? && issues.size > 1) || params[:add_only]
       add_issues_tags(issues, tags)
     else
       update_issues_tags(issues, tags)

@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -18,7 +18,6 @@
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
 class TagsController < ApplicationController
-  unloadable
   before_action :require_admin
   before_action :find_tag, only: [:edit, :update]
   before_action :bulk_find_tags, only: [:context_menu, :merge, :destroy]
@@ -62,9 +61,10 @@ class TagsController < ApplicationController
 
   def merge
     if request.post? && params[:tag] && params[:tag][:name]
-      RedmineCrm::Tagging.transaction do
-        tag = RedmineCrm::Tag.find_by_name(params[:tag][:name]) || RedmineCrm::Tag.create(params[:tag])
-        RedmineCrm::Tagging.where(tag_id: @tags.map(&:id)).update_all(tag_id: tag.id)
+      params_hash = params[:tag].respond_to?(:to_unsafe_hash) ? params[:tag].to_unsafe_hash : params
+      Redmineup::Tagging.transaction do
+        tag = Redmineup::Tag.find_by_name(params_hash['name']) || Redmineup::Tag.create(params_hash)
+        Redmineup::Tagging.where(tag_id: @tags.map(&:id)).update_all(tag_id: tag.id)
         @tags.select { |t| t.id != tag.id }.each{ |t| t.destroy }
         redirect_to controller: 'settings', action: 'plugin', id: 'redmineup_tags', tab: 'manage_tags'
       end
@@ -74,15 +74,15 @@ class TagsController < ApplicationController
   private
 
   def bulk_find_tags
-    @tags = RedmineCrm::Tag.joins("JOIN #{RedmineCrm::Tagging.table_name} ON #{RedmineCrm::Tagging.table_name}.tag_id = #{RedmineCrm::Tag.table_name}.id ").
-            select("#{RedmineCrm::Tag.table_name}.*, COUNT(DISTINCT #{RedmineCrm::Tagging.table_name}.taggable_id) AS count").
+    @tags = Redmineup::Tag.joins("JOIN #{Redmineup::Tagging.table_name} ON #{Redmineup::Tagging.table_name}.tag_id = #{Redmineup::Tag.table_name}.id ").
+            select("#{Redmineup::Tag.table_name}.*, COUNT(DISTINCT #{Redmineup::Tagging.table_name}.taggable_id) AS count").
             where(id: params[:id] ? [params[:id]] : params[:ids]).
-            group("#{RedmineCrm::Tag.table_name}.id, #{RedmineCrm::Tag.table_name}.name")
+            group("#{Redmineup::Tag.table_name}.id, #{Redmineup::Tag.table_name}.name")
     raise ActiveRecord::RecordNotFound if @tags.empty?
   end
 
   def find_tag
-    @tag = RedmineCrm::Tag.find(params[:id])
+    @tag = Redmineup::Tag.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -42,7 +42,18 @@ module RedmineupTags
             order: (suggestion_order == 'name' ? 'ASC' : 'DESC')
           }
           @redmine_tags = Issue.all_tags(options).limit(params[:limit] || 10)
-          render layout: false, partial: 'redmine_tags'
+          render json: format_redmine_tags_json(@redmine_tags)
+        end
+
+        private
+
+        def format_redmine_tags_json(redmine_tags)
+          redmine_tags.map do |redmine_tag|
+            {
+              id: redmine_tag.name,
+              text: redmine_tag.name
+            }
+          end
         end
       end
     end

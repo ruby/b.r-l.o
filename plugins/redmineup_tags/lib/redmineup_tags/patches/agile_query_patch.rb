@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@ if Redmine::Plugin.installed?(:redmine_agile) &&
         def self.included(base)
           base.send(:include, InstanceMethods)
           base.class_eval do
-            unloadable
-
             alias_method :available_filters_without_redmine_tags, :available_filters
             alias_method :available_filters, :available_filters_with_redmine_tags
 
@@ -43,7 +41,7 @@ if Redmine::Plugin.installed?(:redmine_agile) &&
             when '!*'
               issues = Issue.joins(:tags).uniq
             else
-              issues = Issue.tagged_with(RedmineCrm::Tag.all.map(&:to_s), any: true)
+              issues = Issue.tagged_with(Redmineup::Tag.all.map(&:to_s), any: true)
             end
 
             compare   = operator.include?('!') ? 'NOT IN' : 'IN'
@@ -68,6 +66,5 @@ if Redmine::Plugin.installed?(:redmine_agile) &&
   unless AgileQuery.included_modules.include?(RedmineupTags::Patches::AgileQueryPatch)
     AgileQuery.send(:include, RedmineupTags::Patches::AgileQueryPatch)
   end
-else
-  module RedmineupTags; module Patches; module AgileQueryPatch; end; end; end
+
 end

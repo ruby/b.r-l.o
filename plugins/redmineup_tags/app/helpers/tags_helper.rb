@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 require 'digest/md5'
 
 module TagsHelper
-  include RedmineCrm::TagsHelper
+  include Redmineup::TagsHelper
 
   def render_issue_tag_link(tag, options = {})
     filters = [[:issue_tags, '=', tag.name]]

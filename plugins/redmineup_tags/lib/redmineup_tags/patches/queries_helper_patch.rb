@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ module RedmineupTags
         base.send(:include, InstanceMethods)
 
         base.class_eval do
-          unloadable
           alias_method :column_value_without_tags, :column_value
           alias_method :column_value, :column_value_with_tags
         end

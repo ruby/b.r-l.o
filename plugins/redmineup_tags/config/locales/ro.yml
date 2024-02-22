@@ -1,0 +1,36 @@
+ro:
+  tags: Etichete
+  field_tags: Etichete
+  field_tag_list: Etichete
+  label_add_tags: Adaugă etichete
+  notice_tags_added: Etichetele au fost adăugate
+  notice_failed_to_add_tags: Etichetele nu s-au putut adăuga
+  setting_issue_tags: Etichete de sarcini
+  issues_sidebar: Mod de afișare etichete în sidebar
+  issues_show_count: Afișează numărul de sarcini
+  issues_open_only: Afișează doar pentru sarcinile deschise
+  issues_sort_by: Sortează etichetele după
+  issues_use_colors: Folosește culori
+
+  issue_tags_sidebar_none: Deloc
+  issue_tags_sidebar_list: Listă
+  issue_tags_sidebar_cloud: Nor
+  issue_tags_sidebar_simple_cloud: Nor simplu
+
+  issues_sort_by_name: Denumire
+  issues_sort_by_count: Număr de sarcini
+  issues_sort_order_asc: Crescător
+  issues_sort_order_desc: Descrescător
+
+  auto_complete_new_tag: "Adaugă..."
+
+  issue_tags_label_add_tag: "+ adaugă etichetă"
+  issue_tags_manage_tags: Administrare etichete
+  issue_tags_tag: Etichetă
+  issue_tags_button_merge: Unește
+  issue_tags_label_merge: Unește etichetele selectate
+
+  tags_suggestion_order: Sugerează în ordine, pornind de la
+  tags_order_by_name: Denumire alfabetic
+  tags_order_by_last_created: Ultima creată
+  tags_order_by_most_used: Cea mai folosită

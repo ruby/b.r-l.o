@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-class CreateTags < (Rails.version < '5.1') ? ActiveRecord::Migration : ActiveRecord::Migration[4.2]
+class CreateTags < ActiveRecord::Migration[4.2]
 
   def self.up
     ActiveRecord::Base.create_taggable_table

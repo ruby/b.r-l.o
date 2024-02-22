@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -38,4 +38,4 @@ end
 
 unless ImportsController.included_modules.include?(RedmineupTags::Patches::AddHelpersForIssueTagsPatch)
   ImportsController.send(:include, RedmineupTags::Patches::AddHelpersForIssueTagsPatch)
-end if Redmine::VERSION.to_s > '3.2'
+end

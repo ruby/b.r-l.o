@@ -1,1 +1,1 @@
-gem 'redmine_crm'
+gem 'redmineup'

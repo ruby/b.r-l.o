@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -28,9 +28,7 @@ module RedmineupTags
 
         base.class_eval do
           include InstanceMethods
-
-          unloadable
-          rcrm_acts_as_taggable
+          up_acts_as_taggable
 
           alias_method :safe_attributes_without_safe_tags=, :safe_attributes=
           alias_method :safe_attributes=, :safe_attributes_with_safe_tags=
@@ -38,11 +36,6 @@ module RedmineupTags
           class << self
             alias_method :available_tags_without_redmine_tags, :available_tags
             alias_method :available_tags, :available_tags_with_redmine_tags
-
-            if Redmine::VERSION.to_s <= '2.7'
-              alias_method :count_and_group_by_without_redmine_tags, :count_and_group_by
-              alias_method :count_and_group_by, :count_and_group_by_with_redmine_tags
-            end
           end
 
           alias_method :copy_from_without_redmine_tags, :copy_from
@@ -71,27 +64,27 @@ module RedmineupTags
         end
 
         def all_tags(options = {})
-          scope = RedmineCrm::Tag.where({})
-          scope = scope.where("LOWER(#{RedmineCrm::Tag.table_name}.name) LIKE LOWER(?)", "%#{options[:name_like]}%") if options[:name_like]
+          scope = Redmineup::Tag.where({})
+          scope = scope.where("LOWER(#{Redmineup::Tag.table_name}.name) LIKE LOWER(?)", "%#{options[:name_like]}%") if options[:name_like]
           join = []
-          join << "JOIN #{RedmineCrm::Tagging.table_name} ON #{RedmineCrm::Tagging.table_name}.tag_id = #{RedmineCrm::Tag.table_name}.id "
-          join << "JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{RedmineCrm::Tagging.table_name}.taggable_id
-            AND #{RedmineCrm::Tagging.table_name}.taggable_type = '#{Issue.name}' "
+          join << "JOIN #{Redmineup::Tagging.table_name} ON #{Redmineup::Tagging.table_name}.tag_id = #{Redmineup::Tag.table_name}.id "
+          join << "JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{Redmineup::Tagging.table_name}.taggable_id
+            AND #{Redmineup::Tagging.table_name}.taggable_type = '#{Issue.name}' "
           scope = scope.joins(join.join(' '))
 
           columns = [
-            "#{RedmineCrm::Tag.table_name}.*",
-            "COUNT(DISTINCT #{RedmineCrm::Tagging.table_name}.taggable_id) AS count"
+            "#{Redmineup::Tag.table_name}.*",
+            "COUNT(DISTINCT #{Redmineup::Tagging.table_name}.taggable_id) AS count"
           ]
           if options[:sort_by] == 'created_at'
-            columns << "MIN(#{RedmineCrm::Tagging.table_name}.created_at) AS created_at"
+            columns << "MIN(#{Redmineup::Tagging.table_name}.created_at) AS created_at"
           end
           scope = scope.select(columns.join(', '))
 
-          scope = scope.group("#{RedmineCrm::Tag.table_name}.id, #{RedmineCrm::Tag.table_name}.name ")
+          scope = scope.group("#{Redmineup::Tag.table_name}.id, #{Redmineup::Tag.table_name}.name ")
           scope = scope.having('COUNT(*) > 0')
 
-          column = options[:sort_by] || "#{RedmineCrm::Tag.table_name}.name"
+          column = options[:sort_by] || "#{Redmineup::Tag.table_name}.name"
           order = options[:order] || 'ASC'
           scope.order("#{column} #{order}")
         end
@@ -106,7 +99,7 @@ module RedmineupTags
         end
 
         def by_tags(project, with_subprojects=false)
-          count_and_group_by(project: project, association: :tags, with_subprojects: with_subprojects)
+          count_and_group_by_with_redmine_tags(project: project, association: :tags, with_subprojects: with_subprojects)
         end
 
         def count_and_group_by_with_redmine_tags(options)

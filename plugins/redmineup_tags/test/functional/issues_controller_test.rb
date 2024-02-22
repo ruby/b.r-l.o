@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -43,8 +43,8 @@ class IssuesControllerTest < ActionController::TestCase
            :custom_fields_trackers
 
   def setup
-    @tag = RedmineCrm::Tag.create(name: 'test_tag')
-    @last_tag = RedmineCrm::Tag.create(name: 'last_tag')
+    @tag = Redmineup::Tag.create(name: 'test_tag')
+    @last_tag = Redmineup::Tag.create(name: 'last_tag')
     @request.session[:user_id] = 1
   end
 
@@ -66,6 +66,26 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'table.list.issues tr.issue td.tags a', 'test_tag'
   ensure
     issue.tags = []
+  end
+
+  def test_get_index_without_selected_tags
+    issue1, issue2 = Issue.find(1), Issue.find(2)
+    issue1.tags << @tag
+    issue2.tags << @last_tag
+    compatible_request(
+      :get,
+      :index,
+      f: ['issue_tags'],
+      op: { issue_tags: '!' },
+      v: { issue_tags: ['test_tag', 'last_tag'] },
+      c: ['status', 'priority', 'subject', 'tags_relations']
+    )
+    assert_response :success
+    assert_select 'table.list.issues tr.issue', (Issue.count - 2)
+    assert_select 'table.list.issues tr.issue td.subject', text: issue2.subject, count: 0
+    assert_select 'table.list.issues tr.issue td.tags a', text: 'test_tag', count: 0
+  ensure
+    issue1.tags, issue2.tags = [], []
   end
 
   def test_get_index_with_sidebar_tags_in_list_by_count

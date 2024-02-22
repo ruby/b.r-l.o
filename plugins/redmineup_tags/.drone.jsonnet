@@ -16,15 +16,12 @@ local Pipeline(rubyVer, db, license, redmine, dependents) = {
 };
 
 [
-  Pipeline("2.7.3", "mysql", "pro", "trunk", "redmine_agile+pro"),
-  Pipeline("2.7.3", "mysql", "light", "trunk", "redmine_agile+light"),
-  Pipeline("2.7.3", "pg", "pro", "trunk", ""),
-  Pipeline("2.2.6", "mysql", "pro", "3.4", ""),
-  Pipeline("2.2.6", "mysql", "pro", "3.3", ""),
-  Pipeline("2.2.6", "mysql", "light", "3.3", ""),
-  Pipeline("2.2.6", "pg", "pro","3.3", ""),
-  Pipeline("2.2.6", "pg", "light", "3.3", ""),
-  Pipeline("2.4.1", "mysql", "light", "3.4", ""),
-  Pipeline("2.4.1", "pg", "pro", "3.4", "redmine_contacts+pro"),
-  Pipeline("2.2.6", "mysql", "pro", "3.0", "")
+  Pipeline("3.2.2", "mysql", "pro", "trunk", "redmine_agile+pro"),
+  Pipeline("3.2.2", "pg", "pro", "5.1", ""),
+  Pipeline("3.0.6", "mysql", "pro", "5.0", "redmine_agile+light"),
+  Pipeline("2.7.8", "mysql", "light", "4.2", ""),
+  Pipeline("2.7.8", "pg", "pro", "4.2", "redmine_contacts+pro"),
+  Pipeline("2.3.8", "mysql", "pro", "4.0", ""),
+  Pipeline("2.3.8", "mysql", "light", "4.0", ""),
+  Pipeline("2.3.8", "pg", "pro", "4.0", "")
 ]

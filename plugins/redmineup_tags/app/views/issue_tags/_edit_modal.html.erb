@@ -16,6 +16,7 @@
              :method => :post,
              :id => 'edit-issue-tags-form') do %>
 
+    <%= hidden_field_tag :add_only, 1 %>
     <fieldset class="box">
       <legend><%= l(:tags) %></legend>
       <div id="issue_tags">
@@ -23,7 +24,7 @@
                         [],
                         width: '100%',
                         multiple: true,
-                        url: auto_complete_redmine_tags_url,
+                        url: auto_complete_redmine_tags_path,
                         placeholder: @is_bulk_editing ? t(:label_no_change_option) : '+ add tag',
                         tags: User.current.allowed_to?(:create_tags, @project) %>
       </div>

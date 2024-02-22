@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2021 RedmineUP
+# Copyright (C) 2011-2024 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@ module RedmineupTags
         base.send(:include, InstanceMethods)
 
         base.class_eval do
-          unloadable
-
           alias_method :statement_without_redmine_tags, :statement
           alias_method :statement, :statement_with_redmine_tags
 
@@ -53,7 +51,7 @@ module RedmineupTags
             when '!*'
               issues = issues.joins(:tags).uniq
             else
-              issues = issues.tagged_with(RedmineCrm::Tag.all.map(&:to_s), any: true)
+              issues = issues.tagged_with(Redmineup::Tag.all.map(&:to_s), any: true)
             end
 
             compare   = op.include?('!') ? 'NOT IN' : 'IN'
