@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -75,8 +75,8 @@ class RoutingPluginsTest < Redmine::RoutingTest
     assert_equal("/bar_plugin_articles", plugin_articles_path)
     should_route(
       'GET /attachments/plugin_articles/12/edit' => 'attachments#edit_all',
-      object_id: '12',
-      object_type: 'plugin_articles'
+      :object_id => '12',
+      :object_type => 'plugin_articles'
     )
   end
 

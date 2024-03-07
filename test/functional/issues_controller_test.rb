@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -1199,7 +1199,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       create!(
         :name => 'Long text', :field_format => 'text',
         :full_width_layout => '1',
-        :tracker_ids => [1,3], :is_for_all => true
+        :tracker_ids => [1, 3], :is_for_all => true
       )
     issue = Issue.find(1)
     issue.custom_field_values = {field.id => 'This is a long text'}
