@@ -2,7 +2,7 @@ ruby '3.3.3'
 
 gem 'rails', github: 'rails/rails', branch: '6-1-stable'
 gem 'puma'
-gem 'good_job', '= 3.99.0'
+gem 'good_job'
 gem 'pg'
 gem 'rack-protection'
 gem 'rack-timeout'
