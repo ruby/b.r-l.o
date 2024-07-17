@@ -339,7 +339,7 @@ GEM
     zeitwerk (2.6.16)
 
 PLATFORMS
-  arm64-darwin
+  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES
@@ -399,4 +399,4 @@ RUBY VERSION
    ruby 3.3.4p94
 
 BUNDLED WITH
-   2.5.10
+   2.5.15
