@@ -1,4 +1,4 @@
-ruby '3.3.5'
+ruby '3.3.6'
 
 gem 'rails', github: 'rails/rails', branch: '6-1-stable'
 gem 'puma'
