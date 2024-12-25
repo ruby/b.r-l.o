@@ -9,12 +9,7 @@
 }
 
 #header {
-    height: 6.8em;
-    margin: 0;
-    background-color: #8A4040;
-    color: #f8f8f8;
-    padding: 4px 8px 0px 6px;
-    position: relative;
+    background: linear-gradient(180deg, #8A4040 30%, #602020);
 }
 
 #main-menu li a.new-object {
@@ -50,4 +45,3 @@ div.wiki>code  {
     padding: 0em 0.2em;
     border-radius: 0.2em;
 }
-
