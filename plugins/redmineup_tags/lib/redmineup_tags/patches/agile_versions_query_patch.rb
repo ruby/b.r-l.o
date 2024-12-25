@@ -17,28 +17,28 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+module RedmineupTags
+  module Patches
+    module AgileVersionsQueryPatch
+      def self.included(base)
+        base.send(:include, InstanceMethods)
+        base.class_eval do
+          add_available_column QueryTagsColumn.new(:tags_relations, caption: :tags)
+        end
+      end
+
+      module InstanceMethods
+
+      end
+    end
+  end
+end
+
 if Redmine::Plugin.installed?(:redmine_agile) &&
    Gem::Version.new(Redmine::Plugin.find(:redmine_agile).version) >= Gem::Version.new('1.4.3') &&
    AGILE_VERSION_TYPE == 'PRO version'
 
   require_dependency 'query'
-
-  module RedmineupTags
-    module Patches
-      module AgileVersionsQueryPatch
-        def self.included(base)
-          base.send(:include, InstanceMethods)
-          base.class_eval do
-            add_available_column QueryTagsColumn.new(:tags_relations, caption: :tags)
-          end
-        end
-
-        module InstanceMethods
-
-        end
-      end
-    end
-  end
 
   unless AgileVersionsQuery.included_modules.include?(RedmineupTags::Patches::AgileVersionsQueryPatch)
     AgileVersionsQuery.send(:include, RedmineupTags::Patches::AgileVersionsQueryPatch)

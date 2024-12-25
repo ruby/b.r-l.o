@@ -17,54 +17,52 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-if Redmine::Plugin.installed?(:redmine_agile) &&
-   Gem::Version.new(Redmine::Plugin.find(:redmine_agile).version) >= Gem::Version.new('1.4.3')
+module RedmineupTags
+  module Patches
+    module AgileQueryPatch
+      def self.included(base)
+        base.send(:include, InstanceMethods)
+        base.class_eval do
+          alias_method :available_filters_without_redmine_tags, :available_filters
+          alias_method :available_filters, :available_filters_with_redmine_tags
+          add_available_column QueryTagsColumn.new(:tags_relations, caption: :tags)
+        end
+      end
 
-  module RedmineupTags
-    module Patches
-      module AgileQueryPatch
-        def self.included(base)
-          base.send(:include, InstanceMethods)
-          base.class_eval do
-            alias_method :available_filters_without_redmine_tags, :available_filters
-            alias_method :available_filters, :available_filters_with_redmine_tags
-
-            add_available_column QueryTagsColumn.new(:tags_relations, caption: :tags)
+      module InstanceMethods
+        def sql_for_issue_tags_field(_field, operator, value)
+          case operator
+          when '=', '!'
+            issues = Issue.tagged_with(value.clone)
+          when '!*'
+            issues = Issue.joins(:tags).uniq
+          else
+            issues = Issue.tagged_with(Redmineup::Tag.all.map(&:to_s), any: true)
           end
+
+          compare   = operator.include?('!') ? 'NOT IN' : 'IN'
+          ids_list  = issues.collect(&:id).push(0).join(',')
+          "( #{Issue.table_name}.id #{compare} (#{ids_list}) ) "
         end
 
-        module InstanceMethods
-          def sql_for_issue_tags_field(_field, operator, value)
-            case operator
-            when '=', '!'
-              issues = Issue.tagged_with(value.clone)
-            when '!*'
-              issues = Issue.joins(:tags).uniq
-            else
-              issues = Issue.tagged_with(Redmineup::Tag.all.map(&:to_s), any: true)
-            end
-
-            compare   = operator.include?('!') ? 'NOT IN' : 'IN'
-            ids_list  = issues.collect(&:id).push(0).join(',')
-            "( #{Issue.table_name}.id #{compare} (#{ids_list}) ) "
+        def available_filters_with_redmine_tags
+          available_filters_without_redmine_tags
+          selected_tags = []
+          if filters['issue_tags'].present?
+            selected_tags = Issue.all_tags(project: project, open_only: RedmineupTags.settings['issues_open_only'].to_i == 1).
+                            where(name: filters['issue_tags'][:values]).map { |c| [c.name, c.name] }
           end
-
-          def available_filters_with_redmine_tags
-            available_filters_without_redmine_tags
-            selected_tags = []
-            if filters['issue_tags'].present?
-              selected_tags = Issue.all_tags(project: project, open_only: RedmineupTags.settings['issues_open_only'].to_i == 1).
-                              where(name: filters['issue_tags'][:values]).map { |c| [c.name, c.name] }
-            end
-            add_available_filter('issue_tags', type: :issue_tags, name: l(:tags), values: selected_tags)
-          end
+          add_available_filter('issue_tags', type: :issue_tags, name: l(:tags), values: selected_tags)
         end
       end
     end
   end
+end
+
+if Redmine::Plugin.installed?(:redmine_agile) &&
+  Gem::Version.new(Redmine::Plugin.find(:redmine_agile).version) >= Gem::Version.new('1.4.3')
 
   unless AgileQuery.included_modules.include?(RedmineupTags::Patches::AgileQueryPatch)
     AgileQuery.send(:include, RedmineupTags::Patches::AgileQueryPatch)
   end
-
 end
