@@ -1,3 +1,5 @@
+require 'timeout'
+
 module RedmicaS3
   module ThumbnailPatch
     extend ActiveSupport::Concern
@@ -41,36 +43,59 @@ module RedmicaS3
 
             size_option = "#{size}x#{size}>"
             begin
-              tempfile = MiniMagick::Utilities.tempfile(File.extname(source)) do |f| f.write(raw_data) end
-              convert_output =
-                if is_pdf
-                  MiniMagick::Tool::Convert.new do |cmd|
-                    cmd << "#{tempfile.to_path}[0]"
-                    cmd.thumbnail size_option
-                    cmd << 'png:-'
-                  end
+              extname_source = File.extname(source)
+              tempfile = MiniMagick::Utilities.tempfile(extname_source) do |f| f.write(raw_data) end
+              output_tempfile = MiniMagick::Utilities.tempfile(is_pdf ? ".png" : extname_source)
+              in_filepath = tempfile.path
+              out_filepath = output_tempfile.path
+              # Generate command
+              convert =
+                if MiniMagick.version < Gem::Version.new('5.0.0')
+                  MiniMagick::Tool::Convert.new # MiniMagick::Tool::Convert is deprecated in MiniMagick 5.0.0
                 else
-                  MiniMagick::Tool::Convert.new do |cmd|
-                    cmd << tempfile.to_path
-                    cmd.auto_orient
-                    cmd.thumbnail size_option
-                    cmd << '-'
-                  end
+                  MiniMagick.convert
                 end
-              img = MiniMagick::Image.read(convert_output)
-
-              img_blob = img.to_blob
+              if is_pdf
+                convert << "#{in_filepath}[0]"
+                convert.thumbnail size_option
+                convert << "png:#{out_filepath}"
+              else
+                convert << in_filepath
+                convert.auto_orient
+                convert.thumbnail size_option
+                convert << out_filepath
+              end
+              # Execute command (Note: Timeout control reuses code from Redmine itself)
+              timeout = Redmine::Configuration['thumbnails_generation_timeout'].to_i
+              timeout = nil if timeout <= 0
+              pid = nil
+              cmd = convert.command
+              Timeout.timeout(timeout) do
+                pid = Process.spawn(*cmd)
+                _, status = Process.wait2(pid)
+                unless status.success?
+                  Rails.logger.error("Creating thumbnail failed (#{status.exitstatus}):\nCommand: #{cmd.join(' ')}")
+                  return nil
+                end
+              end
+              img_blob = File.binread(out_filepath)
+              mime_type = Marcel::MimeType.for(img_blob)
               sha = Digest::SHA256.new
               sha.update(img_blob)
               new_digest = sha.hexdigest
-              RedmicaS3::Connection.put(target, File.basename(target), img_blob, img.mime_type,
+              RedmicaS3::Connection.put(target, File.basename(target), img_blob, mime_type,
                 {target_folder: target_folder, digest: new_digest}
               )
+            rescue Timeout::Error
+              Process.kill('KILL', pid) if pid
+              Rails.logger.error("Creating thumbnail timed out:\nCommand: #{cmd.join(' ')}")
+              return nil
             rescue => e
               Rails.logger.error("Creating thumbnail failed (#{e.message}):")
               return nil
             ensure
               tempfile.unlink if tempfile
+              output_tempfile.unlink if output_tempfile
             end
           end
 

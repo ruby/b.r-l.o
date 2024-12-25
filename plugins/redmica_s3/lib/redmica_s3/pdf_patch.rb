@@ -156,40 +156,40 @@ module RedmicaS3
     end
 
     def get_image_file(image_uri)
-      #use a temporary file....
-      tmpFile = Tempfile.new(['tmp_', '.img'], self.class.k_path_cache)
-      tmpFile.binmode
-      if image_uri.is_a?(Attachment)
-        tmpFile.write(image_uri.raw_data)
-      elsif image_uri.is_a?(Array)  # thumbnail
-        tmpFile.write(image_uri.last)
-      else
-        open(image_uri, 'rb') do |read_file|
-          tmpFile.write(read_file.read)
+      if image_uri.is_a?(Attachment) || image_uri.is_a?(Array)
+        #use a temporary file....
+        tmpFile = Tempfile.new(['tmp_', '.img'], self.class.k_path_cache)
+        tmpFile.binmode
+        if image_uri.is_a?(Attachment)
+          tmpFile.write(image_uri.raw_data)
+        else
+          # thumbnail
+          tmpFile.write(image_uri.last)
         end
+        tmpFile.fsync
+        tmpFile
+      else
+        super
       end
-      tmpFile.fsync
-      tmpFile
     end
 
     private
 
     def proc_image_file(src, &block)
-      tmpFile = nil
-      img_file =
-        if src.is_a?(Attachment) || src.is_a?(Array) || /^http/.match?(src)
+      if src.is_a?(Attachment) || src.is_a?(Array)
+        begin
           tmpFile = get_image_file(src)
-          tmpFile.path
-        else
-          src
+          yield tmpFile.path
+        rescue => err
+          logger.error "pdf: Image: error: #{err.message}"
+          false
+        ensure
+          # remove temp files
+          tmpFile.close(true) if tmpFile
         end
-      yield img_file
-    rescue => err
-      logger.error "pdf: Image: error: #{err.message}"
-      false
-    ensure
-      # remove temp files
-      tmpFile.close(true) if tmpFile
+      else
+        super(src, &block)
+      end
     end
   end
 end
