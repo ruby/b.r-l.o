@@ -1,0 +1,6 @@
+<% if User.current.allowed_to?(:edit_tags, @projects || @project) %>
+  <li><%= context_menu_link l(:label_add_tags),
+                            edit_issue_tags_path(:ids => @issue_ids),
+                            :remote => true,
+                            :class => 'icon icon-add-tags' %></li>
+<% end %>
