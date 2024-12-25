@@ -1,5 +1,5 @@
 class MailingListMessage < ActiveRecord::Base
-  unloadable
+  unloadable if respond_to?(:unloadable)
   belongs_to :mailing_list
   belongs_to :issue
   belongs_to :journal

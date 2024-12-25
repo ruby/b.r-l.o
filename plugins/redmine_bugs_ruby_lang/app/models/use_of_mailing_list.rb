@@ -1,7 +1,7 @@
 require 'forwardable'
 class UseOfMailingList < ActiveRecord::Base
   extend Forwardable
-  unloadable
+  unloadable if respond_to?(:unloadable)
   self.table_name = 'uses_of_mailing_list'
   belongs_to :mailing_list
   belongs_to :project
