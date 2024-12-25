@@ -20,6 +20,8 @@
 Rails.application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
+  mount GoodJob::Engine => 'good_job'
+
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
   match 'logout', :to => 'account#logout', :as => 'signout', :via => [:get, :post]
   match 'account/twofa/confirm', :to => 'account#twofa_confirm', :via => :get
@@ -60,6 +62,8 @@ Rails.application.routes.draw do
       get 'diff'
     end
   end
+
+  get '/projects/ruby-trunk:path', to: redirect('/projects/ruby-master%{path}'), constraints: { path: %r{(|/.*)} }
 
   get '/projects/:project_id/issues/gantt', :to => 'gantts#show', :as => 'project_gantt'
   get '/issues/gantt', :to => 'gantts#show'

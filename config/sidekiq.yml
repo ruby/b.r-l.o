@@ -1,0 +1,6 @@
+---
+:concurrency: 4
+:queues:
+  - default
+  - mailers
+:timeout: 25

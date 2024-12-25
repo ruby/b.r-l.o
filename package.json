@@ -2,5 +2,9 @@
   "dependencies": {},
   "devDependencies": {
     "stylelint": "^15.11.0"
+  },
+  "engine": {
+    "node": "20.9.0",
+    "yarn": "1.22.19"
   }
 }

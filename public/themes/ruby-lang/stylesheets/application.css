@@ -1,0 +1,53 @@
+@import url(../../../stylesheets/application.css);
+
+#top-menu {
+    background: #602020;
+    color: #fff;
+    height: 1.8em;
+    font-size: 0.8em;
+    padding: 2px 2px 0px 6px;
+}
+
+#header {
+    height: 6.8em;
+    margin: 0;
+    background-color: #8A4040;
+    color: #f8f8f8;
+    padding: 4px 8px 0px 6px;
+    position: relative;
+}
+
+#main-menu li a.new-object {
+    background-color: #8A4040;
+    color: #f8f8f8;
+}
+
+#header h1 {
+    height: 60px;
+    padding-left: 70px;
+    background-image: url(../images/ruby-logo.png);
+    background-repeat: no-repeat;
+}
+
+/** Ticket BG color **/
+.priority-7 {background: #eaa;}
+.priority-6 {background: #fed;}
+.priority-5 {background: #ffd;}
+.priority-4 {background: #f6f6f6;}
+.priority-3 {background: #dff;}
+
+div.wiki pre {
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    white-space: pre-wrap;      /* CSS3 */
+    word-wrap: break-word;      /* IE 5.5+ */
+}
+
+div.wiki *:not(pre)>code,
+div.wiki>code  {
+    background-color: rgba(27,31,35,0.05);
+    padding: 0em 0.2em;
+    border-radius: 0.2em;
+}
+

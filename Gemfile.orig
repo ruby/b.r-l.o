@@ -23,10 +23,6 @@ gem 'net-imap', '~> 0.4.8'
 gem 'net-pop', '~> 0.1.2'
 gem 'net-smtp', '~> 0.4.0'
 
-# Heroku Ruby Language Metrics
-# https://devcenter.heroku.com/articles/language-runtime-metrics-ruby#add-the-barnes-gem-to-your-application
-gem "barnes"
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 
@@ -110,7 +106,7 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  # gem 'puma'
+  gem 'puma'
   gem "capybara", ">= 3.39"
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
