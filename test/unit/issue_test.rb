@@ -20,18 +20,6 @@
 require_relative '../test_helper'
 
 class IssueTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations,
-           :issues, :journals, :journal_details,
-           :watchers,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values,
-           :time_entries
-
   include Redmine::I18n
 
   def setup
@@ -889,7 +877,7 @@ class IssueTest < ActiveSupport::TestCase
     WorkflowTransition.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
 
     # status 3 is not displayed
-    expected_statuses = IssueStatus.where(:id => [1, 2])
+    expected_statuses = IssueStatus.where(:id => [1, 2]).order(:id)
 
     admin = User.find(1)
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)

@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class AccountTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses, :roles
-
   def test_login
     get "/my/page"
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
@@ -136,8 +134,8 @@ class AccountTest < Redmine::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_select 'input[type=hidden][name=token][value=?]', token.value
-    assert_select 'input[name=new_password]'
-    assert_select 'input[name=new_password_confirmation]'
+    assert_select 'input[name=new_password][autocomplete=new-password]'
+    assert_select 'input[name=new_password_confirmation][autocomplete=new-password]'
 
     post(
       "/account/lost_password",

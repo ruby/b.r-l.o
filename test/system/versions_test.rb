@@ -17,16 +17,28 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require_relative '../test_helper'
+require_relative '../application_system_test_case'
 
-class ProjectsQueriesHelperTest < Redmine::HelperTest
-  include ProjectsQueriesHelper
+class VersionsSystemTest < ApplicationSystemTestCase
+  def test_create_from_issue_form_with_file_custom_field
+    VersionCustomField.generate!(:field_format => 'attachment')
 
-  def test_csv_value
-    c_status = QueryColumn.new(:status)
-    c_parent_id = QueryColumn.new(:parent_id)
+    log_user('jsmith', 'jsmith')
 
-    assert_equal "active", csv_value(c_status, Project.find(1), 1)
-    assert_equal "eCookbook", csv_value(c_parent_id, Project.find(4), 1)
+    version_name = 'Version with file custom field'
+
+    assert_difference 'Version.count' do
+      visit '/projects/ecookbook/issues/new'
+      fill_in 'Subject', :with => 'With a new version'
+
+      click_on 'New version'
+      within '#ajax-modal' do
+        fill_in 'Name', :with => version_name
+        click_on 'Create'
+      end
+      click_on 'Create'
+    end
+
+    assert_equal version_name, Version.last.name
   end
 end

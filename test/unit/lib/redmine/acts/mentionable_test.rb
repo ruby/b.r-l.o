@@ -20,14 +20,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :email_addresses, :members, :member_roles, :roles,
-         :groups_users,
-         :trackers, :projects_trackers,
-         :enabled_modules,
-         :issue_statuses, :issue_categories, :issue_relations, :workflows,
-         :enumerations,
-         :issues
-
   def test_mentioned_users_with_user_mention
     to_test = %w(@dlopper @dlopper! @dlopper? @dlopper. @dlopper)
 
@@ -49,13 +41,13 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
   def test_mentioned_users_with_multiple_mentions
     issue = Issue.generate!(project_id: 1, description: 'Hello @dlopper, @jsmith.')
 
-    assert_equal [User.find(2), User.find(3)], issue.mentioned_users
+    assert_equal [User.find(2), User.find(3)], issue.mentioned_users.sort_by(&:id)
   end
 
   def test_mentioned_users_should_not_mention_same_user_multiple_times
     issue = Issue.generate!(project_id: 1, description: '@dlopper @jsmith @dlopper')
 
-    assert_equal [User.find(2), User.find(3)], issue.mentioned_users
+    assert_equal [User.find(2), User.find(3)], issue.mentioned_users.sort_by(&:id)
   end
 
   def test_mentioned_users_should_include_only_active_users
@@ -137,7 +129,7 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
   def test_notified_mentions
     issue = Issue.generate!(project_id: 1, description: 'Hello @dlopper, @jsmith.')
 
-    assert_equal [User.find(2), User.find(3)], issue.notified_mentions
+    assert_equal [User.find(2), User.find(3)], issue.notified_mentions.sort_by(&:id)
   end
 
   def test_notified_mentions_should_not_include_users_who_out_of_all_email
