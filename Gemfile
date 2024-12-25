@@ -21,7 +21,7 @@ gem 'rack', '>= 3.1.3'
 gem 'csv', '~> 3.2.8'
 gem 'net-imap', '~> 0.4.8'
 gem 'net-pop', '~> 0.1.2'
-gem 'net-smtp', '~> 0.4.0'
+gem 'net-smtp', '~> 0.5.0'
 
 # Heroku Ruby Language Metrics
 # https://devcenter.heroku.com/articles/language-runtime-metrics-ruby#add-the-barnes-gem-to-your-application
