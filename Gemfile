@@ -77,7 +77,7 @@ if File.exist?(database_file)
         gem 'mysql2', '~> 0.5.0'
         gem "with_advisory_lock"
       when /postgresql/
-        gem 'pg', '~> 1.5.3'
+        # gem 'pg', '~> 1.5.3'
       when /sqlite3/
         gem 'sqlite3', '~> 1.7.0'
       when /sqlserver/
