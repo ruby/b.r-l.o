@@ -1921,8 +1921,8 @@ class ApplicationHelperTest < Redmine::HelperTest
     a = Attachment.find(3)
     assert_select_in(
       thumbnail_tag(a),
-      'a[href=?] img[title=?][src=?][loading="lazy"]',
-      "/attachments/3", "logo.gif", "/attachments/thumbnail/3/200")
+      'a[href=?] img[title=?][alt=?][src=?][loading="lazy"]',
+      "/attachments/3", "logo.gif", "logo.gif", "/attachments/thumbnail/3/200")
   end
 
   def test_link_to_project
@@ -2209,11 +2209,15 @@ class ApplicationHelperTest < Redmine::HelperTest
     set_language_if_valid 'en'
 
     with_settings :timespan_format => 'minutes' do
+      assert_equal '-0:45', format_hours(-0.75)
+      assert_equal '0:00', format_hours(0)
       assert_equal '0:45', format_hours(0.75)
       assert_equal '0:45 h', l_hours_short(0.75)
       assert_equal '0:45 hour', l_hours(0.75)
     end
     with_settings :timespan_format => 'decimal' do
+      assert_equal '-0.75', format_hours(-0.75)
+      assert_equal '0.00', format_hours(0)
       assert_equal '0.75', format_hours(0.75)
       assert_equal '0.75 h', l_hours_short(0.75)
       assert_equal '0.75 hour', l_hours(0.75)
