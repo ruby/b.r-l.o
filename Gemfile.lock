@@ -82,17 +82,18 @@ GEM
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
     ast (2.4.2)
-    aws-eventstream (1.3.0)
-    aws-partitions (1.1046.0)
-    aws-sdk-core (3.217.1)
+    aws-eventstream (1.3.1)
+    aws-partitions (1.1052.0)
+    aws-sdk-core (3.219.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
+      base64
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.97.0)
+    aws-sdk-kms (1.99.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.179.0)
+    aws-sdk-s3 (1.182.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -162,7 +163,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    good_job (4.8.2)
+    good_job (4.9.0)
       activejob (>= 6.1.0)
       activerecord (>= 6.1.0)
       concurrent-ruby (>= 1.3.1)
@@ -181,7 +182,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.9.1)
+    json (2.10.1)
     language_server-protocol (3.17.0.4)
     libdatadog (14.3.1.1.0)
     libdatadog (14.3.1.1.0-aarch64-linux)
@@ -200,7 +201,7 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    logger (1.6.5)
+    logger (1.6.6)
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -218,9 +219,9 @@ GEM
     minitest (5.25.4)
     mocha (2.7.1)
       ruby2_keywords (>= 0.0.5)
-    msgpack (1.7.5)
+    msgpack (1.8.0)
     multi_json (1.15.0)
-    net-imap (0.4.18)
+    net-imap (0.4.19)
       date
       net-protocol
     net-ldap (0.17.1)
@@ -260,7 +261,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.9)
+    rack (3.1.10)
     rack-protection (4.1.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
@@ -312,7 +313,7 @@ GEM
       rbpdf-font (~> 1.19.0)
     rbpdf-font (1.19.1)
     rbtree3 (0.7.1)
-    rdoc (6.11.0)
+    rdoc (6.12.0)
       psych (>= 4.0.0)
     redmineup (1.0.10)
       liquid (> 4.0, < 5.0)
@@ -321,7 +322,7 @@ GEM
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
-    rexml (3.4.0)
+    rexml (3.4.1)
     roadie (5.2.1)
       css_parser (~> 1.4)
       nokogiri (~> 1.15)
@@ -374,7 +375,7 @@ GEM
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
     statsd-ruby (1.5.0)
-    stringio (3.1.2)
+    stringio (3.1.3)
     svg_optimizer (0.3.0)
       nokogiri
     svg_sprite (1.0.3)
@@ -395,7 +396,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.37)
-    zeitwerk (2.7.1)
+    zeitwerk (2.7.2)
 
 PLATFORMS
   aarch64-linux
@@ -471,7 +472,7 @@ DEPENDENCIES
   yard
 
 RUBY VERSION
-   ruby 3.4.1p0
+   ruby 3.4.2p28
 
 BUNDLED WITH
-   2.6.2
+   2.6.4
