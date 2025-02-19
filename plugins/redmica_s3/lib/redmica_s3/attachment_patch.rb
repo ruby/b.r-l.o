@@ -32,7 +32,7 @@ module RedmicaS3
           if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
             ascii = filename
           else
-            ascii = Digest::MD5.hexdigest(filename)
+            ascii = ActiveSupport::Digest.hexdigest(filename)
             # keep the extension if any
             ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
           end
@@ -86,12 +86,12 @@ module RedmicaS3
       end
 
       # Copies the temporary file to its final location
-      # and computes its MD5 hash
+      # and computes its hash
       def files_to_final_location
         if @temp_file
           self.disk_directory = target_directory
           self.disk_filename = Attachment.disk_filename(filename, disk_directory)
-          logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)") if logger
+          Rails.logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
           sha = Digest::SHA256.new
           if @temp_file.respond_to?(:read)
             buffer = ""
@@ -136,7 +136,7 @@ module RedmicaS3
       # Returns the full path the attachment thumbnail, or nil
       # if the thumbnail cannot be generated.
       def thumbnail(options = {})
-        return if !readable? || !thumbnailable?
+        return unless (thumbnailable? && readable?)
 
         size = options[:size].to_i
         if size > 0
@@ -154,8 +154,11 @@ module RedmicaS3
         begin
           Redmine::Thumbnail.generate(diskfile_s3, target, size, is_pdf?)
         rescue => e
-          Rails.logger.error "An error occured while generating thumbnail for #{diskfile_s3} to #{target}\nException was: #{e.message}"
-          return
+          Rails.logger.error(
+            "An error occured while generating thumbnail for #{diskfile_s3} " \
+              "to #{target}\nException was: #{e.message}"
+          )
+          nil
         end
       end
 
@@ -174,7 +177,7 @@ module RedmicaS3
 
         return if src == dest
 
-        if !RedmicaS3::Connection.move_object(src, dest)
+        unless RedmicaS3::Connection.move_object(src, dest)
           Rails.logger.error "Could not move attachment from #{src} to #{dest}"
           return
         end

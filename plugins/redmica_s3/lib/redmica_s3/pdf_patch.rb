@@ -181,7 +181,7 @@ module RedmicaS3
           tmpFile = get_image_file(src)
           yield tmpFile.path
         rescue => err
-          logger.error "pdf: Image: error: #{err.message}"
+          Rails.logger.error "pdf: Image: error: #{err.message}"
           false
         ensure
           # remove temp files

@@ -5,25 +5,11 @@ Aws.config[:ssl_verify_peer] = false
 module RedmicaS3
   module Connection
     @@conn = nil
-    @@s3_options = {
-      access_key_id:      nil,
-      secret_access_key:  nil,
-      bucket:             nil,
-      folder:             '',
-      endpoint:           nil,
-      thumb_folder:       'tmp',
-      import_folder:      'tmp',
-      region:             nil,
-    }
+    @@s3_options = {}
 
     class << self
-      def create_bucket
-        bucket = own_bucket
-        bucket.create unless bucket.exists?
-      end
-
       def folder
-        str = @@s3_options[:folder]
+        str = s3_options[:folder]
         (
           if str.present?
             /\S+\/\z/.match?(str) ? str : "#{str}/"
@@ -34,7 +20,7 @@ module RedmicaS3
       end
 
       def thumb_folder
-        str = @@s3_options[:thumb_folder]
+        str = s3_options[:thumb_folder]
         (
           if str.present?
             /\S+\/\z/.match?(str) ? str : "#{str}/"
@@ -45,7 +31,7 @@ module RedmicaS3
       end
 
       def import_folder
-        str = @@s3_options[:import_folder]
+        str = s3_options[:import_folder]
         (
           if str.present?
             /\S+\/\z/.match?(str) ? str : "#{str}/"
@@ -96,10 +82,9 @@ module RedmicaS3
 # private
 
       def establish_connection
-        load_options unless @@s3_options[:access_key_id] && @@s3_options[:secret_access_key]
         options = {
-          access_key_id:      @@s3_options[:access_key_id],
-          secret_access_key:  @@s3_options[:secret_access_key]
+          access_key_id:      s3_options[:access_key_id],
+          secret_access_key:  s3_options[:secret_access_key]
         }
         if endpoint.present?
           options[:endpoint] = endpoint
@@ -119,6 +104,11 @@ module RedmicaS3
         end
       end
 
+      def s3_options
+        load_options if @@s3_options.blank?
+        @@s3_options
+      end
+
       def conn
         @@conn || establish_connection
       end
@@ -128,19 +118,18 @@ module RedmicaS3
       end
 
       def bucket
-        load_options unless @@s3_options[:bucket]
-        @@s3_options[:bucket]
+        s3_options[:bucket]
       end
 
       def endpoint
-        @@s3_options[:endpoint]
+        s3_options[:endpoint]
       end
 
       def region
-        @@s3_options[:region]
+        s3_options[:region]
       end
     end
 
-    private_class_method  :establish_connection, :load_options, :conn, :own_bucket, :bucket, :endpoint, :region
+    private_class_method  :establish_connection, :load_options, :s3_options, :conn, :own_bucket, :bucket, :endpoint, :region
   end
 end

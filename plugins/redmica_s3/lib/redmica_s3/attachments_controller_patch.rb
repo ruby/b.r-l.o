@@ -13,7 +13,7 @@ module RedmicaS3
 
       def show
         respond_to do |format|
-          format.html {
+          format.html do
             if @attachment.container.respond_to?(:attachments)
               @attachments = @attachment.container.attachments.to_a
               if index = @attachments.index(@attachment)
@@ -40,7 +40,7 @@ module RedmicaS3
             else
               render action: 'other'
             end
-          }
+          end
           format.api
         end
       end
@@ -60,21 +60,26 @@ module RedmicaS3
 
       def thumbnail
         begin
-          raise unless @attachment.thumbnailable?
           digest, raw_data = @attachment.thumbnail(:size => params[:size])
           raise unless raw_data
           if stale?(etag: digest, template: false)
             send_data raw_data,
               filename: filename_for_content_disposition(@attachment.filename),
               type: detect_content_type(@attachment, true),
-              disposition: 'inline'
+              disposition: 'attachment'
           end
         rescue
           # No thumbnail for the attachment or thumbnail could not be created
-          head 404
+          head :not_found
         end
       end
 
+      private
+
+      def send_data(data, options={})
+        headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+        super
+      end
     end
 
   end

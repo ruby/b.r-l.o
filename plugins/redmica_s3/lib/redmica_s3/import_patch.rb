@@ -19,38 +19,6 @@ module RedmicaS3
       module ClassMethods
       end
 
-      def set_default_settings(options={})
-        separator = lu(user, :general_csv_separator)
-        if file_exists?
-          begin
-            content = s3_object.get.body.read(256)
-            separator = [',', ';'].sort_by {|sep| content.count(sep) }.last
-          rescue => e
-          end
-        end
-        wrapper = '"'
-        encoding = lu(user, :general_csv_encoding)
-
-        date_format = lu(user, "date.formats.default", :default => "foo")
-        date_format = self.class::DATE_FORMATS.first unless self.class::DATE_FORMATS.include?(date_format)
-
-        self.settings.merge!(
-          'separator' => separator,
-          'wrapper' => wrapper,
-          'encoding' => encoding,
-          'date_format' => date_format,
-          'notifications' => '0'
-        )
-
-        if options.key?(:project_id) && !options[:project_id].blank?
-          # Do not fail if project doesn't exist
-          begin
-            project = Project.find(options[:project_id])
-            self.settings.merge!('mapping' => {'project_id' => project.id})
-          rescue; end
-        end
-      end
-
       # Returns the relative path of the file to import
       def filepath
         File.join(RedmicaS3::Connection.import_folder.presence, self.filename.presence) if super
@@ -62,6 +30,19 @@ module RedmicaS3
       end
 
       private
+
+      # Reads lines from the beginning of the file, up to the specified number
+      # of bytes (max_read_bytes).
+      def read_file_head(max_read_bytes = 4096)
+        return '' unless file_exists?
+        return s3_object.get.body.read if s3_object.content_length <= max_read_bytes
+        # The last byte of the chunk may be part of a multi-byte character,
+        # causing an invalid byte sequence. To avoid this, it truncates
+        # the chunk at the last LF character, if found.
+        chunk = s3_object.get.body.read(max_read_bytes)
+        last_lf_index = chunk.rindex("\n")
+        last_lf_index ? chunk[..last_lf_index] : chunk
+      end
 
       def read_rows
         return unless file_exists?
