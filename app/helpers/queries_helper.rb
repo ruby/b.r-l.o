@@ -480,8 +480,6 @@ module QueriesHelper
     url_params =
       if controller_name == 'issues'
         {:controller => 'issues', :action => 'index', :project_id => @project}
-      elsif controller_name == 'admin' && action_name == 'projects'
-        {:admin_projects => '1'}
       else
         {}
       end
@@ -510,7 +508,7 @@ module QueriesHelper
                               url_params.merge(:query_id => query),
                               :class => css,
                               :title => query.description,
-                              :data => { :disable_with => query.name }) +
+                              :data => { :disable_with => CGI.escapeHTML(query.name) }) +
                         clear_link.html_safe)
         end.join("\n").html_safe,
         :class => 'queries'
