@@ -85,6 +85,8 @@
   svg: chevron-right
 - name: angle-up
   svg: chevron-up
+- name: angle-left
+  svg: chevron-left
 - name: email
   svg: mail
 - name: email-disabled
@@ -209,3 +211,8 @@
   svg: square-rounded-plus
 - name: toggle-minus
   svg: square-rounded-minus
+- name: circle-minus
+  svg: circle-minus
+- name: circle-dot-filled
+  svg: circle-dot
+  style: filled

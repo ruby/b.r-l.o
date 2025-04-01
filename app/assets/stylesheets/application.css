@@ -241,6 +241,8 @@ a.user.user-mention {
 #admin-menu a.selected:not(:has(svg))  {padding-left: 20px !important; background-position: 2px 40%;}
 
 a#toggle-completed-versions {color:#999;}
+a#toggle-completed-versions span.icon-label {margin-left: 0}
+a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:#999}
 
 /***** Dropdown *****/
 .drdn {position:relative;}
@@ -583,7 +585,7 @@ div.square {
 }
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
-.message .contextual { margin-top: 0; }
+.message .contextual, #comments .contextual { margin-top: 0; }
 
 .splitcontent {overflow: auto; display: flex; flex-wrap: wrap;}
 .splitcontentleft {flex: 1; margin-right: 5px;}
@@ -1189,27 +1191,58 @@ input.autocomplete.ajax-loading {
 }
 
 div.flash {margin-top: 8px;}
+div.flash svg.icon-svg, #errorExplanation svg.icon-svg, .conflict svg.icon-svg {
+  margin-right: 4px;
+  margin-left: -26px;
+}
 
 div.flash.error, #errorExplanation {
-  background: url(/exclamation.png) 8px 50% no-repeat;
   background-color: #ffe3e3;
   border-color: #d88;
   color: #880000;
 }
+div.flash.error:not(:has(svg)), #errorExplanation:not(:has(svg)) {
+  background: url(/exclamation.png) 8px 50% no-repeat #ffe3e3;
+}
+div.flash.error svg.icon-svg, #errorExplanation svg.icon-svg {
+  stroke: #880000;
+}
+
+#errorExplanation:has(svg) {
+  position: relative;
+}
+
+#errorExplanation:has(svg) > svg.icon-svg {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  margin-left: -24px;
+  margin-top: -9px;
+}
 
 div.flash.notice {
-  background: url(/true.png) 8px 5px no-repeat;
   background-color: #dfffdf;
   border-color: #9fcf9f;
   color: #005f00;
 }
+div.flash.notice:not(:has(svg)) {
+  background: url(/true.png) 8px 50% no-repeat #dfffdf;
+}
+div.flash.notice svg.icon-svg {
+  stroke: #005f00;
+}
 
 div.flash.warning, .conflict {
-  background: url(/warning.png) 8px 5px no-repeat;
   background-color: #F3EDD1;
   border-color: #eadbbc;
   color: #A6750C;
   text-align: left;
+}
+div.flash.warning:not(:has(svg)), .conflict:not(:has(svg)) {
+  background: url(/warning.png) 8px 5px no-repeat #F3EDD1;
+}
+div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
+  stroke: #A6750C;
 }
 
 .nodata, .warning {
@@ -1428,17 +1461,25 @@ button.tab-left:hover, button.tab-right:hover {
 button.tab-left:focus, button.tab-right:focus {
   outline: 0;
 }
+button.tab-left svg.icon-svg, button.tab-right svg.icon-svg {
+  stroke: #999;
+  stroke-width: 2;
+}
 
 button.tab-left {
   right: 28px;
-  background: #eeeeee url(/arrow_left.png) no-repeat 50% 50%;
   border-top-left-radius:3px;
+}
+button.tab-left:not(:has(svg)) {
+  background: #eeeeee url(/arrow_left.png) no-repeat 50% 50%;
 }
 
 button.tab-right {
   right: 4px;
-  background: #eeeeee url(/arrow_right.png) no-repeat 50% 50%;
   border-top-right-radius:3px;
+}
+button.tab-right:not(:has(svg)) {
+  background: #eeeeee url(/arrow_right.png) no-repeat 50% 50%;
 }
 
 button.tab-left.disabled, button.tab-right.disabled {
