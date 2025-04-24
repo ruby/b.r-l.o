@@ -16,7 +16,7 @@ class IpBlockMiddleware
       [
         403, 
         { 'Content-Type' => 'text/plain' },
-        ["Access from your IP address (#{client_ip}) has been blocked."]
+        ["Access from your IP address (#{client_ip}) has been blocked. Please contact https://github.com/ruby/b.r-l.o/issue if you believe this is a mistake."]
       ]
     else
       @app.call(env)
