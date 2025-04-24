@@ -43,10 +43,18 @@ function toggleRowGroup(el) {
 }
 
 function toggleExpendCollapseIcon(el) {
+  const svg = el.getElementsByTagName('svg').item(0)
+
+  if (svg === null) {
+    return false;
+  }
+
   if (el.classList.contains('icon-expanded')) {
-    updateSVGIcon(el, 'angle-down')
+    updateSVGIcon(svg, 'angle-down')
+    svg.classList.remove('icon-rtl')
   } else {
-    updateSVGIcon(el, 'angle-right')
+    updateSVGIcon(svg, 'angle-right')
+    svg.classList.add('icon-rtl')
   }
 }
 
@@ -66,8 +74,9 @@ function collapseAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).removeClass('open');
-      $(this).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
-      updateSVGIcon($(this).find('.expander')[0], 'angle-right')
+      var expander = $(this).find('.expander');
+      expander.switchClass('icon-expanded', 'icon-collapsed');
+      toggleExpendCollapseIcon(expander[0]);
     } else {
       $(this).hide();
     }
@@ -79,8 +88,9 @@ function expandAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).addClass('open');
-      $(this).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
-      updateSVGIcon($(this).find('.expander')[0], 'angle-down')
+      var expander = $(this).find('.expander');
+      expander.switchClass('icon-collapsed', 'icon-expanded');
+      toggleExpendCollapseIcon(expander[0]);
     } else {
       $(this).show();
     }
@@ -586,19 +596,23 @@ function expandScmEntry(id) {
 
 function scmEntryClick(id, url) {
     var el = $('#'+id);
+    var expander = el.find('.expander');
+    var folder = el.find('.icon-folder');
 
     if (el.hasClass('open')) {
         collapseScmEntry(id);
         el.find('.expander').switchClass('icon-expanded', 'icon-collapsed');
         el.addClass('collapsed');
-        updateSVGIcon(el.find('.icon-folder')[0], 'folder')
+        updateSVGIcon(folder[0], 'folder')
+        toggleExpendCollapseIcon(expander[0]);
 
         return false;
     } else if (el.hasClass('loaded')) {
         expandScmEntry(id);
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
         el.removeClass('collapsed');
-        updateSVGIcon(el.find('.icon-folder-open')[0], 'folder-open')
+        updateSVGIcon(folder[0], 'folder-open')
+        toggleExpendCollapseIcon(expander[0]);
 
         return false;
     }
@@ -611,8 +625,9 @@ function scmEntryClick(id, url) {
       success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
-        updateSVGIcon(el.find('.icon-folder')[0], 'folder-open')
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
+        updateSVGIcon(folder[0], 'folder-open')
+        toggleExpendCollapseIcon(expander[0]);
       }
     });
     return true;
