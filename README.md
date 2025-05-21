@@ -9,33 +9,42 @@ The fork of [redmine/redmine](https://github.com/redmine/redmine) for https://bu
 We have a known issue with the git repository sync. If you encounter a problem with the sync, please check the following:
 
 1. Run the following command to sync the git repository manually:
-   ```bash
-   heroku run:detached bundle exec rails runner Repository.fetch_changesets -a bugs-ruby-lang -s performance-l
-   ```
-   and track the logs with:
-   ```bash
-   heroku logs --app bugs-ruby-lang --dyno run.4071 -t
-   ```
-   `run.4071` is the dyno name, which may be different in your case. You can find that name in the previous command output.
-   ```
+
+    ```bash
+    heroku run:detached bundle exec rails runner Repository.fetch_changesets -a bugs-ruby-lang -s performance-l
+    ```
+
+    and track the logs with:
+
+    ```bash
+    heroku logs --app bugs-ruby-lang --dyno run.4071 -t
+    ```
+
+    `run.4071` is the dyno name, which may be different in your case. You can find that name in the previous command output.
 
     If you can't see the logs, you can run the following command on the one-off dyno:
+
     ```bash
     heroku run bash -a bugs-ruby-lang -s performance-l
     ```
+
     and
+
     ```bash
     bin/rails runner Repository.fetch_changesets
     ```
 
 2. If you see like the following error:
-   ```
-   fatal: bad object 808d6a1e324703152f7fde67aea3d2ba52b6aba1
-   ```
-   It means the following reason:
-   * The bare repository on heroku is corrupted.
-   * The changesets of redmine is corrupted.
-   * The canonical repository is corrupted.
+
+    ```
+    fatal: bad object 808d6a1e324703152f7fde67aea3d2ba52b6aba1
+    ```
+
+    It means the following reason:
+
+    * The bare repository on heroku is corrupted.
+    * The changesets of redmine is corrupted.
+    * The canonical repository is corrupted.
 
 ### To fix corrupted bare repository
 
