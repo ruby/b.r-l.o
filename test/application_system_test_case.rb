@@ -73,13 +73,13 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # using default browser locale which depend on system locale for "real" browsers drivers
   def log_user(login, password)
     visit '/my/page'
-    assert_equal '/login', current_path
+    assert_current_path '/login', :ignore_query => true
     within('#login-form form') do
       fill_in 'username', :with => login
       fill_in 'password', :with => password
       find('input[name=login]').click
     end
-    assert_equal '/my/page', current_path
+    assert_current_path '/my/page', :ignore_query => true
   end
 
   def wait_for_ajax
