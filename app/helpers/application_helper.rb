@@ -128,7 +128,7 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    icon = options.fetch(:icon, false)
+    icon = options.delete(:icon)
 
     if options.delete(:download)
       route_method = :download_named_attachment_url
@@ -782,7 +782,7 @@ module ApplicationHelper
   end
 
   def other_formats_links(&)
-    concat('<p class="other-formats">'.html_safe + l(:label_export_to))
+    concat('<p class="other-formats hide-when-print">'.html_safe + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>'.html_safe)
   end
