@@ -36,6 +36,7 @@ class AccountController < ApplicationController
         redirect_back_or_default home_url, :referer => true
       end
     end
+    no_store
   rescue AuthSourceException => e
     logger.error "An error occurred when authenticating #{params[:username]}: #{e.message}"
     render_error :message => e.message
@@ -95,6 +96,7 @@ class AccountController < ApplicationController
           end
         end
       end
+      no_store
       render :template => "account/password_recovery"
       return
     else
@@ -218,6 +220,7 @@ class AccountController < ApplicationController
 
   def twofa_confirm
     @twofa_view = @twofa.otp_confirm_view_variables
+    no_store
   end
 
   def twofa
