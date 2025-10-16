@@ -155,6 +155,9 @@ namespace :redmine_hearts do
     Heart.all.each do |heart|
       heartable = heart.heartable
       user = heart.user
+
+      next if user.nil?
+
       created_at = heart.created_at
       updated_at = heart.updated_at
 
