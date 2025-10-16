@@ -1,0 +1,34 @@
+= redmine_hearts
+
+Redmine Hearts is a plugin which provides intra-Redmine Like/Fav reactions to issues and notes, news, wiki pages, and forum boards/messages.
+
+{rdoc-image:https://github.com/cat-in-136/redmine_hearts/workflows/Redmine%20Plugin/badge.svg}[https://github.com/cat-in-136/redmine_hearts/actions]
+{rdoc-image:https://img.shields.io/badge/-redmine.org-B32024.svg?logo=redmine}[https://www.redmine.org/plugins/redmine_hearts]
+
+== How to install
+
+* Download the plugin to your 'plugins/' directory
+* Make sure the new folder's name is 'redmine_hearts'
+* Run <code>bundle exec rake redmine:plugins:migrate RAILS_ENV=production</code>
+* Restart your redmine
+
+=== How to convert from other plugins
+
+Follow below steps to migrate from other plugins :
+{Vote on Issues}[https://www.redmine.org/plugins/vote_on_issues].
+
+* Install this redmine_hearts plugin as described above.
+* Run <code>bundle exec rake redmine_hearts:migrate_from_vote_on_issues RAILS_ENV=production</code>
+* Uninstall "Vote on Issues" after confirmation of the migration.
+  * Run <code>bundle exec rake redmine:plugins:migrate NAME=vote_on_issues VERSION=0 RAILS_ENV=production</code>
+  * Remove vote_on_issues from the plugins folder (i.e. <code>rm -rf RAILS_ROOT/plugins/vote_on_issues</code>)
+  * Restart your redmine
+
+Ditto {issue_votes}[https://github.com/KohaSuomi/issue_votes]. Run <code>bundle exec rake -T redmine_hearts:migrate_from</code> to check the task name.
+
+== License
+
+* Codes: MIT License.
+* Legacy Icons: famfamfam-silk: {CC-By-2.5}[https://creativecommons.org/licenses/by/2.5/] by Mark James http://www.famfamfam.com/lab/icons/silk/
+* Vector Icons: {Tabler Icons}[https://tabler.io/]: MIT License
+

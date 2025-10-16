@@ -1,0 +1,26 @@
+LICENSING
+
+RedmineUP Licencing
+
+This End User License Agreement is a binding legal agreement between you and RedmineUP. Purchase, installation or use of RedmineUP Extensions provided on redmineup.com signifies that you have read, understood, and agreed to be bound by the terms outlined below.
+
+RedmineUP GPL Licencing
+
+All Redmine Extensions produced by RedmineUP are released under the GNU General Public License, version 2 (http://www.gnu.org/licenses/gpl-2.0.html). Specifically, the Ruby code portions are distributed under the GPL license. If not otherwise stated, all images, manuals, cascading style sheets, and included JavaScript are NOT GPL, and are released under the RedmineUP Proprietary Use License v1.0 (See below) unless specifically authorized by RedmineUP. Elements of the extensions released under this proprietary license may not be redistributed or repackaged for use other than those allowed by the Terms of Service.
+
+RedmineUP Proprietary Use License (v1.0)
+
+The RedmineUP Proprietary Use License covers any images, cascading stylesheets, manuals and JavaScript files in any extensions produced and/or distributed by redmineup.com. These files are copyrighted by redmineup.com (RedmineUP) and cannot be redistributed in any form without prior consent from redmineup.com (RedmineUP)
+
+Usage Terms
+
+You are allowed to use the Extensions on one or many "production" domains, depending on the type of your license
+You are allowed to make any changes to the code, however modified code will not be supported by us.
+
+Modification Of Extensions Produced By RedmineUP.
+
+You are authorized to make any modification(s) to RedmineUP extension Ruby code. However, if you change any Ruby code and it breaks functionality, support may not be available to you.
+
+In accordance with the RedmineUP Proprietary Use License v1.0, you may not release any proprietary files (modified or otherwise) under the GPL license. The terms of this license and the GPL v2 prohibit the removal of the copyright information from any file.
+
+Please contact us if you have any requirements that are not covered by these terms.
