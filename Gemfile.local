@@ -1,0 +1,23 @@
+ruby '~> 3.4.6'
+
+gem 'puma'
+gem 'good_job'
+gem 'pg'
+gem 'rack-protection'
+gem 'rack-timeout'
+gem 'rexml'
+
+# Heroku Ruby Language Metrics
+# https://devcenter.heroku.com/articles/language-runtime-metrics-ruby#add-the-barnes-gem-to-your-application
+gem "barnes"
+
+group :development do
+  gem 'pry-rails'
+  gem 'dotenv-rails'
+end
+
+group :production do
+  gem 'airbrake'
+  gem "datadog", require: "datadog/auto_instrument"
+  gem 'dogstatsd-ruby'
+end

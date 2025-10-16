@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '>= 3.2.0', '< 3.5.0'
+# ruby '>= 3.2.0', '< 3.5.0'
 
 gem 'rails', '7.2.2.2'
 gem 'rouge', '~> 4.5'
@@ -77,7 +77,7 @@ if File.exist?(database_file)
         gem 'trilogy', '~> 2.9.0'
         gem "with_advisory_lock"
       when /postgresql/
-        gem 'pg', '~> 1.5.3'
+        # gem 'pg', '~> 1.5.3'
       when /sqlite3/
         gem 'sqlite3', '~> 2.5.0'
       when /sqlserver/
@@ -111,7 +111,7 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma'
+  # gem 'puma'
   gem "capybara", ">= 3.39"
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
