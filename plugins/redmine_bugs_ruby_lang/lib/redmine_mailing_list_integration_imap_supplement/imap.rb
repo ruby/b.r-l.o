@@ -70,6 +70,14 @@ module RedmineMailingListIntegrationImapSupplement
     end
 
     def record_s3(msg)
+      s3 = Aws::S3::Resource.new(
+        region: 'ap-northeast-1',
+        access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+        secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      )
+
+      s3.bucket('blade-data-vault').object("#{list_name}/#{post_id}").put(body: msg)
+
       m = Mail.new(msg)
       list_name = m.header['List-Id'].to_s.match(/\<(.*)\.ml\.ruby\-lang\.org\>/)
       list_name = list_name && list_name[1]
@@ -92,13 +100,7 @@ module RedmineMailingListIntegrationImapSupplement
       io.puts ""
       io.puts m.body.to_s.encode("UTF-8", "ISO-2022-JP", invalid: :replace, undef: :replace)
 
-      s3 = Aws::S3::Resource.new(
-        region: 'ap-northeast-1',
-        access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-        secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-      )
-      bucket = s3.bucket('blade.ruby-lang.org')
-      bucket.object("#{list_name}/#{post_id}").put(body: io.string)
+      s3.bucket('blade.ruby-lang.org').object("#{list_name}/#{post_id}").put(body: io.string)
     ensure
       io.close
     end
