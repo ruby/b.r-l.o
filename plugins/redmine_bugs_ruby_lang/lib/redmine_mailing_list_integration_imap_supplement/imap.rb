@@ -76,13 +76,13 @@ module RedmineMailingListIntegrationImapSupplement
         secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
       )
 
-      s3.bucket('blade-data-vault').object("#{list_name}/#{post_id}").put(body: msg)
-
       m = Mail.new(msg)
       list_name = m.header['List-Id'].to_s.match(/\<(.*)\.ml\.ruby\-lang\.org\>/)
       list_name = list_name && list_name[1]
       post_id = m.header["Subject"].to_s.match(/\[#{list_name}:(\d+)\].*/)
       post_id = post_id && post_id[1]
+
+      s3.bucket('blade-data-vault').object("#{list_name}/#{post_id}").put(body: msg)
 
       from = begin
         m.header["from"].to_s.gsub(/@[a-zA-Z.\-]+/, "@...")
