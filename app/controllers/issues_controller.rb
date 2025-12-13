@@ -136,8 +136,9 @@ class IssuesController < ApplicationController
         :content_type => 'application/atom+xml'
       end
       format.pdf do
-        send_file_headers!(:type => 'application/pdf',
-                           :filename => "#{@project.identifier}-#{@issue.id}.pdf")
+        render_403
+        #send_file_headers!(:type => 'application/pdf',
+        #                   :filename => "#{@project.identifier}-#{@issue.id}.pdf")
       end
     end
   end
