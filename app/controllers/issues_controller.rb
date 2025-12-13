@@ -77,8 +77,9 @@ class IssuesController < ApplicationController
                     :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'issues')}.csv")
         end
         format.pdf do
-          @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
-          send_file_headers! :type => 'application/pdf', :filename => "#{filename_for_export(@query, 'issues')}.pdf"
+          render_403
+          # @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
+          # send_file_headers! :type => 'application/pdf', :filename => "#{filename_for_export(@query, 'issues')}.pdf"
         end
       end
     else
