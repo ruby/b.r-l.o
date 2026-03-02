@@ -408,16 +408,16 @@ table.issues td.block_column {color:#777; font-size:90%; padding:4px 4px 4px 24p
 table.issues td.block_column>span {font-weight: bold; display: block; margin-bottom: 4px;}
 table.issues td.block_column>pre {white-space:normal;}
 
-tr.idnt td.subject, tr.idnt td.name {background: url(/chevron-right-idnt.svg) no-repeat 2px 50%;}
-tr.idnt-1 td.subject, tr.idnt-1 td.name {padding-left: 24px; background-position: 4px 50%;}
-tr.idnt-2 td.subject, tr.idnt-2 td.name {padding-left: 40px; background-position: 20px 50%;}
-tr.idnt-3 td.subject, tr.idnt-3 td.name {padding-left: 56px; background-position: 36px 50%;}
-tr.idnt-4 td.subject, tr.idnt-4 td.name {padding-left: 72px; background-position: 52px 50%;}
-tr.idnt-5 td.subject, tr.idnt-5 td.name {padding-left: 88px; background-position: 68px 50%;}
-tr.idnt-6 td.subject, tr.idnt-6 td.name {padding-left: 104px; background-position: 84px 50%;}
-tr.idnt-7 td.subject, tr.idnt-7 td.name {padding-left: 120px; background-position: 100px 50%;}
-tr.idnt-8 td.subject, tr.idnt-8 td.name {padding-left: 136px; background-position: 116px 50%;}
-tr.idnt-9 td.subject, tr.idnt-9 td.name {padding-left: 152px; background-position: 132px 50%;}
+tr.idnt :is(td.subject, td.name) {background: url(/chevron-right-idnt.svg) no-repeat 2px center;}
+tr.idnt-1 :is(td.subject, td.name) {padding-inline-start: 24px; background-position: 4px center;}
+tr.idnt-2 :is(td.subject, td.name) {padding-inline-start: 40px; background-position: 20px center;}
+tr.idnt-3 :is(td.subject, td.name) {padding-inline-start: 56px; background-position: 36px center;}
+tr.idnt-4 :is(td.subject, td.name) {padding-inline-start: 72px; background-position: 52px center;}
+tr.idnt-5 :is(td.subject, td.name) {padding-inline-start: 88px; background-position: 68px center;}
+tr.idnt-6 :is(td.subject, td.name) {padding-inline-start: 104px; background-position: 84px center;}
+tr.idnt-7 :is(td.subject, td.name) {padding-inline-start: 120px; background-position: 100px center;}
+tr.idnt-8 :is(td.subject, td.name) {padding-inline-start: 136px; background-position: 116px center;}
+tr.idnt-9 :is(td.subject, td.name) {padding-inline-start: 152px; background-position: 132px center;}
 
 table.issue-report {table-layout:fixed;}
 table.issue-report tr.total, table.issue-report-detailed tr.total { font-weight: bold; border-top:2px solid #d0d7de;}
@@ -437,7 +437,7 @@ tr span.expander, .gantt_subjects div > span.expander {margin-left: 0; cursor: p
 .gantt_subjects div.project-name a, .gantt_subjects div.version-name a {margin-left: 4px;}
 
 tr.changeset { height: 20px }
-tr.changeset ul, ol { margin-top: 0px; margin-bottom: 0px; }
+tr.changeset :is(ul, ol) { margin-top: 0px; margin-bottom: 0px; }
 tr.changeset td.revision_graph { width: 15%; background-color: #fffffb; }
 tr.changeset td.author { text-align: center; width: 15%; white-space:nowrap;}
 tr.changeset td.committed_on { text-align: center; width: 15%; white-space:nowrap;}
@@ -542,7 +542,7 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 .query-columns label {
   display:block;
 }
-#list-definition .buttons input[type=button] {
+#list-definition .buttons button {
   width:35px;
   display:block;
 }
@@ -763,14 +763,15 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
   max-width: 100%;
 }
 #filters-table {
-  float:left;
+  float: inline-start;
   width: auto;
 }
 #filters-table .field {
   width: 230px;
 }
 #filters-table .filter {
-  margin: 5px 0 0 0;
+  margin-block: 5px 0;
+  margin-inline: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0 10px;
@@ -779,10 +780,10 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
   width: 120px;
 }
 
-.add-filter {width:35%; float:right; text-align: right; vertical-align: top;}
+.add-filter {width: 35%; float: inline-end; text-align: end; vertical-align: top;}
 
 #issue_is_private_wrap {float:right; margin-right:1em;}
-.toggle-multiselect { margin-right:5px; cursor:pointer;}
+.toggle-multiselect { margin-inline-end:5px; cursor:pointer;}
 .buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 
 div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}

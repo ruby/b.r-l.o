@@ -2007,6 +2007,26 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_with_group_by_and_nil_group_count_should_not_render_empty_badge
+    Issue.generate!(:created_on => '2019-08-29 10:00:00')
+
+    IssueQuery.any_instance.stubs(:result_count_by_group).returns(nil)
+
+    get(
+      :index,
+      :params => {
+        :set_filter => 1,
+        :group_by => 'created_on'
+      }
+    )
+    assert_response :success
+
+    assert_select 'tr.group' do
+      assert_select 'span.name'
+      assert_select 'span.badge-count.count', 0
+    end
+  end
+
   def test_index_with_int_custom_field_total
     field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
     CustomValue.create!(:customized => Issue.find(1), :custom_field => field, :value => '9800')
@@ -2474,6 +2494,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'div#relations' do
         assert_select 'a', :text => /#2$/
         assert_select 'a', :text => /#4$/, :count => 0
+        assert_select 'form#new-relation-form input#relation_issue_to_id'
+        assert_select 'form#new-relation-form em.info', :text => l(:text_comma_separated)
       end
     end
   end
