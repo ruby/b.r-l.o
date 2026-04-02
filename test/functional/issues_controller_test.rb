@@ -2008,15 +2008,18 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_group_by_and_nil_group_count_should_not_render_empty_badge
-    Issue.generate!(:created_on => '2019-08-29 10:00:00')
+    @request.session[:user_id] = 1 # Admin
+    Issue.generate!
 
+    # Mock IssueQuery#result_count_by_group to return nil
+    # to simulate cases where group count is not available
     IssueQuery.any_instance.stubs(:result_count_by_group).returns(nil)
 
     get(
       :index,
       :params => {
         :set_filter => 1,
-        :group_by => 'created_on'
+        :group_by => 'tracker'
       }
     )
     assert_response :success
@@ -4222,6 +4225,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'issue[fixed_version_id]' do
       assert_select 'option[value=?][selected=selected]', version.id.to_s
     end
+  end
+
+  def test_update_form_for_new_issue_should_show_category_default_assignee_when_changing_category
+    @request.session[:user_id] = 2
+    post(
+      :new,
+      :params => {
+        :project_id => 1,
+        :issue => {
+          :category_id => 1
+        },
+        :form_update_triggered_by => 'issue_category_id'
+      },
+      :xhr => true
+    )
+    assert_response :success
+    # Browsers prefer option[label] over inner text, so the blank label must be removed.
+    assert_includes @response.body, ".removeAttr('label')"
+    assert_includes @response.body, "John Smith"
   end
 
   def test_post_create

@@ -4,6 +4,77 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-03-16 v6.1.2
+
+=== [Calendar]
+
+* Defect #43718: Issue beginning/ending arrows should be flipped in RTL calendars
+
+=== [Code cleanup/refactoring]
+
+* Patch #43649: Remove MySQL 5.7-related comments from database.yml.example
+* Patch #43713: Add missing entries "apps" and "shield-check" to icon_source.yml
+* Patch #43872: Update GitHub Actions workflow dependencies
+
+=== [Database]
+
+* Patch #43668: Serialize address limit checks during email_addresses#create
+
+=== [Issues]
+
+* Defect #33610: Submitting the issue edit form without changes unexpectedly updates updated_on
+* Feature #43837: Add a hint to the issue relation add form that clarifies multiple comma-separated issue IDs are accepted
+
+=== [Issues filter]
+
+* Patch #43736: author.group filter test fix
+
+=== [Issues list]
+
+* Defect #31972: An empty group_count badge is displayed when grouped with created_on
+
+=== [Performance]
+
+* Defect #43651: Searching issues with searchable custom fields causes a performance regression on MySQL
+
+=== [Permissions and roles]
+
+* Feature #43659: Set minimum width for Permission column in permission report
+
+=== [Security]
+
+* Defect #43661: Unsafe eval usage in AttachmentsHelper
+* Defect #43690: Directory Traversal via Backslash-Separated Paths in Filesystem SCM
+* Defect #43691: DOM (Stored) XSS in @mention autocomplete via unescaped user name
+* Defect #43692: LDAP Injection (Unescaped Input in LDAP Search Filter)
+* Defect #43694: DOM XSS: HTML Injection via Custom Field Name in Query Filter Generation
+* Defect #43830: User who is allowed to view only their own time entries can retrieve other users’ time entry details by directly specifying the TimeEntry ID via the REST API
+* Defect #43840: Update Nokogiri to 1.19.1
+
+=== [Text formatting]
+
+* Defect #40918: Wiki "Edit this section" does not extract SeText headings correctly in CommonMark Markdown
+* Defect #43662: Cursor may move to incorrect position when pasting inline images from clipboard
+
+=== [Themes]
+
+* Feature #43087: Allow to change icons sprites from theme
+
+=== [UI]
+
+* Defect #43664: Project menu tab left/right buttons are broken in RTL layout
+* Defect #43672: Indent icons for subtasks and subprojects in list tables are misplaced in RTL layout
+* Defect #43674: Unintended global `ol` styling in changeset CSS
+* Defect #43675: "Add filter" dropdown in query form appears on the wrong side in RTL layout
+* Defect #43714: Arrow buttons for Available/Selected columns are misleading in the issues query form on RTL layouts
+* Defect #43715: Project selector does not indent subprojects in RTL layout
+* Defect #43804: Custom field preview does not work on bulk issue edit
+* Defect #43869: Default assignee selected by category is not shown in UI
+
+=== [Wiki]
+
+* Feature #43631: Add "include_subprojects" parameter to recent_pages macro to include pages from subprojects
+
 == 2026-01-05 v6.1.1
 
 === [Administration]
