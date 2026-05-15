@@ -42,6 +42,7 @@ Rails.application.configure do
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, {
     url: ENV.fetch('REDIS_URL'),
+    ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE },
     expires_in: 1.hour,
     namespace: ENV.fetch('HEROKU_APP_NAME'),
     pool: { size: 5, timeout: 5 },
