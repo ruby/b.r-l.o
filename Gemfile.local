@@ -6,6 +6,8 @@ gem 'pg'
 gem 'rack-protection'
 gem 'rack-timeout'
 gem 'rexml'
+gem 'actionpack-action_caching'
+gem 'redis'
 
 # Heroku Ruby Language Metrics
 # https://devcenter.heroku.com/articles/language-runtime-metrics-ruby#add-the-barnes-gem-to-your-application

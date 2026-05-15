@@ -20,6 +20,10 @@
 class IssuesController < ApplicationController
   default_search_scope :issues
 
+  caches_action :index,
+    :if => -> { !User.current.logged? },
+    :expires_in => 5.minutes
+
   before_action :find_issue, :only => [:show, :edit, :update, :issue_tab]
   before_action :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
   before_action :authorize, :except => [:index, :new, :create]
