@@ -43,7 +43,7 @@ Rails.application.configure do
   config.cache_store = :redis_cache_store, {
     url: ENV.fetch('REDIS_URL'),
     expires_in: 1.hour,
-    namespace: 'b.r-l.o',
+    namespace: ENV.fetch('HEROKU_APP_NAME'),
     pool: { size: 5, timeout: 5 },
     error_handler: ->(method:, returning:, exception:) {
       Rails.logger.error "redis cache #{method} failed: #{exception.class}: #{exception.message}"
