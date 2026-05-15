@@ -44,8 +44,7 @@ Rails.application.configure do
     url: ENV.fetch('REDIS_URL'),
     expires_in: 1.hour,
     namespace: 'b.r-l.o',
-    pool_size: 5,
-    pool_timeout: 5,
+    pool: { size: 5, timeout: 5 },
     error_handler: ->(method:, returning:, exception:) {
       Rails.logger.error "redis cache #{method} failed: #{exception.class}: #{exception.message}"
     }
