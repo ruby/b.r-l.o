@@ -22,7 +22,8 @@ class IssuesController < ApplicationController
 
   caches_action :index,
     :if => -> { !User.current.logged? },
-    :expires_in => 5.minutes
+    :expires_in => 5.minutes,
+    :cache_path => -> { request.GET.merge(locale: I18n.locale) }
 
   before_action :find_issue, :only => [:show, :edit, :update, :issue_tab]
   before_action :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
