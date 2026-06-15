@@ -503,8 +503,9 @@ class IssuesController < ApplicationController
   def excessive_query_params?
     params[:set_filter].present? ||
       params[:query_id].present? ||
+      params[:sort].present? ||
       params[:per_page].to_i > 50 ||
-      params[:page].to_i > 50
+      params[:page].to_i > 30
   end
 
   def query_error(exception)
