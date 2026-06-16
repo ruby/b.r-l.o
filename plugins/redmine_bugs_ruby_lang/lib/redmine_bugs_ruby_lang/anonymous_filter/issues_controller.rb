@@ -2,7 +2,7 @@
 
 module RedmineBugsRubyLang
   module AnonymousFilter
-    module IssuesControllerPatch
+    module IssuesController
       private
 
       def reject_anonymous_issue_filter
@@ -22,7 +22,7 @@ module RedmineBugsRubyLang
 end
 
 IssuesController.class_eval do
-  prepend RedmineBugsRubyLang::AnonymousFilter::IssuesControllerPatch
+  prepend RedmineBugsRubyLang::AnonymousFilter::IssuesController
 
   caches_action :index,
     :if => -> { !User.current.logged? && !excessive_query_params? },

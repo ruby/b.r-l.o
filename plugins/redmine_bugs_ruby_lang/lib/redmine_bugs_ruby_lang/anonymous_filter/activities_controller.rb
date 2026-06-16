@@ -2,7 +2,7 @@
 
 module RedmineBugsRubyLang
   module AnonymousFilter
-    module ActivitiesControllerPatch
+    module ActivitiesController
       private
 
       def reject_anonymous_activity_filter
@@ -19,7 +19,7 @@ module RedmineBugsRubyLang
 end
 
 ActivitiesController.class_eval do
-  prepend RedmineBugsRubyLang::AnonymousFilter::ActivitiesControllerPatch
+  prepend RedmineBugsRubyLang::AnonymousFilter::ActivitiesController
 
   before_action :reject_anonymous_activity_filter, :only => :index
 end
