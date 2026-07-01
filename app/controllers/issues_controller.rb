@@ -72,13 +72,10 @@ class IssuesController < ApplicationController
                       :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}")
         end
         format.csv do
-          issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
-          send_data(query_to_csv(issues, @query, params[:csv]),
-                    :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'issues')}.csv")
+          render_403
         end
         format.pdf do
-          @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
-          send_file_headers! :type => 'application/pdf', :filename => "#{filename_for_export(@query, 'issues')}.pdf"
+          render_403
         end
       end
     else
@@ -135,8 +132,9 @@ class IssuesController < ApplicationController
         :content_type => 'application/atom+xml'
       end
       format.pdf do
-        send_file_headers!(:type => 'application/pdf',
-                           :filename => "#{@project.identifier}-#{@issue.id}.pdf")
+        render_403
+        #send_file_headers!(:type => 'application/pdf',
+        #                   :filename => "#{@project.identifier}-#{@issue.id}.pdf")
       end
     end
   end
