@@ -19,6 +19,9 @@
             <%= render_journal_actions(issue, journal, :reply_links => reply_links) %>
           </span>
           <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
+          <% if m = MailingListMessage.find_by_journal_id(journal.id) and m.mail_number %>
+            <%= link_to(m.identifier, m.archive_url, :class => 'journal-link', :style => 'padding-right: 0.5em') %>
+          <% end %>
         </span>
       </h4>
       <div class="journal-content">
