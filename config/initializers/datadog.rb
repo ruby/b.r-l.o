@@ -8,4 +8,5 @@ Datadog.configure do |c|
   c.service = 'redmine_app'
   c.version = ENV['HEROKU_RELEASE_VERSION']
   c.tracing.instrument :pg, comment_propagation: 'full'
+  c.tracing.instrument :redis
 end
