@@ -40,7 +40,16 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch('REDIS_URL'),
+    ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE },
+    expires_in: 1.hour,
+    namespace: ENV.fetch('HEROKU_APP_NAME'),
+    pool: { size: 5, timeout: 5 },
+    error_handler: ->(method:, returning:, exception:) {
+      Rails.logger.error "redis cache #{method} failed: #{exception.class}: #{exception.message}"
+    }
+  }
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :log
