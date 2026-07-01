@@ -39,6 +39,10 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
+  # Annotate SQL queries with controller/action/job context as a comment,
+  # so Datadog DBM can attribute queries back to the app code that issued them.
+  config.active_record.query_log_tags_enabled = true
+
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, {
     url: ENV.fetch('REDIS_URL'),
