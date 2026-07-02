@@ -145,6 +145,12 @@ class McpEndpointTest < Redmine::IntegrationTest
     assert_match /Unknown status/, data
   end
 
+  # 'any' is the only no-filter keyword; 'all'/'*' are not aliases
+  def test_list_issues_all_is_not_a_status_alias
+    data = call_tool('list_issues', {'status' => 'all'}, error: true)
+    assert_match /Unknown status/, data
+  end
+
   def test_search
     data = call_tool('search', {'q' => 'recipe'})
     assert_operator data['total_count'], :>, 0

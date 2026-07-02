@@ -14,7 +14,8 @@ module RedmineMcp
             project: {type: 'string', description: 'Project identifier (see list_projects)'},
             status: {
               type: 'string',
-              description: "'open' (default), 'closed', 'any', or a status name such as 'Feedback'"
+              description: "'open' (default), 'closed', 'any', or an exact status name " \
+                           "(see project_metadata for valid names, e.g. 'Feedback')"
             },
             tracker: {type: 'string', description: "Tracker name, e.g. 'Bug' or 'Feature'"},
             assigned_to: {
@@ -69,7 +70,7 @@ module RedmineMcp
           scope = scope.open
         when 'closed'
           scope = scope.open(false)
-        when 'any', 'all', '*'
+        when 'any'
           # no filter
         else
           scope = scope.where(status_id: resolve_status!(status).id)
