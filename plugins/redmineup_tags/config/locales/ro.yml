@@ -2,15 +2,15 @@ ro:
   tags: Etichete
   field_tags: Etichete
   field_tag_list: Etichete
-  label_add_tags: Adaugă etichete
+  label_tags_add_tags: Adaugă etichete
   notice_tags_added: Etichetele au fost adăugate
   notice_failed_to_add_tags: Etichetele nu s-au putut adăuga
   setting_issue_tags: Etichete de sarcini
-  issues_sidebar: Mod de afișare etichete în sidebar
+  sidebar_tag_list_view: Mod de afișare etichete în sidebar
   issues_show_count: Afișează numărul de sarcini
   issues_open_only: Afișează doar pentru sarcinile deschise
   issues_sort_by: Sortează etichetele după
-  issues_use_colors: Folosește culori
+  use_colors: Folosește culori
 
   issue_tags_sidebar_none: Deloc
   issue_tags_sidebar_list: Listă
@@ -24,7 +24,7 @@ ro:
 
   auto_complete_new_tag: "Adaugă..."
 
-  issue_tags_label_add_tag: "+ adaugă etichetă"
+  label_tags_add_tag: "+ adaugă etichetă"
   issue_tags_manage_tags: Administrare etichete
   issue_tags_tag: Etichetă
   issue_tags_button_merge: Unește

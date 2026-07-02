@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ module RedmineupTags
         base.class_eval do
           alias_method :available_filters_without_redmine_tags, :available_filters
           alias_method :available_filters, :available_filters_with_redmine_tags
+
           add_available_column QueryTagsColumn.new(:tags_relations, caption: :tags)
         end
       end
@@ -59,9 +60,7 @@ module RedmineupTags
   end
 end
 
-if Redmine::Plugin.installed?(:redmine_agile) &&
-  Gem::Version.new(Redmine::Plugin.find(:redmine_agile).version) >= Gem::Version.new('1.4.3')
-
+if RedmineupTags.agile_required_version?('1.4.3')
   unless AgileQuery.included_modules.include?(RedmineupTags::Patches::AgileQueryPatch)
     AgileQuery.send(:include, RedmineupTags::Patches::AgileQueryPatch)
   end

@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ class TagsController < ApplicationController
 
   def update
     @tag.name = params[:tag][:name] if params[:tag]
+    @tag.color = params.dig(:tag, :color)
     if @tag.save
       flash[:notice] = l(:notice_successful_update)
       respond_to do |format|
@@ -64,6 +65,7 @@ class TagsController < ApplicationController
       params_hash = params[:tag].respond_to?(:to_unsafe_hash) ? params[:tag].to_unsafe_hash : params
       Redmineup::Tagging.transaction do
         tag = Redmineup::Tag.find_by_name(params_hash['name']) || Redmineup::Tag.create(params_hash)
+        tag.update(color: params[:tag][:color])
         Redmineup::Tagging.where(tag_id: @tags.map(&:id)).update_all(tag_id: tag.id)
         @tags.select { |t| t.id != tag.id }.each{ |t| t.destroy }
         redirect_to controller: 'settings', action: 'plugin', id: 'redmineup_tags', tab: 'manage_tags'

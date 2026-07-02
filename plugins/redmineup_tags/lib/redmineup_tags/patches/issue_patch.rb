@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -73,7 +73,9 @@ module RedmineupTags
           scope = scope.joins(join.join(' '))
 
           columns = [
-            "#{Redmineup::Tag.table_name}.*",
+            "#{Redmineup::Tag.table_name}.id",
+            "#{Redmineup::Tag.table_name}.name",
+            "#{Redmineup::Tag.table_name}.color",
             "COUNT(DISTINCT #{Redmineup::Tagging.table_name}.taggable_id) AS count"
           ]
           if options[:sort_by] == 'created_at'
@@ -94,8 +96,8 @@ module RedmineupTags
         end
 
         def allowed_tags?(tags)
-          allowed_tags = all_tags.map(&:name)
-          tags.all? { |tag| allowed_tags.include?(tag) }
+          @allowed_tags ||= all_tags.map(&:name)
+          tags.all? { |tag| @allowed_tags.include?(tag) }
         end
 
         def by_tags(project, with_subprojects=false)
@@ -127,14 +129,21 @@ module RedmineupTags
       end
 
       module InstanceMethods
+
         def safe_attributes_with_safe_tags=(attrs, user = User.current)
+
           self.send(:safe_attributes_without_safe_tags=, attrs, user)
-          if attrs && attrs[:tag_list] && user.allowed_to?(:edit_tags, project)
-            tags = attrs[:tag_list].reject(&:empty?)
-            if user.allowed_to?(:create_tags, project) || Issue.allowed_tags?(tags)
-              self.tag_list = tags
-            end
-          end
+          return unless attrs &&
+            (attrs[:tag_list] ||
+              attrs[:add_tag_list] ||
+              attrs[:remove_tag_list]) &&
+            user.allowed_to?(:edit_tags, project)
+
+          tags = attrs[:tag_list] ||
+            (Array(tag_list) + Array(attrs[:add_tag_list]) - Array(attrs[:remove_tag_list]))
+
+          tags = tags.reject(&:blank?).uniq
+          self.tag_list = tags if user.allowed_to?(:create_tags, project) || Issue.allowed_tags?(tags)
         end
 
         def tags_relations

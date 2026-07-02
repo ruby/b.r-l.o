@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -26,7 +26,8 @@ end
 resources :tags, only: [:edit, :update] do
   collection do
     post :merge
-    get :context_menu, :merge
+    get :context_menu
+    get :merge
   end
 end
 

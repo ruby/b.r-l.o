@@ -2,15 +2,16 @@ ru:
   tags: Теги
   field_tags: Теги
   field_tag_list: Теги
-  label_add_tags: Добавить теги
+  field_color: Цвет
+  label_tags_add_tags: Добавить теги
   notice_tags_added: Теги добавлены
   notice_failed_to_add_tags: Не удалось добавить теги
   setting_issue_tags: Теги задач
-  issues_sidebar: Боковую панель как
+  sidebar_tag_list_view: Боковую панель как
   issues_show_count: Показать кол-во задач
   issues_open_only: Только открытые задачи
   issues_sort_by: Упорядочить теги по
-  issues_use_colors: Использовать цвета
+  use_colors: Использовать цвета
   
   issue_tags_sidebar_none: Не показывать
   issue_tags_sidebar_list: Список
@@ -23,9 +24,19 @@ ru:
   issues_sort_order_desc: по убыванию
 
   auto_complete_new_tag: Добавить...
-  issue_tags_label_add_tag: + добавить тег
+  
+  label_tags_add_tag: + добавить тег
+  issue_tags_manage_tags: Управлять тэгами
+  issue_tags_tag: Тэг
+  issue_tags_button_merge: Объединить
+  issue_tags_label_merge: Объединить выбранные тэги
 
-  tags_suggestion_order: Порядок поиска
-  tags_order_by_name: По названию
-  tags_order_by_last_created: Сначала новые
+  tags_suggestion_order: Предпологаемый порядок
+  tags_order_by_name: Имя
+  tags_order_by_last_created: Последние созданные
   tags_order_by_most_used: Часто используемые
+
+  permission_create_tags: Создание тегов
+  permission_edit_tags: Редактирование тегов
+
+  label_tags_remove_tags: Убрать теги

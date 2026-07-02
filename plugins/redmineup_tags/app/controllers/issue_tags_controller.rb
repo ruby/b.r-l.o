@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -45,7 +45,6 @@ class IssueTagsController < ApplicationController
       flash[:error] = t(:notice_failed_to_add_tags)
     end
   rescue Exception => e
-    puts e
     flash[:error] = t(:notice_failed_to_add_tags)
   ensure
     redirect_to_referer_or { render text: 'Tags updated.', layout: true }

@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -19,8 +19,6 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'digest/md5'
-
 module TagsHelper
   include Redmineup::TagsHelper
 
@@ -34,14 +32,8 @@ module TagsHelper
         link_to_issue_filter tag.name, filters, project_id: @project
       end
     content << content_tag('span', "(#{tag.count})", class: 'tag-count') if options[:show_count]
-
-    style = RedmineupTags.settings['issues_use_colors'].to_i > 0 ? { class: 'tag-label-color', style: "background-color: #{tag_color(tag)}" } : { class: 'tag-label' }
+    style = RedmineupTags.use_colors? ? { class: 'tag-label-color', style: "background-color: #{tag.color}" } : { class: 'tag-label' }
     content_tag('span', content, style)
-  end
-
-  def tag_color(tag)
-    tag_name = tag.respond_to?(:name) ? tag.name : tag
-    "##{Digest::MD5.hexdigest(tag_name)[0..5]}"
   end
 
   def render_tags_list(tags, options = {})
@@ -122,8 +114,13 @@ module TagsHelper
   private
 
   def add_tags(style, tags, content, item_el, options)
+    items = []
     tag_cloud tags, (1..8).to_a do |tag, weight|
-      content << ' '.html_safe + content_tag(item_el, render_issue_tag_link(tag, options), class: "tag-nube-#{weight}", style: (style == :simple_cloud ? 'font-size: 1em;' : '')) + ' '.html_safe
+      items << content_tag(item_el, render_issue_tag_link(tag, options),
+                           class: "tag-nube-#{weight}",
+                           style: (style == :simple_cloud ? 'font-size: 1em;' : ''))
     end
+    separator = (style == :simple_cloud) ? tag_separator : ' '
+    content << safe_join(items, separator)
   end
 end

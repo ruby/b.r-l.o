@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ module IssuesTagsHelper
     unless @sidebar_tags
       @sidebar_tags = []
       projects = [@project] + (@project && Setting.display_subprojects_issues? ? @project.descendants : [])
-      if RedmineupTags.settings['issues_sidebar'].to_sym != :none
+      if RedmineupTags.tag_list_view != :none
         @sidebar_tags = Issue.available_tags(project: @project,
                                              projects: projects,
                                              open_only: (RedmineupTags.settings['issues_open_only'].to_i == 1))
@@ -36,6 +36,6 @@ module IssuesTagsHelper
   def render_sidebar_tags
     render_tags_list(sidebar_tags, show_count: (RedmineupTags.settings['issues_show_count'].to_i == 1),
                                    open_only: (RedmineupTags.settings['issues_open_only'].to_i == 1),
-                                   style: RedmineupTags.settings['issues_sidebar'].to_sym)
+                                   style: RedmineupTags.tag_list_view)
   end
 end

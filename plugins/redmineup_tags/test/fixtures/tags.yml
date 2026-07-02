@@ -2,6 +2,7 @@
 tag_1:
   id: 1
   name: first
+  color: 11184810
 
 tag_2:
   id: 2

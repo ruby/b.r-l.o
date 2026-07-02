@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -17,11 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
-requires_redmineup version_or_higher: '1.0.5' rescue raise "\n\033[31mRedmine requires newer redmineup gem version.\nPlease update with 'bundle update redmineup'.\033[0m"
+requires_redmineup version_or_higher: '1.1.10' rescue raise "\n\033[31mRedmine requires newer redmineup gem version.\nPlease update with 'bundle update redmineup'.\033[0m"
 
 require 'redmine'
 
-TAGS_VERSION_NUMBER = '2.0.14'
+TAGS_VERSION_NUMBER = '2.1.2'
 TAGS_VERSION_TYPE = 'Light version'
 
 Redmine::Plugin.register :redmineup_tags do
@@ -34,15 +34,16 @@ Redmine::Plugin.register :redmineup_tags do
 
   requires_redmine version_or_higher: '4.0'
 
-  settings default: { issues_sidebar: 'none',
+  settings default: { sidebar_tag_list_view: 'none',
                       issues_show_count: 0,
                       issues_open_only: 0,
                       issues_sort_by: 'name',
+                      use_colors: 1,
                       issues_sort_order: 'asc',
                       tags_suggestion_order: 'name'
                     }, partial: 'tags/settings'
 
-  menu :admin_menu, :tags, { controller: 'settings', action: 'plugin', id: 'redmineup_tags' }, caption: :tags, html: { class: 'icon' }
+  menu :admin_menu, :tags, { controller: 'settings', action: 'plugin', id: 'redmineup_tags' }, caption: :tags, html: { class: 'icon' }, icon: 'tag', plugin: :redmineup_tags
 
   project_module :issue_tracking do
     permission :create_tags, {}

@@ -1,4 +1,4 @@
-<h3 class="title"><%= l(:label_add_tags) %></h3>
+<h3 class="title"><%= l(:label_tags_add_tags) %></h3>
 
 <% if @is_bulk_editing %>
   <h3><%= l(:label_bulk_edit_selected_issues) %></h3>
@@ -25,7 +25,7 @@
                         width: '100%',
                         multiple: true,
                         url: auto_complete_redmine_tags_path,
-                        placeholder: @is_bulk_editing ? t(:label_no_change_option) : '+ add tag',
+                        placeholder: @is_bulk_editing ? l(:label_no_change_option) : l(:label_tags_add_tag),
                         tags: User.current.allowed_to?(:create_tags, @project) %>
       </div>
 

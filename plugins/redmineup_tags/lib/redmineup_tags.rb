@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -17,8 +17,42 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+module Redmineup
+  module ActsAsTaggable
+    module Taggable
+      module SingletonMethods
+        def available_tags_with_configurable_limit options = {}
+          available_tags_without_configurable_limit options.merge({limit: 100})
+        end
+
+        alias_method :available_tags_without_configurable_limit, :available_tags
+        alias_method :available_tags, :available_tags_with_configurable_limit
+      end
+    end
+  end
+end
+
 module RedmineupTags
   def self.settings() Setting[:plugin_redmineup_tags].stringify_keys end
+
+  def self.use_colors?
+    settings['use_colors'].to_i > 0
+  end
+
+  VALID_TAG_LIST_VIEWS = %i[none list cloud simple_cloud].freeze
+
+  def self.tag_list_view
+    value = settings['sidebar_tag_list_view'].to_s.strip.to_sym
+    VALID_TAG_LIST_VIEWS.include?(value) ? value : :none
+  end
+
+  def self.agile_required_version?(version, type = nil)
+    plugin = Redmine::Plugin.find(:redmine_agile)
+    return false if plugin.version < version
+    type.nil? || plugin.name.match?(/#{type}/i)
+  rescue Redmine::PluginNotFound
+    false
+  end
 end
 
 REDMINEUP_TAGS_REQUIRED_FILES = [

@@ -1,0 +1,10 @@
+<% if User.current.allowed_to?(:edit_tags, @projects) %>
+  <p id="add_issue_tags">
+    <label><%= l(:label_tags_add_tags) %></label>
+    <%= tag_list_field_tag "issue[add_tag_list]", [], taggable_type: 'Issue', width: '60%', project_id: @project %>    
+  </p>
+  <p id="remove_issue_tags">
+    <label><%= l(:label_tags_remove_tags) %></label>
+    <%= tag_list_field_tag "issue[remove_tag_list]", [], taggable_type: 'Issue', width: '60%', project_id: @project, tags: false %>    
+  </p>
+<% end %>

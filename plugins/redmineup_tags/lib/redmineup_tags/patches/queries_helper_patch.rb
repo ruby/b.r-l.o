@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ module RedmineupTags
 
         def column_value_with_tags(column, list_object, value)
           if column.name == :tags_relations && list_object.is_a?(Issue)
-            [value].flatten.collect{ |t| render_issue_tag_link(t) }.join(RedmineupTags.settings['issues_use_colors'].to_i > 0 ? ' ' : ', ').html_safe
+            [value].flatten.collect{ |t| render_issue_tag_link(t) }.join(RedmineupTags.use_colors? ? ' ' : ', ').html_safe
           else
             column_value_without_tags(column, list_object, value)
           end

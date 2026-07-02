@@ -1,6 +1,6 @@
 <p>
-  <%= label_tag 'settings[issues_sidebar]', l(:issues_sidebar) %>
-  <%= select_tag 'settings[issues_sidebar]', options_for_select(%w(none list cloud simple_cloud).collect{|v| [l("issue_tags_sidebar_#{v}"), v]}, @settings['issues_sidebar']) %>
+  <%= label_tag 'settings[sidebar_tag_list_view]', l(:sidebar_tag_list_view) %>
+  <%= select_tag 'settings[sidebar_tag_list_view]', options_for_select(%w(none list cloud simple_cloud).collect{|v| [l("issue_tags_sidebar_#{v}"), v]}, @settings['sidebar_tag_list_view']) %>
 </p>
 <p>
   <%= label_tag 'settings[issues_show_count]', l(:issues_show_count) %>
@@ -20,6 +20,6 @@
   <%= select_tag 'settings[tags_suggestion_order]', options_for_select(%w(name last_created most_used).collect{|v| [l("tags_order_by_#{v}"), v]}, @settings['tags_suggestion_order']) %>
 </p>
 <p>
-  <%= label_tag 'settings[issues_use_colors]', l(:issues_use_colors) %>
-  <%= check_box_tag 'settings[issues_use_colors]', 1, 1 == @settings['issues_use_colors'].to_i %>
+  <%= label_tag 'settings[use_colors]', l(:use_colors) %>
+  <%= check_box_tag 'settings[use_colors]', 1, 1 == @settings['use_colors'].to_i %>
 </p>

@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ module RedmineupTags
       end
 
       module InstanceMethods
+        DEFAULT_AUTOCOMPLETE_LIMIT = 10
         SORTING_FIELDS = { 'name' => 'name',
                            'last_created' => 'created_at',
                            'most_used' => 'count' }
@@ -41,7 +42,7 @@ module RedmineupTags
             sort_by: SORTING_FIELDS[suggestion_order],
             order: (suggestion_order == 'name' ? 'ASC' : 'DESC')
           }
-          @redmine_tags = Issue.all_tags(options).limit(params[:limit] || 10)
+          @redmine_tags = Issue.all_tags(options).limit(DEFAULT_AUTOCOMPLETE_LIMIT)
           render json: format_redmine_tags_json(@redmine_tags)
         end
 

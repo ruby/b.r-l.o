@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -94,7 +94,7 @@ class IssuesControllerTest < ActionController::TestCase
     issue2 = Issue.find(2)
     issue2.tags << @tag
     issue2.tags << @last_tag
-    RedmineupTags.stubs(:settings).returns('issues_sidebar' => 'list',
+    RedmineupTags.stubs(:settings).returns('sidebar_tag_list_view' => 'list',
                                            'issues_show_count' => '1',
                                            'issues_sort_by' => 'count',
                                            'issues_sort_order' => 'desc')
@@ -116,7 +116,7 @@ class IssuesControllerTest < ActionController::TestCase
     issue2.tags << @tag
     issue2.tags << @last_tag
 
-    RedmineupTags.stubs(:settings).returns('issues_sidebar' => 'cloud',
+    RedmineupTags.stubs(:settings).returns('sidebar_tag_list_view' => 'cloud',
                                            'issues_show_count' => '1',
                                            'issues_sort_by' => 'count',
                                            'issues_sort_order' => 'desc')
@@ -166,7 +166,7 @@ class IssuesControllerTest < ActionController::TestCase
 
   def test_get_bulk_edit_with_tags
     compatible_request :get, :bulk_edit, ids: [1, 2]
-    assert_select '#issue_tags'
+    assert_select '#add_issue_tags'
     assert_response :success
   end
 
@@ -188,23 +188,40 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_post_bulk_edit_with_empty_string_tags
-    (1..2).each { |i| assert_equal %w[second third], Issue.find(i).tag_list.sort }
-    compatible_request :post, :bulk_update, ids: [1, 2], issue: { project_id: '', tracker_id: '', tag_list: ['', ''] }
+    issue1 = Issue.find(1)
+    old_tags = issue1.tag_list
+    assert_equal %w[second third].sort, old_tags.sort
+    compatible_request :post, :bulk_update, ids: [1, 2], issue: { project_id: '', tracker_id: '', add_tag_list: ['', ''], remove_tag_list: ['', ''] }
     assert_response :redirect
-    (1..2).each { |i| assert_equal [], Issue.find(i).tag_list }
+    assert_equal(old_tags.sort, Issue.find(1).tag_list.sort)
   end
 
-  def test_post_bulk_edit_with_changed_tags
+  def test_post_bulk_edit_with_add_remove_tags
     issue1 = Issue.find(1)
-    issue1.tags << @tag
+    issue1.tags = [@tag]
 
     issue2 = Issue.find(2)
-    issue2.tags << @last_tag
+    issue2.tags = [@last_tag]
 
-    compatible_request :post, :bulk_update, ids: [1, 2], issue: { project_id: '', tracker_id: '', tag_list: ['bulk_tag'] }
+    compatible_request :post, :bulk_update, ids: [1, 2], issue: {
+      project_id: '',
+      tracker_id: '',
+      add_tag_list: ['bulk_tag']
+    }
     assert_response :redirect
-    assert_equal ['bulk_tag'], Issue.find(1).tag_list
-    assert_equal ['bulk_tag'], Issue.find(2).tag_list
+    assert_equal([@tag.name, 'bulk_tag'].sort, Issue.find(1).tag_list.sort)
+    assert_equal([@last_tag.name, 'bulk_tag'].sort, Issue.find(2).tag_list.sort)
+
+    compatible_request :post, :bulk_update, ids: [1, 2], issue: {
+      project_id: '',
+      tracker_id: '',
+      remove_tag_list: ['bulk_tag']
+    }
+    assert_response :redirect
+
+    assert_equal([@tag.name].sort, Issue.find(1).tag_list.sort)
+    assert_equal([@last_tag.name].sort, Issue.find(2).tag_list.sort) 
+
   ensure
     issue1.tags = []
     issue2.tags = []

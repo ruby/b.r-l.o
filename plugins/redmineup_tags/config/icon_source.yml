@@ -1,0 +1,6 @@
+- name: tag
+  svg: tag
+- name: tag-plus
+  svg: tag # TODO: change to tag-plus when the icon is ready
+- name: tag-merge
+  svg: arrow-merge

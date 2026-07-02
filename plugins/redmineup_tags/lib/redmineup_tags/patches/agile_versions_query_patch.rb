@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with redmine_tags.  If not, see <http://www.gnu.org/licenses/>.
 
+require_dependency 'query'
+
 module RedmineupTags
   module Patches
     module AgileVersionsQueryPatch
@@ -28,18 +30,12 @@ module RedmineupTags
       end
 
       module InstanceMethods
-
       end
     end
   end
 end
 
-if Redmine::Plugin.installed?(:redmine_agile) &&
-   Gem::Version.new(Redmine::Plugin.find(:redmine_agile).version) >= Gem::Version.new('1.4.3') &&
-   AGILE_VERSION_TYPE == 'PRO version'
-
-  require_dependency 'query'
-
+if RedmineupTags.agile_required_version?('1.4.3', 'pro')
   unless AgileVersionsQuery.included_modules.include?(RedmineupTags::Patches::AgileVersionsQueryPatch)
     AgileVersionsQuery.send(:include, RedmineupTags::Patches::AgileVersionsQueryPatch)
   end

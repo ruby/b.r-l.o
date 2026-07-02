@@ -24,11 +24,11 @@ bg:
   field_tags: Маркери
   field_tag_list: Маркери
   setting_issue_tags: Маркери на задачите
-  issues_sidebar: Показване на страничния панел като
+  sidebar_tag_list_view: Показване на страничния панел като
   issues_show_count: Показване на броя на задачите
   issues_open_only: Само отворените задачи
   issues_sort_by: Подреждане на маркерите по
-  issues_use_colors: Използване на цветове
+  use_colors: Използване на цветове
 
   issue_tags_sidebar_none: Да не се показват
   issue_tags_sidebar_list: Списък

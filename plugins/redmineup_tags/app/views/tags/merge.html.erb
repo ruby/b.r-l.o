@@ -12,15 +12,30 @@
 
 
 <div class="box">
-
-
 <!--[form:optvalue]-->
-<p><label for="tag_name"><%=l(:field_name)%></label>
-<%= text_field 'tag', 'name', :value => @tags.first.name  %></p>
-
-
+    <p>
+      <label for="tag_name"><%=l(:field_name)%></label>
+      <%= text_field 'tag', 'name', value: @tags.first.name  %>
+    </p>
+    <p>
+      <label for="tag_color"><%=l(:field_color)%></label>
+      <%= text_field 'tag', 'color', value: @tags.first.color, class: "colorpicker"  %>
+    </p>
 </div>
 
   <%= submit_tag l(:button_save) %>
 <% end %>
 
+<script>
+    $(function() {
+        //use this method to add new colors to pallete
+        //$.fn.colorPicker.addColors(['000', '000', 'fff', 'fff']);
+
+        $('#tag_color').colorPicker();
+    });
+
+</script>
+
+<% content_for :header_tags do %>
+  <%= redmineup_assets %>
+<% end %>

@@ -23,8 +23,9 @@ zh-TW:
   tags: 標籤
   field_tags: 標籤
   field_tag_list: 標籤
+  field_color: 顏色
   setting_issue_tags: 問題標籤
-  issues_sidebar: 在側邊欄顯示標籤
+  sidebar_tag_list_view: 在側邊欄顯示標籤
   issues_show_count: 顯示問計數
   issues_open_only: 僅顯示進行中的問題
   issues_sort_by: 標籤依哪種方式排序
@@ -40,7 +41,7 @@ zh-TW:
 
   auto_complete_new_tag: 增加新標籤 ...
 
-  issue_tags_label_add_tag: + 新增
+  label_tags_add_tag: + 新增
   issue_tags_manage_tags: 管理標籤
   issue_tags_tag: 標籤
   issue_tags_button_merge: 合併

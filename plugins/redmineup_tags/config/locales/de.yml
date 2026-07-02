@@ -2,15 +2,16 @@ de:
   tags: Tags
   field_tags: Tags
   field_tag_list: Tags
-  label_add_tags: Tags hinzufügen
+  field_color: Farbe
+  label_tags_add_tags: Tags hinzufügen
   notice_tags_added: Tags hinzugefügt
   notice_failed_to_add_tags: Fehler beim hinzufügen der Tags
   setting_issue_tags: Ticket Tags
-  issues_sidebar: Zeige die Tags auf der Sidebar
+  sidebar_tag_list_view: Zeige die Tags auf der Sidebar
   issues_show_count: Zeige die Ticketanzahl an
   issues_open_only: Zeige nur noch offene Tickets
   issues_sort_by: Sortiere Tags nach
-  issues_use_colors: Farben verwenden
+  use_colors: Farben verwenden
 
   issue_tags_sidebar_none: Keine
   issue_tags_sidebar_list: Liste
@@ -24,7 +25,7 @@ de:
 
   auto_complete_new_tag: Hinzufügen...
 
-  issue_tags_label_add_tag: + tag hinzufügen
+  label_tags_add_tag: + tag hinzufügen
   issue_tags_manage_tags: Tags bearbeiten
   issue_tags_tag: Tag
   issue_tags_button_merge: zusammenführen
@@ -34,3 +35,5 @@ de:
   tags_order_by_name: Name
   tags_order_by_last_created: zuletzt angelegt
   tags_order_by_most_used: am meisten benutzt
+
+  label_tags_remove_tags: Tags entfernen

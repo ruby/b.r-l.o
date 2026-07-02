@@ -1,7 +1,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@ module RedmineupTags
       render_on :view_issues_show_details_bottom, partial: 'issues/tags'
       render_on :view_issues_form_details_bottom, partial: 'issues/tags_form'
       render_on :view_issues_sidebar_planning_bottom, partial: 'issues/tags_sidebar'
-      render_on :view_issues_bulk_edit_details_bottom, partial: 'issues/tags_form'
+      render_on :view_issues_bulk_edit_details_bottom, partial: 'issues/bulk_edit_tags_form'
     end
   end
 end

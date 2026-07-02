@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -68,7 +68,13 @@ class RedmineupTags::Patches::IssueTest < ActiveSupport::TestCase
   end
 
   test 'Issue.all_tags should return all tags kind of Issue' do
-    tags = Issue.all_tags.map(&:name)
-    assert_equal %w[first second third], tags
+    tag_names = Issue.all_tags.map(&:name)
+    tag_colors = Issue.all_tags.map(&:color)
+    assert_equal %w[first second third], tag_names
+    assert_equal [
+      '#aaaaaa',
+      Redmineup::ActsAsTaggable::Tag.color_from_name('second'),
+      Redmineup::ActsAsTaggable::Tag.color_from_name('third')
+    ], tag_colors
   end
 end

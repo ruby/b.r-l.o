@@ -23,8 +23,9 @@ fr:
   tags: Tags
   field_tags: Tags
   field_tag_list: Tags
+  field_color: Couleur
   setting_issue_tags: Tags des demandes
-  issues_sidebar: Afficher les Tags comme
+  sidebar_tag_list_view: Afficher les Tags comme
   issues_show_count: Afficher le nombre de demande
   issues_open_only: N'afficher que les demandes ouvertes
   issues_sort_by: (en) Sort tags by

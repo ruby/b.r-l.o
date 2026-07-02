@@ -1,8 +1,31 @@
 == Redmine Tags plugin changelog
 
 Redmine Tags plugin - Tags board plugin for redmine
-Copyright (C) 2011-2024 Kirill Bezrukov (RedmineUP)
+Copyright (C) 2011-2026 Kirill Bezrukov (RedmineUP)
 http://www.redmineup.com/
+
+== 2026-06-18 v2.1.2
+
+* ColorPicker moved to redmineup gem
+* Fixed tags compatibility with MS SQL Server
+* Fixed losing tags on AJAX form update
+
+== 2026-04-19 v2.1.1
+
+* Updated issue and bulk edit tag fields to use unified RedmineUP tag selector
+* Fixed losing tags on issue form update
+
+== 2026-01-22 v2.1.0
+
+* Added separate fields for issue bulk edit
+* Added ability to edit tag colors
+* Added compatibility with new routing for Rails 8
+* Fixed patch for Redmine Agile plugin
+
+== 2025-03-03 v2.0.15
+
+* Added Redmine 6.0 compatibility
+* Added svg icons for compatibility with Redmine 6
 
 == 2024-02-15 v2.0.14
 

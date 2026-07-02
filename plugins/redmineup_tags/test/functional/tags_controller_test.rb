@@ -3,7 +3,7 @@
 # This file is a part of Redmine Tags (redmine_tags) plugin,
 # customer relationship management plugin for Redmine
 #
-# Copyright (C) 2011-2024 RedmineUP
+# Copyright (C) 2011-2026 RedmineUP
 # http://www.redmineup.com/
 #
 # redmine_tags is free software: you can redistribute it and/or modify
@@ -61,15 +61,18 @@ class TagsControllerTest < ActionController::TestCase
     compatible_request :get, :edit, id: tag.id
     assert_response :success
     assert_select "input#tag_name[value='#{tag.name}']", 1
+    assert_select "input#tag_color", 1
   end
 
   def test_should_put_update
     tag1 = Redmineup::Tag.find_by_name('a1')
     new_name = 'updated main'
-    compatible_request :put, :update, id: tag1.id, tag: { name: new_name }
+    new_color = '#ffffff'
+    compatible_request :put, :update, id: tag1.id, tag: { name: new_name, color: new_color }
     assert_redirected_to controller: 'settings', action: 'plugin', id: 'redmineup_tags', tab: 'manage_tags'
     tag1.reload
     assert_equal new_name, tag1.name
+    assert_equal new_color, tag1.color
   end
 
   test 'should delete destroy' do
@@ -84,11 +87,12 @@ class TagsControllerTest < ActionController::TestCase
     tag1 = Redmineup::Tag.find_by_name('a1')
     tag2 = Redmineup::Tag.find_by_name('b8')
     assert_difference 'Redmineup::Tag.count', -1 do
-      compatible_request :post, :merge, ids: [tag1.id, tag2.id], tag: { name: 'a1' }
+      compatible_request :post, :merge, ids: [tag1.id, tag2.id], tag: { name: 'a1', color: '#000000' }
       assert_redirected_to controller: 'settings', action: 'plugin', id: 'redmineup_tags', tab: 'manage_tags'
     end
     assert_equal 0, Issue.tagged_with('b8').count
     assert_equal 2, Issue.tagged_with('a1').count
+    assert_equal '#000000', tag1.reload.color
   end
 
   private
