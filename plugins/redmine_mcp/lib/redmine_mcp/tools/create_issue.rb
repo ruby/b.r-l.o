@@ -58,18 +58,9 @@ module RedmineMcp
         attrs['category_id'] = resolve_category!(project, args['category']).id if args['category'].present?
         attrs['fixed_version_id'] = resolve_version!(project, args['version']).id if args['version'].present?
         if args['custom_fields'].is_a?(Hash)
-          attrs['custom_field_values'] = custom_field_values(project, args['custom_fields'])
+          attrs['custom_field_values'] = custom_field_values!(project, args['custom_fields'])
         end
         attrs
-      end
-
-      def custom_field_values(project, fields)
-        available = project.all_issue_custom_fields
-        fields.each_with_object({}) do |(name, value), values|
-          field = available.detect {|f| f.name.casecmp?(name.to_s.strip)}
-          field || fail!("Unknown custom field: #{name}. Available: #{available.map(&:name).join(', ')}")
-          values[field.id.to_s] = value
-        end
       end
     end
   end

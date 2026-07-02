@@ -149,6 +149,17 @@ module RedmineMcp
         fail!("Invalid #{field}: #{value} (use an ISO 8601 date or datetime)")
       end
 
+      # Maps a {field name => value} hash to the {custom_field_id => value}
+      # shape expected by safe_attributes 'custom_field_values'.
+      def custom_field_values!(project, fields)
+        available = project.all_issue_custom_fields
+        fields.each_with_object({}) do |(name, value), values|
+          field = available.detect {|f| f.name.casecmp?(name.to_s.strip)}
+          field || fail!("Unknown custom field: #{name}. Available: #{available.map(&:name).join(', ')}")
+          values[field.id.to_s] = value
+        end
+      end
+
       def issue_summary(issue)
         {
           id: issue.id,

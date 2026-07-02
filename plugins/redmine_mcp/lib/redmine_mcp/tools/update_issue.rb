@@ -22,13 +22,19 @@ module RedmineMcp
             description: {type: 'string', description: 'New description (replaces the current one)'},
             category: {type: 'string', description: 'New category name'},
             version: {type: 'string', description: "New target version name, or 'none' to clear"},
-            done_ratio: {type: 'integer', description: 'Percent done, 0-100'}
+            done_ratio: {type: 'integer', description: 'Percent done, 0-100'},
+            custom_fields: {
+              type: 'object',
+              description: 'Custom field values to change, keyed by field name, ' \
+                           "e.g. {\"ruby -v\": \"ruby 3.4.0\", \"Backport\": \"3.3: REQUIRED\"}",
+              additionalProperties: {type: 'string'}
+            }
           },
           required: ['id']
         }
       )
 
-      ATTRIBUTE_KEYS = %w[status assigned_to priority subject description category version done_ratio].freeze
+      ATTRIBUTE_KEYS = %w[status assigned_to priority subject description category version done_ratio custom_fields].freeze
 
       def call(args)
         issue = find_issue!(args['id'])
@@ -89,6 +95,10 @@ module RedmineMcp
           attrs['fixed_version_id'] = ''
         else
           attrs['fixed_version_id'] = resolve_version!(project, args['version']).id
+        end
+
+        if args['custom_fields'].is_a?(Hash)
+          attrs['custom_field_values'] = custom_field_values!(project, args['custom_fields'])
         end
 
         attrs

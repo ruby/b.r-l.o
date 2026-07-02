@@ -283,6 +283,19 @@ class McpEndpointTest < Redmine::IntegrationTest
     end
   end
 
+  def test_update_issue_custom_field
+    data = call_tool('update_issue',
+                     {'id' => 1, 'custom_fields' => {'Searchable field' => 'updated via MCP'}})
+    assert data['updated']
+    assert_equal 'updated via MCP', Issue.find(1).custom_field_value(2)
+  end
+
+  def test_update_issue_unknown_custom_field_is_rejected
+    data = call_tool('update_issue',
+                     {'id' => 1, 'custom_fields' => {'No Such Field' => 'x'}}, error: true)
+    assert_match /Unknown custom field/, data
+  end
+
   def test_get_wiki_page
     data = call_tool('get_wiki_page', {'project' => 'ecookbook'})
     assert_equal 'CookBook_documentation', data['title']
