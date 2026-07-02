@@ -186,6 +186,19 @@ class McpEndpointTest < Redmine::IntegrationTest
     assert data['journals'].any? {|j| j['notes'] == 'a public note'}
   end
 
+  # Guards the batched id->name resolution for attribute change details
+  def test_get_issue_resolves_named_detail_changes
+    issue = Issue.find(1)
+    issue.init_journal(User.find(1))
+    issue.assigned_to_id = 3
+    issue.status_id = 2
+    issue.save!
+
+    details = call_tool('get_issue', {'id' => 1})['journals'].flat_map {|j| j['details'] || []}
+    assert_equal Principal.find(3).name, details.detect {|d| d['attribute'] == 'assigned_to'}['new_value']
+    assert_equal IssueStatus.find(2).name, details.detect {|d| d['attribute'] == 'status'}['new_value']
+  end
+
   def test_get_issue_hides_private_notes
     Role.find(1).remove_permission!(:view_private_notes)
     Journal.create!(journalized: Issue.find(1), user: User.find(1),

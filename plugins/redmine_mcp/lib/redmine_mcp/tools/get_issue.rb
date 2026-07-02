@@ -21,16 +21,15 @@ module RedmineMcp
         }
       )
 
-      DETAIL_VALUE_CLASSES = {
-        'status_id' => proc {|v| IssueStatus.find_by_id(v)&.name},
-        'tracker_id' => proc {|v| Tracker.find_by_id(v)&.name},
-        'priority_id' => proc {|v| IssuePriority.find_by_id(v)&.name},
-        'assigned_to_id' => proc {|v| Principal.find_by_id(v)&.name},
-        'author_id' => proc {|v| Principal.find_by_id(v)&.name},
-        'category_id' => proc {|v| IssueCategory.find_by_id(v)&.name},
-        'fixed_version_id' => proc {|v| Version.find_by_id(v)&.name},
-        'project_id' => proc {|v| Project.find_by_id(v)&.identifier},
-        'parent_id' => proc {|v| "##{v}"}
+      # prop_key => the class whose id maps to a display name. Whole tables are
+      # small, so they are loaded once per request (see ref_name) instead of a
+      # find_by_id per journal detail.
+      DETAIL_NAME_CLASSES = {
+        'status_id' => IssueStatus,
+        'tracker_id' => Tracker,
+        'priority_id' => IssuePriority,
+        'category_id' => IssueCategory,
+        'fixed_version_id' => Version
       }.freeze
 
       def call(args)
@@ -85,7 +84,9 @@ module RedmineMcp
 
       def journals(issue)
         can_view_private = user.allowed_to?(:view_private_notes, issue.project)
-        issue.journals.preload(:user, :details).order(:created_on, :id).filter_map do |journal|
+        journals = issue.journals.preload(:user, :details).order(:created_on, :id).to_a
+        @principal_names = principal_name_map(journals)
+        journals.filter_map do |journal|
           # Same as the web UI: private notes are omitted entirely unless the
           # user wrote them or may view private notes
           notes_visible = !journal.private_notes? || journal.user_id == user.id || can_view_private
@@ -113,7 +114,7 @@ module RedmineMcp
           }
         when 'cf'
           {
-            attribute: CustomField.find_by_id(detail.prop_key)&.name || "cf_#{detail.prop_key}",
+            attribute: ref_name(CustomField, detail.prop_key) || "cf_#{detail.prop_key}",
             old_value: detail.old_value,
             new_value: detail.value
           }
@@ -129,11 +130,39 @@ module RedmineMcp
       def detail_value(prop_key, value)
         return nil if value.blank?
 
-        if (resolver = DETAIL_VALUE_CLASSES[prop_key])
-          resolver.call(value) || value
+        case prop_key
+        when *DETAIL_NAME_CLASSES.keys
+          ref_name(DETAIL_NAME_CLASSES[prop_key], value) || value
+        when 'assigned_to_id', 'author_id'
+          @principal_names[value.to_i] || value
+        when 'project_id'
+          project_identifiers[value.to_i] || value
+        when 'parent_id'
+          "##{value}"
         else
           value
         end
+      end
+
+      # id => name for a whole reference table, loaded once per request
+      def ref_name(klass, id)
+        map = (@ref_name_maps ||= {})[klass] ||= klass.pluck(:id, :name).to_h
+        map[id.to_i]
+      end
+
+      def project_identifiers
+        @project_identifiers ||= Project.pluck(:id, :identifier).to_h
+      end
+
+      # Resolve every principal referenced by the details in one query so the
+      # history of a long-lived issue does not fan out into find_by_id calls
+      def principal_name_map(journals)
+        ids = journals.flat_map(&:details).filter_map do |detail|
+          next unless detail.property == 'attr' && %w[assigned_to_id author_id].include?(detail.prop_key)
+
+          [detail.old_value, detail.value]
+        end.flatten.compact.map(&:to_i).uniq
+        Principal.where(id: ids).to_a.to_h {|p| [p.id, p.name]}
       end
     end
   end

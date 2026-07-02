@@ -21,7 +21,9 @@ module RedmineMcp
 
       def call(args)
         project = find_project!(args['project'])
-        assignees = project.assignable_users.sorted.to_a
+        # assignable_users is already sorted; fetch one past the limit at the DB
+        # level so huge projects do not load every member just to truncate.
+        assignees = project.assignable_users.limit(ASSIGNEE_LIMIT + 1).to_a
 
         {
           project: project.identifier,
