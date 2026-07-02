@@ -23,6 +23,7 @@
 !/plugins/redmica_s3
 !/plugins/redmineup_tags
 !/plugins/redmine_hearts
+!/plugins/redmine_mcp
 !/plugins/README
 /public/assets/*
 /public/dispatch.*
