@@ -43,6 +43,11 @@ module RedmineMcp
         if wants_attributes && !issue.attributes_editable?(user)
           fail!("You are not allowed to edit issue ##{issue.id}")
         end
+        # safe_attributes= silently drops private_notes without this permission,
+        # which would post the note publicly. Reject up front instead.
+        if args['private_notes'] && wants_notes && !user.allowed_to?(:set_notes_private, issue.project)
+          fail!("You are not allowed to add private notes to issue ##{issue.id}")
+        end
 
         issue.init_journal(user, args['notes'].to_s)
         issue.send(:safe_attributes=, build_attributes(issue, args), user)

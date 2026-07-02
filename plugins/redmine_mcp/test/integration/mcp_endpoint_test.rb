@@ -43,6 +43,12 @@ class McpEndpointTest < Redmine::IntegrationTest
     assert_equal({}, JSON.parse(response.body)['result'])
   end
 
+  def test_invalid_bearer_token_is_rejected
+    mcp_post({jsonrpc: '2.0', id: 1, method: 'ping'}, key: nil,
+             headers: {'HTTP_AUTHORIZATION' => 'Bearer not-a-real-key'})
+    assert_response :unauthorized
+  end
+
   def test_rejects_non_json_content_type
     post '/mcp', params: 'jsonrpc',
                  headers: {'CONTENT_TYPE' => 'text/plain', 'HTTP_X_REDMINE_API_KEY' => @key}
@@ -151,6 +157,20 @@ class McpEndpointTest < Redmine::IntegrationTest
     assert_match /Unknown status/, data
   end
 
+  def test_list_issues_with_subject_filter
+    match = call_tool('list_issues', {'project' => 'ecookbook', 'status' => 'any', 'subject' => 'recipe'})
+    assert_operator match['total_count'], :>, 0
+    none = call_tool('list_issues', {'project' => 'ecookbook', 'status' => 'any', 'subject' => 'zzznomatchzzz'})
+    assert_equal 0, none['total_count']
+  end
+
+  def test_list_issues_with_updated_after_filter
+    past = call_tool('list_issues', {'status' => 'any', 'updated_after' => '2000-01-01'})
+    assert_operator past['total_count'], :>, 0
+    future = call_tool('list_issues', {'status' => 'any', 'updated_after' => '2999-01-01'})
+    assert_equal 0, future['total_count']
+  end
+
   def test_search
     data = call_tool('search', {'q' => 'recipe'})
     assert_operator data['total_count'], :>, 0
@@ -241,6 +261,26 @@ class McpEndpointTest < Redmine::IntegrationTest
   def test_update_issue_requires_something_to_do
     data = call_tool('update_issue', {'id' => 1}, error: true)
     assert_match /Nothing to do/, data
+  end
+
+  def test_update_issue_private_note
+    Role.find(1).add_permission!(:set_notes_private)
+    data = call_tool('update_issue', {'id' => 1, 'notes' => 'secret', 'private_notes' => true})
+    assert data['updated']
+    journal = Issue.find(1).journals.last
+    assert journal.private_notes?
+    assert_equal 'secret', journal.notes
+  end
+
+  # Without set_notes_private, safe_attributes= would silently post the note
+  # publicly; the tool must reject it instead of leaking it.
+  def test_update_issue_private_note_without_permission_is_rejected
+    Role.find(1).remove_permission!(:set_notes_private)
+    assert_no_difference 'Journal.count' do
+      data = call_tool('update_issue',
+                       {'id' => 1, 'notes' => 'secret', 'private_notes' => true}, error: true)
+      assert_match /not allowed to add private notes/, data
+    end
   end
 
   def test_get_wiki_page
