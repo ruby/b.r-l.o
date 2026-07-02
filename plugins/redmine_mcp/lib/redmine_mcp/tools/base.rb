@@ -82,9 +82,11 @@ module RedmineMcp
         principal || fail!("User not found: #{value} (use a numeric id or a login)")
       end
 
-      def resolve_tracker!(project, value)
+      # With a project, restricts to that project's trackers; without one
+      # (e.g. a global issue filter) resolves against all trackers.
+      def resolve_tracker!(value, project: nil)
         value = value.to_s.strip
-        trackers = project.trackers
+        trackers = project ? project.trackers : Tracker.sorted
         tracker =
           if /\A\d+\z/.match?(value)
             trackers.find_by_id(value.to_i)
@@ -115,6 +117,30 @@ module RedmineMcp
             priorities.detect {|p| p.name.casecmp?(value)}
           end
         priority || fail!("Unknown priority: #{value}. Available: #{priorities.map(&:name).join(', ')}")
+      end
+
+      def resolve_category!(project, value)
+        value = value.to_s.strip
+        categories = project.issue_categories
+        category =
+          if /\A\d+\z/.match?(value)
+            categories.find_by_id(value.to_i)
+          else
+            categories.detect {|c| c.name.casecmp?(value)}
+          end
+        category || fail!("Unknown category: #{value}. Available: #{categories.map(&:name).join(', ')}")
+      end
+
+      def resolve_version!(project, value)
+        value = value.to_s.strip
+        versions = project.shared_versions
+        version =
+          if /\A\d+\z/.match?(value)
+            versions.find_by_id(value.to_i)
+          else
+            versions.detect {|v| v.name.casecmp?(value)}
+          end
+        version || fail!("Unknown version: #{value}. Available: #{versions.map(&:name).join(', ')}")
       end
 
       def parse_time!(value, field)

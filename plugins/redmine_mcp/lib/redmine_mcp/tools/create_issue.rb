@@ -52,19 +52,11 @@ module RedmineMcp
           'subject' => args['subject'].to_s,
           'description' => args['description'].to_s
         }
-        attrs['tracker_id'] = resolve_tracker!(project, args['tracker']).id if args['tracker'].present?
+        attrs['tracker_id'] = resolve_tracker!(args['tracker'], project: project).id if args['tracker'].present?
         attrs['priority_id'] = resolve_priority!(args['priority']).id if args['priority'].present?
         attrs['assigned_to_id'] = resolve_principal!(args['assigned_to']).id if args['assigned_to'].present?
-        if args['category'].present?
-          category = project.issue_categories.detect {|c| c.name.casecmp?(args['category'].to_s.strip)}
-          category || fail!("Unknown category: #{args['category']}. Available: #{project.issue_categories.map(&:name).join(', ')}")
-          attrs['category_id'] = category.id
-        end
-        if args['version'].present?
-          version = project.shared_versions.detect {|v| v.name.casecmp?(args['version'].to_s.strip)}
-          version || fail!("Unknown version: #{args['version']}. Available: #{project.shared_versions.map(&:name).join(', ')}")
-          attrs['fixed_version_id'] = version.id
-        end
+        attrs['category_id'] = resolve_category!(project, args['category']).id if args['category'].present?
+        attrs['fixed_version_id'] = resolve_version!(project, args['version']).id if args['version'].present?
         if args['custom_fields'].is_a?(Hash)
           attrs['custom_field_values'] = custom_field_values(project, args['custom_fields'])
         end

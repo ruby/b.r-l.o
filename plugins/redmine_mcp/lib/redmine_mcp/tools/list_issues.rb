@@ -76,11 +76,7 @@ module RedmineMcp
         end
 
         if args['tracker'].present?
-          tracker = Tracker.sorted.detect {|t| t.name.casecmp?(args['tracker'].to_s.strip)}
-          tracker ||= Tracker.find_by_id(args['tracker']) if /\A\d+\z/.match?(args['tracker'].to_s)
-          fail!("Unknown tracker: #{args['tracker']}. Available: #{Tracker.sorted.pluck(:name).join(', ')}") unless tracker
-
-          scope = scope.where(tracker_id: tracker.id)
+          scope = scope.where(tracker_id: resolve_tracker!(args['tracker']).id)
         end
 
         case args['assigned_to'].to_s.strip

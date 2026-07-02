@@ -75,11 +75,7 @@ module RedmineMcp
           attrs['assigned_to_id'] = resolve_principal!(args['assigned_to']).id
         end
 
-        if args['category'].present?
-          category = project.issue_categories.detect {|c| c.name.casecmp?(args['category'].to_s.strip)}
-          category || fail!("Unknown category: #{args['category']}. Available: #{project.issue_categories.map(&:name).join(', ')}")
-          attrs['category_id'] = category.id
-        end
+        attrs['category_id'] = resolve_category!(project, args['category']).id if args['category'].present?
 
         case args['version'].to_s.strip
         when ''
@@ -87,9 +83,7 @@ module RedmineMcp
         when 'none'
           attrs['fixed_version_id'] = ''
         else
-          version = project.shared_versions.detect {|v| v.name.casecmp?(args['version'].to_s.strip)}
-          version || fail!("Unknown version: #{args['version']}. Available: #{project.shared_versions.map(&:name).join(', ')}")
-          attrs['fixed_version_id'] = version.id
+          attrs['fixed_version_id'] = resolve_version!(project, args['version']).id
         end
 
         attrs
