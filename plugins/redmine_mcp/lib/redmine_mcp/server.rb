@@ -112,7 +112,7 @@ module RedmineMcp
       tool_error('You are not allowed to perform this action')
     rescue StandardError => e
       log_error(e)
-      tool_error("Internal error (#{e.class.name})")
+      tool_error('Internal error')
     end
 
     def tool_result(data)
