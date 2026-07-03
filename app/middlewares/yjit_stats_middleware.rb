@@ -2,7 +2,7 @@
 require 'datadog/statsd'
 
 class YjitStatsMiddleware
-  STAGING = ENV.fetch('NEW_RELIC_APP_NAME') == 'staging-bugs-ruby-lang'
+  STAGING = ENV['HEROKU_APP_NAME'] == 'staging-bugs-ruby-lang'
   YJIT_STATS_REQUEST_INTERVAL = STAGING ? 1 : 10
   YJIT_STATS_STRING_REQUEST_INTERVAL = STAGING ? 10 : 1000
 
