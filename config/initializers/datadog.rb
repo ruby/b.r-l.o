@@ -1,14 +1,19 @@
 require 'pg'
 require 'datadog'
 
+# The version tag comes from DD_VERSION, set in datadog/prerun.sh. Setting it
+# here would be too late for the crashtracker, which starts before
+# initializers run.
 Datadog.configure do |c|
-  c.version = ENV['HEROKU_RELEASE_VERSION']
-
-  # Build-time rake tasks (assets:precompile, assets:clean) run without an
-  # agent, so emitting traces only produces ECONNREFUSED errors in build logs.
-  # Instrumenting pg with comment_propagation 'full' would also WARN on every
-  # query once tracing is disabled, so rake keeps the auto_instrument defaults.
-  if File.basename($PROGRAM_NAME) == 'rake'
+  # Processes without an agent must not emit telemetry or the datadog gem
+  # logs ECONNREFUSED. The build environment (assets:precompile and the
+  # buildpack's "rails runner" config detection) never has an agent and is
+  # recognizable by the absence of DYNO, which is also absent in local
+  # development. Rake stays silent in runtime dynos too because release-phase
+  # migration traces are not useful. Skipping the pg/redis instrumentation
+  # keeps comment_propagation at the auto_instrument default, since 'full'
+  # WARNs on every query while tracing is disabled.
+  if ENV['DYNO'].nil? || File.basename($PROGRAM_NAME) == 'rake'
     c.tracing.enabled = false
     c.profiling.enabled = false
     c.runtime_metrics.enabled = false
