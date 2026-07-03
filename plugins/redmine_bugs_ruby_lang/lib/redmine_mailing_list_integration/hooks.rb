@@ -11,10 +11,6 @@ module RedmineMailingListIntegration
       end
     end
 
-    def view_layouts_base_html_head(context = {})
-      stylesheet_link_tag "mailing_list_integration", plugin: "redmine_bugs_ruby_lang", media: "screen"
-    end
-
     def controller_issues_new_before_save(context = {})
       issue = context[:issue]
       issue.originates_from_mail = false

@@ -29,7 +29,7 @@ Redmine::Plugin.register :redmine_bugs_ruby_lang do
 
   menu :project_menu, :mail_to_issue, {controller: 'mail_to_issue', action: 'new'}
 
-  menu :admin_menu, :mailing_lists, { controller: 'mailing_lists'}, caption: :label_mailing_list_plural, html: { class: 'icon'}
+  menu :admin_menu, :mailing_lists, { controller: 'mailing_lists'}, caption: :label_mailing_list_plural, icon: 'email', html: { class: 'icon icon-email'}
 
   project_module :mail_to_issue do
     permission :mail_to_issue, mail_to_issue: %w[new create]
