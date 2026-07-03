@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# Datadog startup configuration lines are emitted by datadog/auto_instrument
+# when the gem is loaded, before initializers run, so this must be set here
+# rather than in config/initializers/datadog.rb.
+ENV['DD_TRACE_STARTUP_LOGS'] ||= 'false'
+
+# The Datadog Heroku buildpack exports DD_TAGS containing an empty "version:"
+# tag (DD_VERSION is unset; the version is set in config/initializers/datadog.rb
+# instead), which the datadog gem rejects with a WARN twice per boot. Drop
+# malformed tags before the gem parses them.
+if ENV['DD_TAGS']
+  ENV['DD_TAGS'] = ENV['DD_TAGS'].split(/[\s,]+/).reject { |t| t.end_with?(':') }.join(',')
+end
+
 # Rack 3.1.14 or later sets default limits of 4MB for query string bytesize
 # and 4096 for the number of query parameters. These limits are too low
 # for Redmine and can cause the following issues:
