@@ -1,9 +1,10 @@
 require 'pg'
 require 'datadog'
 
+# The version tag comes from DD_VERSION, set in datadog/prerun.sh. Setting it
+# here would be too late for the crashtracker, which starts before
+# initializers run.
 Datadog.configure do |c|
-  c.version = ENV['HEROKU_RELEASE_VERSION']
-
   # Processes without an agent must not emit telemetry or the datadog gem
   # logs ECONNREFUSED. The build environment (assets:precompile and the
   # buildpack's "rails runner" config detection) never has an agent and is

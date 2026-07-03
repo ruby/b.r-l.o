@@ -5,13 +5,18 @@
 # rather than in config/initializers/datadog.rb.
 ENV['DD_TRACE_STARTUP_LOGS'] ||= 'false'
 
-# The Datadog Heroku buildpack exports DD_TAGS containing an empty "version:"
-# tag (DD_VERSION is unset; the version is set in config/initializers/datadog.rb
-# instead), which the datadog gem rejects with a WARN twice per boot. Drop
-# malformed tags before the gem parses them.
+# Defensively drop tags with an empty value from DD_TAGS before the gem
+# parses it. libdatadog rejects tags that end with a colon.
 if ENV['DD_TAGS']
   ENV['DD_TAGS'] = ENV['DD_TAGS'].split(/[\s,]+/).reject { |t| t.end_with?(':') }.join(',')
 end
+
+# The Datadog buildpack unconditionally re-exports DD_VERSION, so an unset
+# value reaches the app as an empty string. The gem then builds a "version:"
+# tag that libdatadog rejects with a WARN twice per boot. datadog/prerun.sh
+# sets the real version in dynos, and this covers any environment where the
+# variable is still empty.
+ENV.delete('DD_VERSION') if ENV['DD_VERSION'] == ''
 
 # The build environment and local development have no Datadog agent. DYNO is
 # only set in Heroku runtime dynos, where the buildpack starts one. Tracing
