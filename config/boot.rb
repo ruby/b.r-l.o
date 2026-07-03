@@ -13,6 +13,13 @@ if ENV['DD_TAGS']
   ENV['DD_TAGS'] = ENV['DD_TAGS'].split(/[\s,]+/).reject { |t| t.end_with?(':') }.join(',')
 end
 
+# The build environment and local development have no Datadog agent. DYNO is
+# only set in Heroku runtime dynos, where the buildpack starts one. Tracing
+# must be off from process start because spans created while Rails boots
+# would already be flushed to 127.0.0.1:8126 before initializers could
+# disable it.
+ENV['DD_TRACE_ENABLED'] ||= 'false' unless ENV['DYNO']
+
 # Rack 3.1.14 or later sets default limits of 4MB for query string bytesize
 # and 4096 for the number of query parameters. These limits are too low
 # for Redmine and can cause the following issues:
