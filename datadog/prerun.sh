@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Sourced by the Datadog Heroku buildpack before starting the agent.
-# Dynos cannot create /var/run/datadog; disable the UDS listeners
-# (TCP 8126 / UDP 8125 are used instead).
-export DD_APM_RECEIVER_SOCKET=""
-export DD_DOGSTATSD_SOCKET=""
+# Dynos cannot create the default socket directory /var/run/datadog, and the
+# agent ignores empty values for these settings, so the listeners cannot be
+# disabled. Point them at a writable directory instead so they start cleanly.
+# The app talks to the agent over TCP 8126 / UDP 8125 either way.
+mkdir -p /tmp/datadog
+export DD_APM_RECEIVER_SOCKET="/tmp/datadog/apm.socket"
+export DD_DOGSTATSD_SOCKET="/tmp/datadog/dsd.socket"
 
 # The buildpack unconditionally re-exports DD_VERSION after sourcing this
 # file, turning an unset value into an empty string. The datadog gem then
