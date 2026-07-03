@@ -18,12 +18,13 @@ end
 # variable is still empty.
 ENV.delete('DD_VERSION') if ENV['DD_VERSION'] == ''
 
-# The build environment and local development have no Datadog agent. DYNO is
-# only set in Heroku runtime dynos, where the buildpack starts one. Tracing
-# must be off from process start because spans created while Rails boots
-# would already be flushed to 127.0.0.1:8126 before initializers could
-# disable it.
-ENV['DD_TRACE_ENABLED'] ||= 'false' unless ENV['DYNO']
+# The build environment and local development have no Datadog agent. DYNO
+# cannot distinguish them because Heroku sets it in build dynos too. The
+# buildpack's .profile.d script exports DD_HEROKU_DYNO=true, runs only where
+# it starts an agent, and never runs at build time. Tracing must be off from
+# process start because spans created while Rails boots would already be
+# flushed to 127.0.0.1:8126 before initializers could disable it.
+ENV['DD_TRACE_ENABLED'] ||= 'false' unless ENV['DD_HEROKU_DYNO']
 
 # Rack 3.1.14 or later sets default limits of 4MB for query string bytesize
 # and 4096 for the number of query parameters. These limits are too low
