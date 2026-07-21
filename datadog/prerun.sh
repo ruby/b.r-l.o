@@ -15,6 +15,11 @@ export DD_DOGSTATSD_SOCKET="/tmp/datadog/dsd.socket"
 # process start.
 export DD_VERSION="${DD_VERSION:-$HEROKU_RELEASE_VERSION}"
 
+# Agent 7.80 defaults discovery.enabled to true on Linux, making the
+# workloadmeta process collector poll system-probe every 60s. system-probe
+# cannot run on dynos, so every poll logs an ERROR.
+export DD_DISCOVERY_ENABLED=false
+
 # The postgres integration enables DBM schema collection by default, but the
 # collector never obtains a pool connection on Heroku Postgres and logs a
 # PoolTimeout ERROR every 600s without ever collecting any schema data.
