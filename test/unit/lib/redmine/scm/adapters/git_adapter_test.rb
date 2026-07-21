@@ -69,6 +69,14 @@ class GitAdapterTest < ActiveSupport::TestCase
       end
     end
 
+    def test_valid_rev
+      assert_equal true,  @adapter.valid_rev?('2a682156a3b6e77a8bf9cd4590e8db757f3c6c78')
+      assert_equal true,  @adapter.valid_rev?('2a682156')
+      assert_equal false, @adapter.valid_rev?('79d56a81f880bb96aa6c10afecd57472776aa60b')
+      assert_equal false, @adapter.valid_rev?('master')
+      assert_equal false, @adapter.valid_rev?(nil)
+    end
+
     def test_branches
       brs = @adapter.branches
       assert_equal 8, brs.length
