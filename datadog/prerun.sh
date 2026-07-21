@@ -14,3 +14,12 @@ export DD_DOGSTATSD_SOCKET="/tmp/datadog/dsd.socket"
 # Set the real release version here so unified service tagging works from
 # process start.
 export DD_VERSION="${DD_VERSION:-$HEROKU_RELEASE_VERSION}"
+
+# The postgres integration enables DBM schema collection by default, but the
+# collector never obtains a pool connection on Heroku Postgres and logs a
+# PoolTimeout ERROR every 600s without ever collecting any schema data.
+# The buildpack generates the postgres config before sourcing this file,
+# so append the override under the generated instance.
+if [ -n "$POSTGRES_CONF" ] && [ -f "$POSTGRES_CONF/conf.yaml" ]; then
+  printf '    collect_schemas:\n      enabled: false\n' >> "$POSTGRES_CONF/conf.yaml"
+fi
