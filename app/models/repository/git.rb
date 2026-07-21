@@ -145,6 +145,11 @@ class Repository::Git < Repository
     prev_db_heads += heads_from_branches_hash if prev_db_heads.empty?
     return if prev_db_heads.sort == repo_heads.sort
 
+    # A recorded head no longer exists when the branch was force-pushed
+    # or deleted upstream. Passing it to "git log --not" aborts with
+    # "fatal: bad object", so drop such heads before the scan.
+    prev_db_heads.select! {|head| scm.valid_rev?(head)}
+
     h["db_consistent"]  ||= {}
     if ! changesets.exists?
       h["db_consistent"]["ordering"] = 1

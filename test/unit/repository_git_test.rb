@@ -236,11 +236,15 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert h1.index("1234abcd5678")
       assert_equal NUM_HEAD - 1, h1.size
 
+      # The invalid head is dropped, the missing revisions are scanned
+      # again from the current heads, and the heads are updated.
       @repository.fetch_changesets
       @project.reload
-      assert_equal NUM_REV - del_revs.size + 1, @repository.changesets.count
+      assert_equal NUM_REV + 1, @repository.changesets.count
       h2 = @repository.extra_info["heads"].dup
-      assert_equal h1, h2
+      assert_equal NUM_HEAD, h2.size
+      assert h2.index("b1650eac7c505a6dab9f19858afc9ecb481eccc2")
+      assert_nil h2.index("1234abcd5678")
     end
 
     def test_clear_changesets_should_keep_report_last_commit

@@ -107,6 +107,17 @@ module Redmine
           nil
         end
 
+        # Returns true if the revision exists as a commit in the repository
+        def valid_rev?(rev)
+          return false unless /\A[0-9a-f]{7,40}\z/.match?(rev.to_s)
+
+          cmd_args = %w|cat-file -e| << "#{rev}^{commit}"
+          git_cmd(cmd_args) {|io| io.read}
+          true
+        rescue ScmCommandAborted
+          false
+        end
+
         def default_branch
           return if branches.blank?
 
