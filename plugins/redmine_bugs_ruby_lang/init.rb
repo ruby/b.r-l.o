@@ -77,6 +77,7 @@ require 'redmine_ruby_lang_mailing_list_customization/redmine_ext'
 
 require 'redmine_bugs_ruby_lang/anonymous_filter/issues_controller'
 require 'redmine_bugs_ruby_lang/anonymous_filter/activities_controller'
+require 'redmine_bugs_ruby_lang/anonymous_filter/repositories_controller'
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'use_of_mailng_list', 'uses_of_mailing_list'
