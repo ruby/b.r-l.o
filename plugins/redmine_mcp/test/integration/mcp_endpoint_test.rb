@@ -97,7 +97,8 @@ class McpEndpointTest < Redmine::IntegrationTest
     result = rpc('tools/list')['result']
     names = result['tools'].map {|t| t['name']}
     expected = %w[whoami list_projects project_metadata search list_issues
-                  get_issue create_issue update_issue get_wiki_page]
+                  get_issue create_issue update_issue link_issues unlink_issues
+                  get_wiki_page]
     assert_equal expected.sort, names.sort
     result['tools'].each do |tool|
       assert tool['description'].present?, "#{tool['name']} has no description"
@@ -307,6 +308,138 @@ class McpEndpointTest < Redmine::IntegrationTest
     data = call_tool('update_issue',
                      {'id' => 1, 'custom_fields' => {'No Such Field' => 'x'}}, error: true)
     assert_match /Unknown custom field/, data
+  end
+
+  # issue_relation_002 links issues 2 and 3
+  def test_get_issue_reports_relation_ids
+    related = call_tool('get_issue', {'id' => 2})['related_issues']
+    assert_equal({'id' => 3, 'subject' => Issue.find(3).subject, 'status' => Issue.find(3).status.name,
+                  'relation_type' => 'relates', 'relation_id' => 2},
+                 related.detect {|r| r['id'] == 3})
+  end
+
+  def test_link_issues
+    assert_difference 'IssueRelation.count' do
+      data = call_tool('link_issues', {'issue_id' => 1, 'target_issue_id' => 2})
+      assert data['linked']
+      assert_equal 'relates', data['relation_type']
+      assert_equal Issue.find(1).subject, data['issue']['subject']
+      assert_equal Issue.find(2).subject, data['target_issue']['subject']
+    end
+    assert IssueRelation.find_by(issue_from_id: 1, issue_to_id: 2, relation_type: 'relates')
+    # both issues record the new relation in their history, as in the web UI
+    detail = Issue.find(1).journals.last.details.last
+    assert_equal ['relation', 'relates', '2'], [detail.property, detail.prop_key, detail.value]
+  end
+
+  def test_link_issues_with_delay
+    data = call_tool('link_issues',
+                     {'issue_id' => 1, 'target_issue_id' => 2, 'relation_type' => 'precedes', 'delay' => 3})
+    assert_equal 'precedes', data['relation_type']
+    assert_equal 3, data['delay']
+    assert_equal 3, IssueRelation.find(data['relation_id']).delay
+  end
+
+  # Redmine stores 'follows' as the reverse 'precedes' relation
+  def test_link_issues_with_reverse_relation_type
+    data = call_tool('link_issues',
+                     {'issue_id' => 1, 'target_issue_id' => 2, 'relation_type' => 'follows'})
+    assert_equal 'follows', data['relation_type']
+    relation = IssueRelation.find(data['relation_id'])
+    assert_equal [2, 1, 'precedes'], [relation.issue_from_id, relation.issue_to_id, relation.relation_type]
+  end
+
+  def test_link_issues_rejects_an_existing_relation
+    assert_no_difference 'IssueRelation.count' do
+      data = call_tool('link_issues', {'issue_id' => 2, 'target_issue_id' => 3}, error: true)
+      assert_match /already linked as 'relates'/, data
+    end
+  end
+
+  def test_link_issues_rejects_unknown_relation_type
+    data = call_tool('link_issues',
+                     {'issue_id' => 1, 'target_issue_id' => 2, 'relation_type' => 'mentions'}, error: true)
+    assert_match /Unknown relation_type/, data
+  end
+
+  def test_link_issues_rejects_self_link
+    data = call_tool('link_issues', {'issue_id' => 1, 'target_issue_id' => 1}, error: true)
+    assert_match /link issue #1 to itself/, data
+  end
+
+  def test_link_issues_rejects_delay_on_other_relation_types
+    data = call_tool('link_issues',
+                     {'issue_id' => 1, 'target_issue_id' => 2, 'delay' => 3}, error: true)
+    assert_match /delay only applies to/, data
+  end
+
+  def test_link_issues_reports_validation_errors
+    child = Issue.generate!(project_id: 1, parent_issue_id: 1)
+    assert_no_difference 'IssueRelation.count' do
+      data = call_tool('link_issues', {'issue_id' => 1, 'target_issue_id' => child.id}, error: true)
+      assert_match /Could not link #1 to ##{child.id}: An issue cannot be linked/, data
+    end
+  end
+
+  def test_link_issues_without_permission
+    Role.find(1).remove_permission!(:manage_issue_relations)
+    assert_no_difference 'IssueRelation.count' do
+      data = call_tool('link_issues', {'issue_id' => 1, 'target_issue_id' => 2}, error: true)
+      assert_match /not allowed to manage the relations/, data
+    end
+  end
+
+  def test_link_issues_with_invisible_target
+    target = Issue.generate!(project_id: 2) # onlinestore, invisible to someone
+    data = call_tool('link_issues', {'issue_id' => 1, 'target_issue_id' => target.id},
+                     key: outsider_key, error: true)
+    assert_match /not found or not visible/, data
+  end
+
+  def test_unlink_issues_by_issue_pair
+    assert_difference 'IssueRelation.count', -1 do
+      data = call_tool('unlink_issues', {'issue_id' => 2, 'target_issue_id' => 3})
+      assert data['unlinked']
+      assert_equal 2, data['relation_id']
+      assert_equal 'relates', data['relation_type']
+    end
+    assert_nil IssueRelation.find_by_id(2)
+    detail = Issue.find(2).journals.last.details.last
+    assert_equal ['relation', 'relates', '3'], [detail.property, detail.prop_key, detail.old_value]
+  end
+
+  def test_unlink_issues_by_relation_id
+    assert_difference 'IssueRelation.count', -1 do
+      data = call_tool('unlink_issues', {'relation_id' => 2})
+      assert_equal 3, data['target_issue']['id']
+    end
+  end
+
+  def test_unlink_issues_requires_arguments
+    data = call_tool('unlink_issues', {}, error: true)
+    assert_match /Provide relation_id/, data
+  end
+
+  def test_unlink_issues_when_not_linked
+    data = call_tool('unlink_issues', {'issue_id' => 1, 'target_issue_id' => 2}, error: true)
+    assert_match /are not linked/, data
+  end
+
+  def test_unlink_issues_without_permission
+    Role.find(1).remove_permission!(:manage_issue_relations)
+    assert_no_difference 'IssueRelation.count' do
+      data = call_tool('unlink_issues', {'issue_id' => 2, 'target_issue_id' => 3}, error: true)
+      assert_match /not allowed to manage the relations/, data
+    end
+  end
+
+  def test_unlink_issues_with_invisible_relation
+    relation = IssueRelation.create!(issue_from: Issue.generate!(project_id: 2),
+                                     issue_to: Issue.generate!(project_id: 2))
+    assert_no_difference 'IssueRelation.count' do
+      data = call_tool('unlink_issues', {'relation_id' => relation.id}, key: outsider_key, error: true)
+      assert_match /not found or not visible/, data
+    end
   end
 
   def test_get_wiki_page

@@ -65,7 +65,8 @@ module RedmineMcp
           other = relation.other_issue(issue)
           next unless other.visible?(user)
 
-          related_issue_hash(other).merge(relation_type: relation.relation_type_for(issue))
+          related_issue_hash(other).merge(relation_type: relation.relation_type_for(issue),
+                                          relation_id: relation.id)
         end
       end
 

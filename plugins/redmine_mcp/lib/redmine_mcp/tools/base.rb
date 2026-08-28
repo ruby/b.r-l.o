@@ -54,8 +54,8 @@ module RedmineMcp
         project || fail!("Project not found or not visible: #{identifier}")
       end
 
-      def find_issue!(id)
-        fail!('Missing required argument: id') if id.blank?
+      def find_issue!(id, field: 'id')
+        fail!("Missing required argument: #{field}") if id.blank?
 
         Issue.visible(user).find_by_id(id.to_i) ||
           fail!("Issue ##{id} not found or not visible to you")
@@ -158,6 +158,23 @@ module RedmineMcp
           field || fail!("Unknown custom field: #{name}. Available: #{available.map(&:name).join(', ')}")
           values[field.id.to_s] = value
         end
+      end
+
+      def relations_between(issue, other)
+        issue.relations.select {|relation| relation.other_issue(issue).id == other.id}
+      end
+
+      # relation_type is reported from issue's point of view, the same way the
+      # caller states it and get_issue reports it
+      def relation_summary(relation, issue)
+        other = relation.other_issue(issue)
+        {
+          relation_id: relation.id,
+          relation_type: relation.relation_type_for(issue),
+          delay: relation.delay,
+          issue: {id: issue.id, subject: issue.subject},
+          target_issue: {id: other.id, subject: other.subject}
+        }.compact
       end
 
       def issue_summary(issue)
