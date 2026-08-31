@@ -1211,11 +1211,13 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  # :view_issues is granted on archived projects here so that old issue
+  # permalinks keep working. See redmine_bugs_ruby_lang's archived_permalink.
   test "#allowed_to? for archived project should return false" do
     project = Project.find(1)
     project.archive
     project.reload
-    assert_equal false, @admin.allowed_to?(:view_issues, project)
+    assert_equal false, @admin.allowed_to?(:edit_issues, project)
   end
 
   test "#allowed_to? for closed project should return true for read actions" do
