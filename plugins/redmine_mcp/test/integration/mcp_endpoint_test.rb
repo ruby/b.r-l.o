@@ -97,7 +97,7 @@ class McpEndpointTest < Redmine::IntegrationTest
     result = rpc('tools/list')['result']
     names = result['tools'].map {|t| t['name']}
     expected = %w[whoami list_projects project_metadata search list_issues
-                  get_issue create_issue update_issue link_issues unlink_issues
+                  get_issue create_issue update_issue update_journal link_issues unlink_issues
                   get_wiki_page]
     assert_equal expected.sort, names.sort
     result['tools'].each do |tool|
@@ -308,6 +308,78 @@ class McpEndpointTest < Redmine::IntegrationTest
     data = call_tool('update_issue',
                      {'id' => 1, 'custom_fields' => {'No Such Field' => 'x'}}, error: true)
     assert_match /Unknown custom field/, data
+  end
+
+  def test_update_journal_rewrites_own_note
+    Role.find(1).add_permission!(:edit_own_issue_notes)
+    assert_no_difference 'Journal.count' do
+      data = call_tool('update_journal', {'journal_id' => 2, 'notes' => 'rewritten via MCP'})
+      assert data['updated']
+      assert_equal 1, data['issue_id']
+      assert_equal 'rewritten via MCP', data['notes']
+    end
+    journal = Journal.find(2)
+    assert_equal 'rewritten via MCP', journal.notes
+    assert_equal @user, journal.updated_by
+  end
+
+  def test_update_journal_rewrites_another_users_note
+    Role.find(1).add_permission!(:edit_issue_notes)
+    data = call_tool('update_journal', {'journal_id' => 1, 'notes' => 'rewritten by a manager'})
+    assert data['updated']
+    assert_equal 'rewritten by a manager', Journal.find(1).notes
+  end
+
+  def test_update_journal_own_note_without_permission_is_rejected
+    Role.find(1).remove_permission!(:edit_own_issue_notes, :edit_issue_notes)
+    data = call_tool('update_journal', {'journal_id' => 2, 'notes' => 'nope'}, error: true)
+    assert_match /edit_own_issue_notes/, data
+    assert_not_equal 'nope', Journal.find(2).notes
+  end
+
+  # edit_own_issue_notes must not be enough to rewrite someone else's comment
+  def test_update_journal_another_users_note_needs_edit_issue_notes
+    Role.find(1).add_permission!(:edit_own_issue_notes)
+    Role.find(1).remove_permission!(:edit_issue_notes)
+    data = call_tool('update_journal', {'journal_id' => 1, 'notes' => 'nope'}, error: true)
+    assert_match /edit_issue_notes/, data
+    assert_not_equal 'nope', Journal.find(1).notes
+  end
+
+  def test_update_journal_requires_something_to_do
+    data = call_tool('update_journal', {'journal_id' => 2}, error: true)
+    assert_match /Nothing to do/, data
+  end
+
+  def test_update_journal_rejects_empty_notes
+    Role.find(1).add_permission!(:edit_own_issue_notes)
+    data = call_tool('update_journal', {'journal_id' => 2, 'notes' => ''}, error: true)
+    assert_match /cannot be empty/, data
+    assert Journal.find(2).notes.present?
+  end
+
+  def test_update_journal_toggles_private_notes
+    Role.find(1).add_permission!(:edit_own_issue_notes)
+    notes = Journal.find(2).notes
+    data = call_tool('update_journal', {'journal_id' => 2, 'private_notes' => true})
+    assert data['private_notes']
+    assert Journal.find(2).private_notes?
+    assert_equal notes, Journal.find(2).notes
+  end
+
+  def test_update_journal_private_notes_without_permission_is_rejected
+    Role.find(1).add_permission!(:edit_own_issue_notes)
+    Role.find(1).remove_permission!(:set_notes_private)
+    data = call_tool('update_journal', {'journal_id' => 2, 'private_notes' => true}, error: true)
+    assert_match /set_notes_private/, data
+    assert_not Journal.find(2).private_notes?
+  end
+
+  # journal 5 is on issue 14, a private issue someone (user 7) cannot see
+  def test_update_journal_with_invisible_journal
+    data = call_tool('update_journal', {'journal_id' => 5, 'notes' => 'nope'},
+                     key: outsider_key, error: true)
+    assert_match /not found or not visible/, data
   end
 
   # issue_relation_002 links issues 2 and 3

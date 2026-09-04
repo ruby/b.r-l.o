@@ -20,6 +20,8 @@ module RedmineMcp
       ticket including comments, and `update_issue`/`create_issue` to write.
       Call `project_metadata` to discover valid trackers, statuses,
       priorities, categories, versions and assignees before writing.
+      `update_journal` rewrites an existing comment in place, replacing its
+      text instead of adding a new one.
       Relations between issues are reported by `get_issue` in
       `related_issues` and are changed with `link_issues`/`unlink_issues`.
       Issue descriptions and notes use the wiki text formatting reported by

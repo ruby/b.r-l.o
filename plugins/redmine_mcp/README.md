@@ -45,6 +45,7 @@ Any other MCP client: configure a Streamable HTTP server with URL `https://bugs.
 | `get_issue` | One issue in full: description, custom fields, comments, history, relations, attachments |
 | `create_issue` | Create an issue (requires `add_issues` permission) |
 | `update_issue` | Comment on an issue and/or change attributes, with workflow validation |
+| `update_journal` | Rewrite an existing comment, replacing its text (not an append) |
 | `link_issues` | Relate two issues (relates, blocks, precedes, duplicates, copied) |
 | `unlink_issues` | Remove a relation between two issues |
 | `get_wiki_page` | Read a wiki page or list all page titles |

@@ -17,6 +17,7 @@ module RedmineMcp
         GetIssue,
         CreateIssue,
         UpdateIssue,
+        UpdateJournal,
         LinkIssues,
         UnlinkIssues,
         GetWikiPage
