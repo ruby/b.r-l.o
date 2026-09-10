@@ -25,7 +25,7 @@ class AccountController < ApplicationController
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required, :check_password_change
-  skip_before_action :check_twofa_activation, :only => :logout
+  skip_before_action :check_twofa_activation, :only => [:logout, :lost_password]
 
   # Login request and validation
   def login
@@ -109,6 +109,7 @@ class AccountController < ApplicationController
           # Don't show an error indicating a non-existent email address
           # to prevent email harvesting
           flash[:notice] = l(:notice_account_lost_email_sent)
+          redirect_to signin_path
           return
         end
         unless user.active?

@@ -232,7 +232,10 @@ class Attachment < ApplicationRecord
 
   def thumbnailable?
     Redmine::Thumbnail.convert_available? && (
-      image? || (is_pdf? && Redmine::Thumbnail.gs_available?)
+      image? ||
+        (Redmine::Thumbnail.gs_available? &&
+         # Illustrator files are often PDF compatible
+         ['application/pdf', 'application/illustrator'].include?(Redmine::MimeType.of(filename)))
     )
   end
 
@@ -432,7 +435,7 @@ class Attachment < ApplicationRecord
           filename = "#{basename}(#{dup_count})#{extname}"
         end
         zos.put_next_entry(filename)
-        zos << IO.binread(attachment.diskfile)
+        zos << File.binread(attachment.diskfile)
         archived_file_names << filename
       end
     end
@@ -581,7 +584,7 @@ class Attachment < ApplicationRecord
     just_filename = value.gsub(/\A.*(\\|\/)/m, '')
 
     # Finally, replace invalid characters with underscore
-    just_filename.gsub(/[\/?%*:|"'<>\n\r]+/, '_')
+    just_filename.gsub(/[\/?%*:|"'<>\n\r\x00]+/, '_')
   end
 
   # Returns the subdirectory in which the attachment will be saved

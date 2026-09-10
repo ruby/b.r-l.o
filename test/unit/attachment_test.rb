@@ -47,16 +47,16 @@ class AttachmentTest < ActiveSupport::TestCase
                        :author => User.find(1))
     assert a.save
     assert_equal 'testfile.txt', a.filename
-    assert_equal 59, a.filesize
+    assert_equal 57, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '6bc2eb7e87cfbf9145065689aaa8b5f513089ca0af68e2dc41f9cc025473d106', a.digest
+    assert_equal 'a34a5bf3644efc1b29f2f30a5b338a11da9b42c84a65a0b32501e75c08620111', a.digest
 
     assert a.disk_directory
     assert_match %r{\A\d{4}/\d{2}\z}, a.disk_directory
 
     assert File.exist?(a.diskfile)
-    assert_equal 59, File.size(a.diskfile)
+    assert_equal 57, File.size(a.diskfile)
   end
 
   def test_create_should_clear_content_type_if_too_long
@@ -205,13 +205,13 @@ class AttachmentTest < ActiveSupport::TestCase
                        :author => User.find(1))
     assert a.save
     assert_equal 'testfile.txt', a.filename
-    assert_equal 59, a.filesize
+    assert_equal 57, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '6bc2eb7e87cfbf9145065689aaa8b5f513089ca0af68e2dc41f9cc025473d106', a.digest
+    assert_equal 'a34a5bf3644efc1b29f2f30a5b338a11da9b42c84a65a0b32501e75c08620111', a.digest
     diskfile = a.diskfile
     assert File.exist?(diskfile)
-    assert_equal 59, File.size(a.diskfile)
+    assert_equal 57, File.size(a.diskfile)
     assert a.destroy
     assert !File.exist?(diskfile)
   end
@@ -401,11 +401,11 @@ class AttachmentTest < ActiveSupport::TestCase
     attachment = Attachment.order(id: :desc).first
     assert_equal issue, attachment.container
     assert_equal 'testfile.txt', attachment.filename
-    assert_equal 59, attachment.filesize
+    assert_equal 57, attachment.filesize
     assert_equal 'test', attachment.description
     assert_equal 'text/plain', attachment.content_type
     assert File.exist?(attachment.diskfile)
-    assert_equal 59, File.size(attachment.diskfile)
+    assert_equal 57, File.size(attachment.diskfile)
   end
 
   test "Attachmnet.attach_files should add unsaved files to the object as unsaved attachments" do
@@ -485,11 +485,11 @@ class AttachmentTest < ActiveSupport::TestCase
     assert(
       Attachment.update_attachments(
         attachments,
-        {2 => {:filename => 'newname?.txt'}}
+        {2 => {:filename => "new\x00name?.txt"}}
       )
     )
     attachment = Attachment.find(2)
-    assert_equal 'newname_.txt', attachment.filename
+    assert_equal 'new_name_.txt', attachment.filename
   end
 
   def test_latest_attach
@@ -548,6 +548,12 @@ class AttachmentTest < ActiveSupport::TestCase
 
   def test_thumbnailable_should_be_false_for_non_images
     assert_equal false, Attachment.new(:filename => 'test.txt').thumbnailable?
+  end
+
+  def test_thumbnailable_should_be_true_for_illustrator_files
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    Redmine::Thumbnail.stubs(:gs_available?).returns(true)
+    assert_equal true, Attachment.new(:filename => 'test.ai').thumbnailable?
   end
 
   def test_markdownized_previewable_should_be_true_for_supported_extensions
@@ -742,6 +748,18 @@ class AttachmentTest < ActiveSupport::TestCase
     }
     to_test.each do |attachment, expected|
       assert_equal expected, attachment.is_text?, attachment.inspect
+    end
+  end
+
+  def test_is_pdf
+    to_test = {
+      'report.pdf' => true,
+      # Illustrator files are not PDF files, even though some of them are
+      # PDF compatible
+      'logo.ai' => false,
+    }
+    to_test.each do |filename, expected|
+      assert_equal expected, Attachment.new(:filename => filename).is_pdf?, filename
     end
   end
 end

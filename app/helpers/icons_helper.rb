@@ -26,7 +26,7 @@ module IconsHelper
   def sprite_source(icon_name, sprite: DEFAULT_SPRITE, plugin: nil)
     if plugin
       "plugin_assets/#{plugin}/#{sprite}.svg"
-    elsif current_theme && current_theme.icons(sprite).include?(icon_name)
+    elsif current_theme && theme_icon_set(sprite).include?(icon_name)
       current_theme.image_path("#{sprite}.svg")
     else
       "#{sprite}.svg"
@@ -115,9 +115,14 @@ module IconsHelper
     css_classes += " #{css_class}" unless css_class.nil?
     css_classes += " icon-rtl" if rtl
 
+    # Resolve each sprite path only once per request: asset_path is not
+    # cheap and this helper runs for every icon on a page
+    @sprite_asset_paths ||= {}
+    path = @sprite_asset_paths[sprite] ||= asset_path(sprite)
+
     content_tag(
       :svg,
-      content_tag(:use, '', { 'href' => "#{asset_path(sprite)}#icon--#{icon_name}" }),
+      content_tag(:use, '', { 'href' => "#{path}#icon--#{icon_name}" }),
       class: css_classes,
       aria: {
         hidden: true
@@ -152,5 +157,10 @@ module IconsHelper
         end
     end
     icon_name || 'file'
+  end
+
+  def theme_icon_set(sprite)
+    @theme_icon_sets ||= {}
+    @theme_icon_sets[sprite] ||= Set.new(current_theme&.icons(sprite))
   end
 end

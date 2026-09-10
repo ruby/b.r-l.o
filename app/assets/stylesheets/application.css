@@ -80,7 +80,7 @@ nav.top-menu {
   background: #234761; /* no match in Open Color, using hex code */
   color: var(--oc-gray-2);
   font-size: 0.75rem;
-  padding-inline: 20px;
+  padding-inline: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,28 +91,30 @@ nav.top-menu {
   padding: 0;
   display: flex;
   list-style-type: none;
-  gap: 12px;
 }
 
-.top-menu__links a, .top-menu__links a:link, .top-menu__links a:visited {
+.top-menu__links a, .top-menu__links a:link, .top-menu__links a:visited, #account .dropdown-trigger {
   color: var(--oc-gray-1);
   text-decoration: none;
   transition: background-color 0.18s ease, color 0.18s ease;
   transform-origin: center;
+  padding-block: 3px;
+  padding-inline: 6px;
 }
 
-.top-menu__links a:hover {
+.top-menu__links a:hover, #account .dropdown-trigger:hover  {
     color: var(--oc-white);
     background-color: rgba(255, 255, 255, 0.12);
     text-decoration: none;
 }
 
-.top-menu__links svg.icon-svg {
-  stroke: var(--oc-white);
+.top-menu__links svg.icon-svg, #account .dropdown-trigger .icon-svg {
+  stroke: var(--oc-gray-1);
+  transition: stroke 0.18s ease;
 }
 
-#account.top-menu__links {
-  padding-block: 3px;
+.top-menu__links a:hover svg.icon-svg, #account .dropdown-trigger:hover .icon-svg {
+  stroke: var(--oc-white);
 }
 
 #account .dropdown-content .user-info {
@@ -677,6 +679,7 @@ table.plugins td.configure { text-align: end; padding-inline-end: 1em; }
 table.plugins span.name { font-weight: bold; display: block; margin-block-end: 6px; }
 table.plugins span.description { display: block; font-size: 0.9em; }
 table.plugins span.url { display: block; font-size: 0.9em; }
+table.plugins td.version span.icon svg.icon-svg { margin-inline-end: 4px; }
 
 table.list.enumerations {table-layout: fixed; margin-block-end: 2em;}
 
@@ -1793,8 +1796,8 @@ p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; 
   position: absolute;
   inset-block-end:0;
   padding-inline-start: 0.5em;
-  min-inline-size: 2000px;
-  inline-size: 100%;
+  min-inline-size: 100%;
+  inline-size: max-content;
   border-block-end: 1px solid var(--oc-gray-4);
 }
 #content .tabs ul li {
