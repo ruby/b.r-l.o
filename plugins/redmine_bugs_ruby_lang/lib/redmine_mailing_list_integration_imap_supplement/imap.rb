@@ -81,6 +81,7 @@ module RedmineMailingListIntegrationImapSupplement
       list_name = list_name && list_name[1]
       post_id = m.header["Subject"].to_s.match(/\[#{list_name}:(\d+)\].*/)
       post_id = post_id && post_id[1]
+      return unless list_name && post_id
 
       s3.bucket('blade-data-vault').object("#{list_name}/#{post_id}").put(body: msg)
 
@@ -102,7 +103,7 @@ module RedmineMailingListIntegrationImapSupplement
 
       s3.bucket('blade.ruby-lang.org').object("#{list_name}/#{post_id}").put(body: io.string)
     ensure
-      io.close
+      io&.close
     end
 
     def logger
