@@ -1,5 +1,4 @@
 require 'redmine_mailing_list_integration/redmine_ext/issue'
-require 'redmine_mailing_list_integration/redmine_ext/issues_controller'
 
 Journal.class_eval do
   include BasedOnMail

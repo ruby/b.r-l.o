@@ -15,5 +15,9 @@ module RedmineMailingListIntegration
       issue = context[:issue]
       issue.originates_from_mail = false
     end
+
+    def controller_issues_edit_before_save(context = {})
+      context[:journal].originates_from_mail = false
+    end
   end
 end
