@@ -58,7 +58,9 @@ module RedmineMcp
         issue.init_journal(user, args['notes'].to_s)
         issue.send(:safe_attributes=, build_attributes(issue, args), user)
 
+        call_issue_hook(:controller_issues_edit_before_save, issue, journal: issue.current_journal)
         if issue.save
+          call_issue_hook(:controller_issues_edit_after_save, issue, journal: issue.current_journal)
           {updated: true}.merge(issue_summary(issue))
         else
           fail!("Issue could not be updated: #{issue.errors.full_messages.join(', ')}")

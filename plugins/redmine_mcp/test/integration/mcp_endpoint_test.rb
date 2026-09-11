@@ -3,6 +3,19 @@
 require_relative '../../../../test/test_helper'
 
 class McpEndpointTest < Redmine::IntegrationTest
+  # Listeners cannot be unregistered, so this one records only while a test
+  # sets calls
+  class IssueHookRecorder < Redmine::Hook::Listener
+    cattr_accessor :calls
+
+    %i[controller_issues_new_before_save controller_issues_new_after_save
+       controller_issues_edit_before_save controller_issues_edit_after_save].each do |hook|
+      define_method(hook) do |context|
+        calls&.push(hook: hook, context: context, saved: (context[:journal] || context[:issue]).persisted?)
+      end
+    end
+  end
+
   def setup
     super
     Setting.rest_api_enabled = '1'
@@ -230,6 +243,15 @@ class McpEndpointTest < Redmine::IntegrationTest
     assert_equal @user, issue.author
   end
 
+  def test_create_issue_fires_issues_controller_hooks
+    calls = record_issue_hooks do
+      call_tool('create_issue', {'project' => 'ecookbook', 'subject' => 'hooked'})
+    end
+    assert_equal [[:controller_issues_new_before_save, false], [:controller_issues_new_after_save, true]],
+                 calls.map {|c| [c[:hook], c[:saved]]}
+    assert_equal Issue.order(:id).last, calls.last[:context][:issue]
+  end
+
   def test_create_issue_without_permission
     data = call_tool('create_issue', {'project' => 'onlinestore', 'subject' => 'x'},
                      key: outsider_key, error: true)
@@ -249,6 +271,15 @@ class McpEndpointTest < Redmine::IntegrationTest
       assert data['updated']
     end
     assert_equal 'noted via MCP', Issue.find(1).journals.last.notes
+  end
+
+  def test_update_issue_fires_issues_controller_hooks
+    calls = record_issue_hooks do
+      call_tool('update_issue', {'id' => 1, 'notes' => 'hooked'})
+    end
+    assert_equal [[:controller_issues_edit_before_save, false], [:controller_issues_edit_after_save, true]],
+                 calls.map {|c| [c[:hook], c[:saved]]}
+    assert_equal 'hooked', calls.last[:context][:journal].notes
   end
 
   def test_update_issue_change_status
@@ -531,6 +562,14 @@ class McpEndpointTest < Redmine::IntegrationTest
     all_headers = {'CONTENT_TYPE' => 'application/json'}
     all_headers['HTTP_X_REDMINE_API_KEY'] = key if key
     post '/mcp', params: body.to_json, headers: all_headers.merge(headers)
+  end
+
+  def record_issue_hooks
+    IssueHookRecorder.calls = []
+    yield
+    IssueHookRecorder.calls
+  ensure
+    IssueHookRecorder.calls = nil
   end
 
   def rpc(method, params = {}, key: @key)

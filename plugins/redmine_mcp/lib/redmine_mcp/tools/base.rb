@@ -160,6 +160,13 @@ module RedmineMcp
         end
       end
 
+      # Plugins extend issue writes through the hooks IssuesController fires
+      # around a save, so the issue tools fire them too. Listeners read their
+      # own form fields from params, and the tools have none to pass.
+      def call_issue_hook(hook, issue, context = {})
+        Redmine::Hook.call_hook(hook, {params: ActionController::Parameters.new, issue: issue, project: issue.project}.merge(context))
+      end
+
       def relations_between(issue, other)
         issue.relations.select {|relation| relation.other_issue(issue).id == other.id}
       end

@@ -38,7 +38,9 @@ module RedmineMcp
         issue = Issue.new(project: project, author: user)
         issue.send(:safe_attributes=, build_attributes(project, args), user)
 
+        call_issue_hook(:controller_issues_new_before_save, issue)
         if issue.save
+          call_issue_hook(:controller_issues_new_after_save, issue)
           {created: true}.merge(issue_summary(issue))
         else
           fail!("Issue could not be created: #{issue.errors.full_messages.join(', ')}")
