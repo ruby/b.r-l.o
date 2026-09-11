@@ -759,7 +759,7 @@ module IssuesHelper
     case user_default_tab
     when 'last_tab_visited'
       cookies['history_last_tab'].presence || 'notes'
-    when ''
+    when nil, ''
       'notes'
     else
       user_default_tab

@@ -3305,6 +3305,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_select_notes_tab_without_history_default_tab_preference
+    get :show, :params => {:id => 1}
+    assert_response :success
+    assert_select '#history div.tabs a.selected[id=?]', 'tab-notes'
+
+    @request.session[:user_id] = 1
+    get :show, :params => {:id => 1}
+    assert_response :success
+    assert_select '#history div.tabs a.selected[id=?]', 'tab-notes'
+
+    User.find(1).pref.update!(:history_default_tab => 'history')
+    get :show, :params => {:id => 1}
+    assert_response :success
+    assert_select '#history div.tabs a.selected[id=?]', 'tab-history'
+  end
+
   def test_show_display_changesets_tab_for_issue_with_changesets
     project = Project.find(2)
     issue = Issue.find(9)
