@@ -42,7 +42,7 @@ Any other MCP client: configure a Streamable HTTP server with URL `https://bugs.
 | `project_metadata` | Valid trackers, statuses, priorities, categories, versions, assignees and your permissions in a project |
 | `search` | Full-text search over issues (including notes), wiki pages and more |
 | `list_issues` | Structured issue filtering (project, status, tracker, assignee, author, dates) |
-| `get_issue` | One issue in full: description, custom fields, comments, history, relations, attachments |
+| `get_issue` | One issue in full: description, custom fields, comments, history, relations, attachments, linked commits |
 | `create_issue` | Create an issue (requires `add_issues` permission) |
 | `update_issue` | Comment on an issue and/or change attributes, with workflow validation |
 | `update_journal` | Rewrite an existing comment, replacing its text (not an append) |

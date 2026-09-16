@@ -221,6 +221,26 @@ class McpEndpointTest < Redmine::IntegrationTest
     assert(data['journals'].none? {|j| j['notes'] == 'secret note'})
   end
 
+  def test_get_issue_with_changesets
+    changeset = Changeset.find(100)
+    Issue.find(1).changesets << changeset
+    data = call_tool('get_issue', {'id' => 1})
+    assert_equal [{'revision' => changeset.revision, 'user' => changeset.user.name,
+                   'comments' => changeset.comments,
+                   'committed_on' => changeset.committed_on.iso8601}],
+                 data['changesets']
+  end
+
+  def test_get_issue_without_changesets_omits_the_key
+    assert_not_includes call_tool('get_issue', {'id' => 1}).keys, 'changesets'
+  end
+
+  def test_get_issue_hides_changesets_without_view_changesets
+    Issue.find(1).changesets << Changeset.find(100)
+    Role.find(1).remove_permission!(:view_changesets)
+    assert_not_includes call_tool('get_issue', {'id' => 1}).keys, 'changesets'
+  end
+
   def test_get_issue_not_visible
     issue = Issue.generate!(project_id: 2) # onlinestore, invisible to someone
     data = call_tool('get_issue', {'id' => issue.id}, key: outsider_key, error: true)

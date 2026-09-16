@@ -5,7 +5,8 @@ module RedmineMcp
     class GetIssue < Base
       tool_name 'get_issue'
       description 'Returns one issue in full: description, custom fields, all comments and ' \
-                  'attribute changes (the discussion thread), related issues, subtasks and attachments.'
+                  'attribute changes (the discussion thread), related issues, subtasks, attachments ' \
+                  'and the repository commits linked to the issue.'
       input_schema(
         {
           type: 'object',
@@ -50,6 +51,7 @@ module RedmineMcp
         hash[:subtasks] = issue.children.visible(user).map {|child| related_issue_hash(child)}
         hash[:related_issues] = relations(issue)
         hash[:attachments] = issue.attachments.map {|attachment| attachment_hash(attachment)}
+        hash[:changesets] = changesets(issue).presence
         hash[:journals] = journals(issue) unless args['include_journals'] == false
         hash.compact
       end
@@ -81,6 +83,19 @@ module RedmineMcp
           description: attachment.description.presence,
           url: base_url("/attachments/download/#{attachment.id}/#{ERB::Util.url_encode(attachment.filename)}")
         }.compact
+      end
+
+      # Same as the web UI: a commit shows up only with :view_changesets on the
+      # project its repository belongs to
+      def changesets(issue)
+        issue.changesets.visible(user).preload(:user).map do |changeset|
+          {
+            revision: changeset.revision,
+            user: changeset.user&.name,
+            comments: changeset.comments.presence,
+            committed_on: changeset.committed_on&.iso8601
+          }.compact
+        end
       end
 
       def journals(issue)
