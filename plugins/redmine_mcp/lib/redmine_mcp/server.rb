@@ -24,6 +24,9 @@ module RedmineMcp
       text instead of adding a new one.
       Relations between issues are reported by `get_issue` in
       `related_issues` and are changed with `link_issues`/`unlink_issues`.
+      The repository commits of an issue are reported in `changesets` and are
+      changed with `link_changeset`/`unlink_changeset`, which is how a commit
+      whose message carries no issue reference gets attached afterwards.
       Issue descriptions and notes use the wiki text formatting reported by
       `whoami` (field `text_formatting`).
     TEXT

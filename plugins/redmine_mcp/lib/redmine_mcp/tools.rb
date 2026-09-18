@@ -20,6 +20,8 @@ module RedmineMcp
         UpdateJournal,
         LinkIssues,
         UnlinkIssues,
+        LinkChangeset,
+        UnlinkChangeset,
         GetWikiPage
       ]
     end

@@ -111,7 +111,7 @@ class McpEndpointTest < Redmine::IntegrationTest
     names = result['tools'].map {|t| t['name']}
     expected = %w[whoami list_projects project_metadata search list_issues
                   get_issue create_issue update_issue update_journal link_issues unlink_issues
-                  get_wiki_page]
+                  link_changeset unlink_changeset get_wiki_page]
     assert_equal expected.sort, names.sort
     result['tools'].each do |tool|
       assert tool['description'].present?, "#{tool['name']} has no description"
@@ -239,6 +239,94 @@ class McpEndpointTest < Redmine::IntegrationTest
     Issue.find(1).changesets << Changeset.find(100)
     Role.find(1).remove_permission!(:view_changesets)
     assert_not_includes call_tool('get_issue', {'id' => 1}).keys, 'changesets'
+  end
+
+  def test_link_changeset
+    data = call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'})
+    assert data['linked']
+    assert_nil data['already_linked']
+    assert_equal 1, data['issue']['id']
+    assert_equal '1', data['changeset']['revision']
+    assert_equal 'ecookbook', data['changeset']['project']
+    assert_equal [100], Issue.find(1).changesets.map(&:id)
+    assert_equal ['1'], call_tool('get_issue', {'id' => 1})['changesets'].map {|c| c['revision']}
+  end
+
+  def test_link_changeset_is_idempotent
+    call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'})
+    data = nil
+    assert_no_difference 'Issue.find(1).changesets.count' do
+      data = call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'})
+    end
+    assert data['linked']
+    assert data['already_linked']
+  end
+
+  # The link alone is the whole write: the commit scanner only touches the
+  # status and logs time for a fix keyword, which update_issue covers instead
+  def test_link_changeset_leaves_the_issue_untouched
+    updated_on = Issue.find(1).updated_on
+    assert_no_difference ['Journal.count', 'TimeEntry.count'] do
+      call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'})
+    end
+    assert_equal updated_on, Issue.find(1).updated_on
+  end
+
+  def test_link_changeset_accepts_an_abbreviated_revision
+    changeset = create_changeset(Repository.find(10), 'abcdef1234567890')
+    call_tool('link_changeset', {'issue_id' => 1, 'revision' => 'abcdef'})
+    assert_equal [changeset.id], Issue.find(1).changesets.map(&:id)
+  end
+
+  def test_link_changeset_requires_manage_related_issues
+    Role.find(1).remove_permission!(:manage_related_issues)
+    message = call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'}, error: true)
+    assert_match(/not allowed/, message)
+    assert_empty Issue.find(1).changesets
+  end
+
+  def test_link_changeset_reports_an_unfetched_revision
+    message = call_tool('link_changeset', {'issue_id' => 1, 'revision' => 'deadbeef'}, error: true)
+    assert_match(/not found/, message)
+    assert_match(/fetch/, message)
+  end
+
+  def test_link_changeset_refuses_an_issue_outside_the_repository_project
+    message = call_tool('link_changeset', {'issue_id' => 4, 'revision' => '1'}, error: true)
+    assert_match(/cross-project/, message)
+    assert_empty Issue.find(4).changesets
+  end
+
+  def test_link_changeset_reports_an_ambiguous_revision
+    create_changeset(Repository.find(11), '1')
+    message = call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'}, error: true)
+    assert_match(/matches several commits/, message)
+    assert_empty Issue.find(1).changesets
+
+    call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1', 'project' => 'ecookbook'})
+    assert_equal [100], Issue.find(1).changesets.map(&:id)
+  end
+
+  def test_unlink_changeset
+    call_tool('link_changeset', {'issue_id' => 1, 'revision' => '1'})
+    data = call_tool('unlink_changeset', {'issue_id' => 1, 'revision' => '1'})
+    assert data['unlinked']
+    assert_nil data['already_unlinked']
+    assert_empty Issue.find(1).changesets
+    assert_not_includes call_tool('get_issue', {'id' => 1}).keys, 'changesets'
+  end
+
+  def test_unlink_changeset_is_idempotent
+    data = call_tool('unlink_changeset', {'issue_id' => 1, 'revision' => '1'})
+    assert data['unlinked']
+    assert data['already_unlinked']
+  end
+
+  def test_unlink_changeset_requires_manage_related_issues
+    Issue.find(1).changesets << Changeset.find(100)
+    Role.find(1).remove_permission!(:manage_related_issues)
+    assert_match(/not allowed/, call_tool('unlink_changeset', {'issue_id' => 1, 'revision' => '1'}, error: true))
+    assert_equal [100], Issue.find(1).changesets.map(&:id)
   end
 
   def test_get_issue_not_visible
@@ -582,6 +670,11 @@ class McpEndpointTest < Redmine::IntegrationTest
     all_headers = {'CONTENT_TYPE' => 'application/json'}
     all_headers['HTTP_X_REDMINE_API_KEY'] = key if key
     post '/mcp', params: body.to_json, headers: all_headers.merge(headers)
+  end
+
+  def create_changeset(repository, revision)
+    Changeset.create!(repository: repository, revision: revision, comments: 'no issue reference',
+                      committed_on: Time.zone.now, commit_date: Date.today)
   end
 
   def record_issue_hooks

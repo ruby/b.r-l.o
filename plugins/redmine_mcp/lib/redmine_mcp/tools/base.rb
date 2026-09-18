@@ -167,6 +167,55 @@ module RedmineMcp
         Redmine::Hook.call_hook(hook, {params: ActionController::Parameters.new, issue: issue, project: issue.project}.merge(context))
       end
 
+      # Resolves a commit the way the repository page does, through the
+      # per-adapter lookup that also accepts an abbreviated git SHA. The same
+      # revision can exist in several repositories, so an ambiguous one is
+      # reported rather than resolved to an arbitrary match.
+      def find_changeset!(revision, project: nil, repository: nil)
+        fail!('Missing required argument: revision') if revision.blank?
+
+        revision = revision.to_s.strip
+        repositories = visible_repositories(project, repository)
+        changesets = repositories.filter_map {|repo| repo.find_changeset_by_name(revision)}.uniq
+        case changesets.size
+        when 1
+          changesets.first
+        when 0
+          fail!("Revision #{revision} was not found in #{repository_scope_label(repositories, project, repository)}. " \
+                'Redmine can only link a commit it has already fetched, so a commit pushed since the last fetch ' \
+                'of the repository has to wait for the next one.')
+        else
+          listed = changesets.map {|c| "#{c.revision} (#{changeset_location(c)})"}.join(', ')
+          fail!("Revision #{revision} matches several commits: #{listed}. " \
+                'Pass project, or repository, to choose one.')
+        end
+      end
+
+      def authorize_related_issues!(changeset)
+        return if user.allowed_to?(:manage_related_issues, changeset.project)
+
+        fail!("You are not allowed to manage the issues related to the commits of #{changeset.project.identifier}")
+      end
+
+      # already reports that the call found the link already in the state it
+      # asks for, so that a retry is distinguishable from the write itself
+      def changeset_link_summary(changeset, issue, already: false, verb: :linked)
+        summary = {
+          verb => true,
+          :issue => {id: issue.id, subject: issue.subject},
+          :changeset => {
+            revision: changeset.revision,
+            project: changeset.project.identifier,
+            repository: changeset.repository.identifier.presence,
+            user: changeset.user&.name,
+            comments: changeset.comments.presence,
+            committed_on: changeset.committed_on&.iso8601
+          }.compact
+        }
+        summary[:"already_#{verb}"] = true if already
+        summary
+      end
+
       def relations_between(issue, other)
         issue.relations.select {|relation| relation.other_issue(issue).id == other.id}
       end
@@ -182,6 +231,31 @@ module RedmineMcp
           issue: {id: issue.id, subject: issue.subject},
           target_issue: {id: other.id, subject: other.subject}
         }.compact
+      end
+
+      # Commits are readable with :view_changesets, the same permission
+      # get_issue reports them under; writing the link needs more and is
+      # checked separately.
+      def visible_repositories(project, identifier)
+        scope = Repository.joins(:project).where(Project.allowed_to_condition(user, :view_changesets))
+        scope = scope.where(project_id: find_project!(project).id) if project.present?
+        repositories = scope.to_a
+        return repositories if identifier.blank?
+
+        repositories.select {|repo| repo.identifier.to_s.casecmp?(identifier.to_s.strip)}
+      end
+
+      def changeset_location(changeset)
+        [changeset.project.identifier, changeset.repository.identifier.presence].compact.join(' / ')
+      end
+
+      def repository_scope_label(repositories, project, identifier)
+        return "the #{identifier} repository of #{project}" if project.present? && identifier.present?
+        return "the repositories of #{project}" if project.present?
+        return "any repository named #{identifier}" if identifier.present?
+        return 'any repository visible to you' if repositories.any?
+
+        'any repository, because none is visible to you'
       end
 
       def issue_summary(issue)
