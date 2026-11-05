@@ -2,14 +2,14 @@ source 'https://rubygems.org'
 
 # ruby '>= 3.2.0', '< 4.1.0'
 
-gem 'rails', '8.1.4'
+gem 'rails', '8.1.4.1'
 gem 'rouge', '~> 5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.4.0'
 gem 'marcel'
 gem 'mail', '~> 2.9.0'
-gem 'nokogiri', '~> 1.19.1'
+gem 'nokogiri', '~> 1.19.7'
 gem 'i18n', '~> 1.15.2'
 gem 'rbpdf', '~> 1.21.4'
 gem 'addressable'

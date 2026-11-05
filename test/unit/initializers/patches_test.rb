@@ -48,4 +48,54 @@ class PatchesTest < ActiveSupport::TestCase
     assert_include 'max="9999-12-31"', date_field_tag('start_date')
     assert_include 'max="2099-12-31"', date_field_tag('issue', 'start_date', max: '2099-12-31')
   end
+
+  test 'Propshaft::Assembly#manifest_outdated? should return false when the on-disk manifest matches the current assets' do
+    with_manifest_content(Rails.application.assets.load_path.manifest.to_json) do
+      assert_not Rails.application.assets.manifest_outdated?
+    end
+  end
+
+  test 'Propshaft::Assembly#manifest_outdated? should return true when the on-disk manifest differs from the current assets' do
+    with_manifest_content('{}') do
+      assert Rails.application.assets.manifest_outdated?
+    end
+  end
+
+  test 'Propshaft::Assembly#manifest_outdated? should return true instead of raising when the manifest file contains invalid JSON' do
+    with_manifest_content('not valid json') do
+      assert Rails.application.assets.manifest_outdated?
+    end
+  end
+
+  test 'Propshaft::Assembly#needs_precompile? should return true when there is no manifest file' do
+    without_manifest_file do
+      assert Rails.application.assets.needs_precompile?
+    end
+  end
+
+  private
+
+  def with_manifest_content(content)
+    with_temporary_manifest_path do |manifest_path|
+      manifest_path.write(content)
+      yield
+    end
+  end
+
+  def without_manifest_file(&)
+    with_temporary_manifest_path(&)
+  end
+
+  # Points the asset manifest path to a temporary directory so that tests
+  # never touch public/assets, which is shared with parallel test workers.
+  def with_temporary_manifest_path
+    config = Rails.application.assets.config
+    original_manifest_path = config.manifest_path
+    Dir.mktmpdir do |dir|
+      config.manifest_path = Pathname(dir).join('.manifest.json')
+      yield config.manifest_path
+    end
+  ensure
+    config.manifest_path = original_manifest_path
+  end
 end

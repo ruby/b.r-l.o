@@ -1706,7 +1706,7 @@ class Issue < ApplicationRecord
     if project
       scope = project.trackers.sorted
       unless user.admin?
-        roles = user.roles_for_project(project).select {|r| r.has_permission?(:add_issues)}
+        roles = user.roles_for_project(project).select {|r| r.allowed_to?(:add_issues, user.oauth_scope)}
         unless roles.any? {|r| r.permissions_all_trackers?(:add_issues)}
           tracker_ids = roles.map {|r| r.permissions_tracker_ids(:add_issues)}.flatten.uniq
           if current_tracker
@@ -1732,7 +1732,7 @@ class Issue < ApplicationRecord
     if user.admin?
       true
     else
-      roles = user.roles_for_project(project).select {|r| r.has_permission?(permission)}
+      roles = user.roles_for_project(project).select {|r| r.allowed_to?(permission, user.oauth_scope)}
       roles.any? do |r|
         r.permissions_all_trackers?(permission) ||
           r.permissions_tracker_ids?(permission, tracker_id)
@@ -2098,12 +2098,24 @@ class Issue < ApplicationRecord
   end
 
   def add_auto_watcher
-    if author&.active? &&
-        author.allowed_to?(:add_issue_watchers, project) &&
+    if author.is_a?(User) &&
         author.pref.auto_watch_on?('issue_created') &&
-        self.watcher_user_ids.exclude?(author.id)
+        auto_watcher?(author)
       self.set_watcher(author, true)
     end
+
+    if assigned_to.is_a?(User) &&
+        assigned_to.pref.auto_watch_on?('issue_assigned_to_me') &&
+        auto_watcher?(assigned_to)
+      self.set_watcher(assigned_to, true)
+    end
+  end
+
+  def auto_watcher?(user)
+    user.active? &&
+      user.allowed_to?(:add_issue_watchers, project) &&
+      valid_watcher?(user) &&
+      !watched_by?(user)
   end
 
   def send_notification

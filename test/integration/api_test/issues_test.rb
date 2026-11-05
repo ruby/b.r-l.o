@@ -444,6 +444,30 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.json?include=changesets authenticated via OAuth should not include changesets without view_changesets scope" do
+    Issue.find(1).changesets << Changeset.generate!(:comments => 'oauth changeset')
+
+    get '/issues/1.json?include=changesets', :headers => oauth_credentials('jsmith', 'view_issues')
+
+    assert_response :success
+    assert_equal [], response_data['issue']['changesets']
+  end
+
+  test "GET /issues/:id.json?include=changesets authenticated via OAuth should include changesets with view_changesets scope" do
+    Issue.find(1).changesets << Changeset.generate!(:comments => 'oauth changeset')
+
+    get '/issues/1.json?include=changesets', :headers => oauth_credentials('jsmith', 'view_issues view_changesets')
+
+    assert_response :success
+    assert_equal ['oauth changeset'], response_data['issue']['changesets'].pluck('comments')
+  end
+
+  test "GET /issues/:id.json authenticated via OAuth with an empty scope should be denied" do
+    get '/issues/1.json', :headers => oauth_credentials('jsmith', '')
+
+    assert_response :forbidden
+  end
+
   test "GET /issues/:id.xml?include=allowed_statuses should include available statuses" do
     issue = Issue.find(1)
     assert_equal 1, issue.tracker_id  # Bug
@@ -657,6 +681,27 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
       assert_response :created
     end
+  end
+
+  test "POST /issues.json with copy_from authenticated via OAuth should not copy an issue without view_issues scope" do
+    assert_no_difference('Issue.count') do
+      post(
+        '/issues.json',
+        :params => {:copy_from => 4, :issue => {:project_id => 2}},
+        :headers => oauth_credentials('jsmith', 'add_issues copy_issues'))
+    end
+    assert_response :not_found
+  end
+
+  test "POST /issues.json with copy_from authenticated via OAuth should copy an issue with view_issues scope" do
+    assert_difference('Issue.count') do
+      post(
+        '/issues.json',
+        :params => {:copy_from => 4, :issue => {:project_id => 2}},
+        :headers => oauth_credentials('jsmith', 'add_issues copy_issues view_issues'))
+    end
+    assert_response :created
+    assert_equal Issue.find(4).description, response_data['issue']['description']
   end
 
   test "POST /issues.json without tracker_id should accept custom fields" do
@@ -986,6 +1031,27 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal "API update", issue.subject
     journal = Journal.last
     assert_equal "A new note", journal.notes
+  end
+
+  test "PUT /issues/:id.json authenticated via OAuth should not update attributes without edit_issues scope" do
+    put(
+      '/issues/6.json',
+      :params => {:issue => {:subject => 'API update', :notes => 'A new note'}},
+      :headers => oauth_credentials('jsmith', 'view_issues add_issue_notes'))
+
+    assert_response :no_content
+    assert_not_equal 'API update', Issue.find(6).subject
+    assert_equal 'A new note', Journal.last.notes
+  end
+
+  test "PUT /issues/:id.json authenticated via OAuth should not change the tracker without add_issues scope" do
+    put(
+      '/issues/1.json',
+      :params => {:issue => {:tracker_id => 2}},
+      :headers => oauth_credentials('jsmith', 'view_issues edit_issues'))
+
+    assert_response :no_content
+    assert_equal 1, Issue.find(1).tracker_id
   end
 
   test "PUT /issues/:id.json with failed update" do
